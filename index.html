@@ -1,0 +1,58 @@
+<!doctype html>
+<html>
+	<head>
+	</head>
+	<body>
+		HELLO SYNTH
+		
+		<script src="./audiolib.js"></script>
+		<script src="./drum_samples.js"></script>
+		<script>
+			var kick = atob(samples.kick);
+
+			var tempo = 120,
+					notesPerBeat = 4,
+					tickCounter = 1,
+					tick = 0,
+					fps = 60;
+					
+			var audioCallback = function(buffer, channelCount) {
+				lfo.generateBuffer(buffer.length / channelCount);
+				stepSeq.generateBuffer(buffer.length / channelCount);
+				osc.append(buffer, channelCount);
+				flt.append(buffer);
+				sampler.append(buffer, channelCount);
+			}
+
+			var dev = audioLib.AudioDevice(audioCallback, 2);
+			var osc = audioLib.Oscillator(dev.sampleRate, 440);
+			var delay = audioLib.Delay.createBufferBased(2, dev.sampleRate, 400);
+			var flt = audioLib.LP12Filter.createBufferBased(2, dev.sampleRate, 1700);
+			osc.waveShape = 'triangle';
+			var lfo = audioLib.Oscillator(dev.sampleRate, 0.25);
+			var stepSeq = audioLib.StepSequencer(dev.sampleRate, 250, [0.3, 0.25, 0.75, 0.01], 0.5);
+			osc.addAutomation('frequency', lfo, 0.2, 'additiveModulation');
+			flt.addAutomation('cutoff', stepSeq, 1, 'modulation');
+			var sampler = audioLib.Sampler(dev.sampleRate);
+			sampler.loadWav(kick, true);
+			sampler.noteOn(440);
+
+			sampler.addPreProcessing(function() {
+				tickCounter = tickCounter + 1 / dev.sampleRate * tempo / 60;
+
+				if (tickCounter >= 1) {
+					tickCounter = 0;
+
+					this.noteOn(tick ? 440 : 660);
+					tick = (tick + 1) % notesPerBeat;
+				}
+			});
+
+			Sink.doInterval(function(){ 
+				// Get the tick we're at based on latency or zero if output hasn't been initialized yet 
+				currentTick = dev ? ~~(dev.getPlaybackTime() / dev.sampleRate / 60 * tempo) : -1;
+				document.title = (currentTick % notesPerBeat) + 1;
+			}, 1000/fps);
+		</script>
+	</body>
+</html>
