@@ -3,11 +3,13 @@
 	<head>
 		<script src="./audiolib.js"></script>
 		<script src="./jquery.js"></script>
+		<script src="./raphael.js"></script>
+		<script src="./qwertyhancock.js"></script>
 	</head>
 	<body>
 		HELLO SYNTH
         <h3>Frequency</h3>
-        <input class="frequency" width="500" value="440" step="1" type="range" min="20" max="10000" />
+        <input class="frequency" width="500" value="440" type="range" min="20" max="5000" />
         <p class="frequency-reading">440</p>
         <h3>Volume</h3>
         <input class="gain" min="0.0" max="1.0" step=".01" type="range" />
@@ -18,11 +20,23 @@
           <option value="sawtooth">Sawtooth</option>
           <option value="triangle">Triangle</option>
         </select>
+
+        <div id="keyboard"></div>
 		
 		<script>
           var context = new webkitAudioContext();
           var oscillator = context.createOscillator();
           var gainNode = context.createGainNode();
+          gainNode.gain.value = 0;
+
+          var pentatonicMap = [
+            0,19,22,26,29,32,38,43,51,58,65,77,86,
+            103,115,129,154,173,206,231,259,308,
+            346,4461,518,616,691,822,923,1036,1232,
+            1383,1644,1845,2071,2463,2765,3288,3691,
+            4143,4927,5530,6577,7382,8286,9854,11060,
+            13153,14764,16572,19708,22121,26306
+          ];
 
           oscillator.connect(gainNode); // Connect to speakers
           gainNode.connect(context.destination);
@@ -34,9 +48,41 @@
           var $gainReading = $('.gain-reading');
           var $waveform = $('.waveform');
 
+
+          var keyboard = qwertyHancock({
+             id: 'keyboard',
+             width: 600,
+             height: 150,
+             octaves: 3,
+             startNote: 'A3',
+             whiteNotesColour: 'white',
+             blackNotesColour: 'black',
+             hoverColour: '#f3e939',
+             keyboardLayout: 'en'
+          });
+
+          keyboard.keyDown(function (note, frequency) {
+              oscillator.frequency.value = frequency;
+              gainNode.gain.value = 1;
+          });
+
+          keyboard.keyUp(function (note, frequency) {
+              gainNode.gain.value = 0;
+          });
+
           $frequency.on('change', function(e) {
-            oscillator.frequency.value = e.target.value;
-            $frequencyReading.text(e.target.value);
+            var closest;
+            var goal = e.target.value;
+
+            pentatonicMap.map(function(freq) {
+              if (closest == null || Math.abs(freq - goal) < Math.abs(closest - goal)) {
+                closest = freq;
+              }
+            });
+            
+            oscillator.frequency.value = closest;
+            
+            $frequencyReading.text(closest);
           });
 
           $gain.on('change', function(e) {
