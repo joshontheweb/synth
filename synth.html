@@ -5,6 +5,14 @@
 		<script src="./jquery.js"></script>
 		<script src="./raphael.js"></script>
 		<script src="./qwertyhancock.js"></script>
+		<script src="./wavyjones.js"></script>
+
+        <style>
+          #oscilloscope {
+            width: 400px;
+            height: 200px;
+          }
+        </style>
 	</head>
 	<body>
 		HELLO SYNTH
@@ -14,6 +22,11 @@
         <h3>Volume</h3>
         <input class="gain" min="0.0" max="1.0" step=".01" type="range" />
         <p class="gain-reading">440</p>
+        <h3>Low Pass</h3>
+        <input class="low-pass" min="0" max="20000" step="1" type="range" />
+        <p class="low-pass-reading">440</p>
+
+
         <select class="waveform" type="select">
           <option value="sine">Sine</option>
           <option value="square">Square</option>
@@ -22,11 +35,14 @@
         </select>
 
         <div id="keyboard"></div>
+        <div id="oscilloscope"></div>
 		
 		<script>
           var context = new webkitAudioContext();
           var oscillator = context.createOscillator();
           var gainNode = context.createGainNode();
+          var lowPass = context.createBiquadFilter();
+          var oscilloscope = new WavyJones(context, 'oscilloscope');
           gainNode.gain.value = 0;
 
           var pentatonicMap = [
@@ -39,11 +55,15 @@
           ];
 
           oscillator.connect(gainNode); // Connect to speakers
-          gainNode.connect(context.destination);
+          gainNode.connect(lowPass);
+          lowPass.connect(oscilloscope);
+          oscilloscope.connect(context.destination)
           oscillator.start(0); // Start generating sound immediately
 
           var $gain = $('.gain');
           var $frequency = $('.frequency');
+          var $lowPass = $('.low-pass');
+          var $lowPassReading = $('.low-pass-reading');
           var $frequencyReading = $('.frequency-reading');
           var $gainReading = $('.gain-reading');
           var $waveform = $('.waveform');
@@ -88,6 +108,11 @@
           $gain.on('change', function(e) {
             gainNode.gain.value = e.target.value;
             $gainReading.text(e.target.value);
+          });
+          
+          $lowPass.on('change', function(e) {
+            lowPass.frequency.value = e.target.value;
+            $lowPassReading.text(e.target.value);
           });
           
           $waveform.on('change', function(e) {
