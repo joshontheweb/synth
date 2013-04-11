@@ -1,0 +1,15 @@
+body {
+  font-family: helvetica, sans-serif;
+}
+
+h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
+
+
+#oscilloscope {
+  width: 400px;
+  height: 200px;
+}
+
+.dashboard { height: 400px; position: relative; }
+
+.column { height: 100%; float: left; margin-right: 30px; }
