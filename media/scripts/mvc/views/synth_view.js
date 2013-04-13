@@ -61,6 +61,11 @@
       this.oscillatorView = new bs.views.LfoView({model: this.model.lfo});
       this.$('.lfo').append(this.oscillatorView.render().el);
     },
+
+    renderLoopModule: function() {
+      this.loopModuleView = new bs.views.LoopModuleView({model: this.model.loopModule});
+      this.$('.loop-module').append(this.loopModuleView.render().el);
+    },
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
@@ -73,6 +78,7 @@
       this.renderFilterEnvelope();
       this.renderDelay();
       this.renderLfo();
+      this.renderLoopModule();
       
       return this;
     }

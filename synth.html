@@ -122,6 +122,9 @@
 
               <h5>LFO</h5>
               <div class="lfo"></div>
+              
+              <h5>Loop Module</h5>
+              <div class="loop-module"></div>
             </div>
             <div class="column">
               <div id="oscilloscope"></div>
@@ -221,6 +224,13 @@
           <input class="time" min="0" max="1" step="0.01" value="<%= time %>" type="range" />
           <span class="time-reading"><%= time %></span>
         </script>
+        
+        <script class="loop-module-template" type="text/html">
+        </script>
+        
+        <script class="buffer-template" type="text/html">
+          Buffer
+        </script>
 
         <!-- libs -->
 		<script src="/media/scripts/libs/audiolib.js"></script>
@@ -231,6 +241,7 @@
 		<script src="/media/scripts/libs/underscore.js"></script>
 		<script src="/media/scripts/libs/backbone.js"></script>
 		<script src="/media/scripts/libs/wavyjones.js"></script>
+		<script src="/media/scripts/libs/recorder.js"></script>
 
         <!-- config -->
 		<script src="/media/scripts/config.js"></script>
@@ -249,6 +260,8 @@
 		<script src="/media/scripts/mvc/models/volume_envelope.js"></script>
 		<script src="/media/scripts/mvc/models/delay.js"></script>
 		<script src="/media/scripts/mvc/models/compressor.js"></script>
+		<script src="/media/scripts/mvc/models/loop_module.js"></script>
+		<script src="/media/scripts/mvc/models/buffer.js"></script>
 
         <!-- collections -->
         <!--<script src="/media/scripts/config.js"></script>-->
@@ -263,6 +276,8 @@
 		<script src="/media/scripts/mvc/views/envelope_view.js"></script>
 		<script src="/media/scripts/mvc/views/delay_view.js"></script>
 		<script src="/media/scripts/mvc/views/lfo_view.js"></script>
+		<script src="/media/scripts/mvc/views/loop_module_view.js"></script>
+		<script src="/media/scripts/mvc/views/buffer_view.js"></script>
 
         <!-- init -->
 		<script src="/media/scripts/init.js"></script>
