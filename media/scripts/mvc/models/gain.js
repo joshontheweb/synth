@@ -12,7 +12,7 @@
     },
 
     defaults: {
-      'gain': 0.25
+      'gain': 1
     },
 
     gainChange: function(model, gain) {

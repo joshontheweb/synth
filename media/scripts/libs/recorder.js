@@ -5,7 +5,9 @@
   var Recorder = function(source, cfg){
     var config = cfg || {};
     var bufferLen = config.bufferLen || 4096;
-    this.context = source.context;
+    var recordAtTime;
+    var stopRecordingAtTime;
+    this.context = context = source.context;
     this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
     var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
@@ -19,13 +21,18 @@
 
     this.node.onaudioprocess = function(e){
       if (!recording) return;
-      worker.postMessage({
-        command: 'record',
-        buffer: [
-          e.inputBuffer.getChannelData(0),
-          e.inputBuffer.getChannelData(1)
-        ]
-      });
+      if (stopRecordingAtTime && context.currentTime >= stopRecordingAtTime) return recording = false;
+      console.log('cur time', context.currentTime, 'record at', recordAtTime)
+      if (context.currentTime >= recordAtTime) {
+        console.log('started recording at', context.currentTime, 'shoud have record at', recordAtTime)
+        worker.postMessage({
+          command: 'record',
+          buffer: [
+            e.inputBuffer.getChannelData(0),
+            e.inputBuffer.getChannelData(1)
+          ]
+        });
+      }
     }
 
     this.configure = function(cfg){
@@ -36,12 +43,13 @@
       }
     }
 
-    this.record = function(){
+    this.record = function(time){
       recording = true;
+      recordAtTime = time;
     }
 
-    this.stop = function(){
-      recording = false;
+    this.stop = function(time){
+      stopRecordingAtTime = time;
     }
 
     this.clear = function(){

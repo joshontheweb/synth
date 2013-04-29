@@ -127,6 +127,8 @@
               <div class="loop-module"></div>
             </div>
             <div class="column">
+              <h5>Metronome</h5>
+              <div class="metronome"></div>
               <div id="oscilloscope"></div>
             </div>
           </div>
@@ -225,11 +227,17 @@
           <span class="time-reading"><%= time %></span>
         </script>
         
+        <script class="metronome-template" type="text/html">
+          <input class="tempo" min="20" max="300" step="1" value="<%= tempo %>" type="range" />
+          <span class="tempo-reading"><%= tempo %></span>
+          <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
+        </script>
+        
         <script class="loop-module-template" type="text/html">
         </script>
         
         <script class="buffer-template" type="text/html">
-          Buffer
+          <div class="waveform"></div>
         </script>
 
         <!-- libs -->
@@ -238,7 +246,7 @@
 		<script src="/media/scripts/libs/raphael.js"></script>
 		<script src="/media/scripts/libs/qwertyhancock.js"></script>
 		<script src="/media/scripts/libs/wavyjones.js"></script>
-		<script src="/media/scripts/libs/underscore.js"></script>
+		<script src="/media/scripts/libs/lodash.js"></script>
 		<script src="/media/scripts/libs/backbone.js"></script>
 		<script src="/media/scripts/libs/wavyjones.js"></script>
 		<script src="/media/scripts/libs/recorder.js"></script>
@@ -262,6 +270,7 @@
 		<script src="/media/scripts/mvc/models/compressor.js"></script>
 		<script src="/media/scripts/mvc/models/loop_module.js"></script>
 		<script src="/media/scripts/mvc/models/buffer.js"></script>
+		<script src="/media/scripts/mvc/models/metronome.js"></script>
 
         <!-- collections -->
         <!--<script src="/media/scripts/config.js"></script>-->
@@ -278,6 +287,7 @@
 		<script src="/media/scripts/mvc/views/lfo_view.js"></script>
 		<script src="/media/scripts/mvc/views/loop_module_view.js"></script>
 		<script src="/media/scripts/mvc/views/buffer_view.js"></script>
+		<script src="/media/scripts/mvc/views/metronome_view.js"></script>
 
         <!-- init -->
 		<script src="/media/scripts/init.js"></script>

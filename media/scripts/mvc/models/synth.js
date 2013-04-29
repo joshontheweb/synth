@@ -13,9 +13,12 @@
       this.lfo = new bs.models.Oscillator({context: this.context, type: 'triangle', frequency: 5});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({context: this.context});
-      this.loopModule = new bs.models.LoopModule({context: this.context});
+      this.metronome = new bs.models.Metronome({context: this.context});
+      this.loopModule = new bs.models.LoopModule({context: this.context, metronome: this.metronome});
+      this.masterGain = new bs.models.Gain({context: this.context, gain: .5});
       this.gain = new bs.models.Gain({context: this.context});
       this.gain.set({gain: 2000});
+
       
       this.oscillatorModule.connect(this.volumeEnvelope.gainNode);
       this.volumeEnvelope.connect(this.lowpass.filter);
@@ -23,7 +26,9 @@
       this.filterEnvelope.connect(this.compressor.compressor);
       this.filterEnvelope.connect(this.delay.delayNode);
       this.delay.connect(this.compressor.compressor);
-      this.compressor.connect(this.context.destination);
+      this.compressor.connect(this.masterGain.gainNode);
+      this.metronome.connect(this.masterGain.gainNode);
+      this.masterGain.gainNode.connect(this.context.destination);
       this.compressor.connect(this.loopModule.gain);
       
       this.lfo.connect(this.gain.gainNode);

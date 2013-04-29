@@ -15,7 +15,7 @@
 
     handleKeydown: function(e) {
       if (e.keyCode == 192) { // ~
-        if (this.model.recorder) {
+        if (this.model.recording) {
           this.model.stopRecording();
         } else {
           this.model.startRecording();
@@ -26,6 +26,8 @@
     insertBuffer: function(buffer) {
       var bufferView = new bs.views.BufferView({model: buffer});
       this.$el.append(bufferView.render().el);
+      bufferView.drawWaveform();
+      bufferView.drawWaveform();
     },
     
     render: function() {

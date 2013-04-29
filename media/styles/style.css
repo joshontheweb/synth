@@ -10,6 +10,16 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
   height: 200px;
 }
 
+.buffer {
+  height: 50px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.buffer .waveform { position: absolute; left: 0; }
+.buffer .waveform svg { float: left; }
+
 .dashboard { height: 400px; position: relative; }
 
 .column { height: 100%; float: left; margin-right: 30px; }

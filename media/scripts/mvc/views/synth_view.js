@@ -66,6 +66,11 @@
       this.loopModuleView = new bs.views.LoopModuleView({model: this.model.loopModule});
       this.$('.loop-module').append(this.loopModuleView.render().el);
     },
+
+    renderMetronome: function() {
+      this.metronomeView = new bs.views.MetronomeView({model: this.model.metronome});
+      this.$('.metronome').html(this.metronomeView.render().el);
+    },
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
@@ -79,6 +84,7 @@
       this.renderDelay();
       this.renderLfo();
       this.renderLoopModule();
+      this.renderMetronome();
       
       return this;
     }
