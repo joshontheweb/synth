@@ -22,7 +22,7 @@
     this.node.onaudioprocess = function(e){
       if (!recording) return;
       if (stopRecordingAtTime && context.currentTime >= stopRecordingAtTime) return recording = false;
-      console.log('cur time', context.currentTime, 'record at', recordAtTime)
+      // console.log('cur time', context.currentTime, 'record at', recordAtTime)
       if (context.currentTime >= recordAtTime) {
         console.log('started recording at', context.currentTime, 'shoud have record at', recordAtTime)
         worker.postMessage({

@@ -17,6 +17,11 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
   position: relative;
 }
 
+.metronome .beat-indicator {
+  width: 15px;
+  height: 15px;
+}
+
 .buffer .waveform { position: absolute; left: 0; }
 .buffer .waveform svg { float: left; }
 

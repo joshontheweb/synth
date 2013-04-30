@@ -4,6 +4,7 @@
   bs.views.BufferView = Backbone.View.extend({
     initialize: function() {
       this.listenTo(synth.metronome, 'beat', this.scrollWaveform);
+      this.listenTo(this.model, 'change:gain', this.gainChange);
     },
     
     events: {
@@ -23,9 +24,20 @@
 
     scrollWaveform: function(beat) {
       var width = this.$el.width();
-      var length = 4;
       
-      this.$waveform.css({'left': -(((width/16) * beat.number))});
+      this.$waveform.css({'left': -(((width/this.model.get('beat')) * beat.number))});
+    },
+
+    gainChange: function(model, gain) {
+      if (!gain) {
+        this.$waveform.css({opacity: .5});
+        // this.path.attr({stroke: '#eee'});
+        // this.path.glow({color: '#eee'});
+      } else {
+        this.$waveform.css({opacity: 1});
+        // this.path.attr({stroke: 'blue'});
+        // this.path.glow({color: 'blue'});
+      }
     },
 
     drawWaveform: function() {
@@ -35,7 +47,7 @@
       this.$waveform = this.$('.waveform');
 
       // get dat paper
-      var paper = Raphael(this.$waveform[0], width, height);
+      this.paper = Raphael(this.$waveform[0], width, height);
 
       // clone svg
       // this.$waveform.append(this.$('svg').clone(true));
@@ -57,13 +69,13 @@
       }
 
       // feed to path
-      var path = paper.path(pathString);
+      this.path = this.paper.path(pathString);
 
       // for the pretty
-      path.attr({'stroke': 'blue'});
-      path.glow({'color': 'blue', 'width': 1, opacity: .3});
+      this.path.attr({'stroke': 'blue'});
+      this.path.glow({'color': 'blue', 'width': 1, opacity: .3});
 
-      this.$waveform.css({width: width * 2});
+      this.$waveform.css({width: width * 4});
     },
 
     render: function() {

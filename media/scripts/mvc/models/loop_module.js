@@ -8,9 +8,8 @@
       this.buffers = new Backbone.Collection();
       this.buffers.model = bs.models.Buffer;
       this.metronome = attrs.metronome;
-      this.sources = []
-
-      this.schedule = {};
+      this.sources = [];
+      this.scheduled = [];
 
       this.listenTo(this.metronome, 'beat', this.beat);
       
@@ -18,20 +17,39 @@
     },
 
     beat: function(beat) {
-      if (this.schedule[beat.number]) {
-        this.schedule[beat.number](beat.time);
-      }
+      var model = this;
+      _.each(this.scheduled, function(ev) {
+        if (beat.number % ev.beat == 0) {
+          console.log('scheduling', ev, 'beat', beat);
+          ev.callback(beat.time);
+          
+          if (ev.once) {
+            // remove event from schedule event
+            model.scheduled.splice(model.scheduled.indexOf(ev), 1);
+          }
+        }
+      });
+    },
+
+    toggleBufferVolume: function(sourceIndex) {
+      var buffer = this.buffers.at(sourceIndex);
+      var gain = buffer.get('gain') ? 0: 1;
+      buffer.set({'gain': gain});
     },
     
     startRecording: function() {
       var model = this;
-      this.schedule[0] = function(time) {
-        model.recording = true;
-        model.recorder = new Recorder(model.gain, {workerPath: '/media/scripts/libs/recorder_worker.js', bufferLen: 1024});
-        // console.log('started recording', time, 'current time', model.context.currentTime);
-        model.recorder.record(time);
-        this[0] = null;
-      }
+      this.scheduled.push(
+        {
+          beat: 16, 
+          once: true,
+          callback: function(time) {
+            model.recording = true;
+            model.recorder = new Recorder(model.gain, {workerPath: '/media/scripts/libs/recorder_worker.js', bufferLen: 1024});
+            console.log('started recording', time, 'current time', model.context.currentTime);
+            model.recorder.record(time);
+        }
+      });
     },
 
     getBufferCallback: function(buffers, time) {
@@ -41,40 +59,55 @@
       newBuffer.getChannelData(0).set(buffers[0]);
       newBuffer.getChannelData(1).set(buffers[1]);
       newSource.buffer = newBuffer;
+      
 
-      newSource.connect(this.context.destination);
+      newSource.connect(synth.masterGain.gainNode);
       // newSource.loop = true;
       // newSource.loopStart = this.context.currentTime - time;
       var offset = this.context.currentTime - time;
       // console.log('current time', this.context.currentTime, 'offset', offset, 'time', time);
       newSource.start(0, offset);
-      this.schedule[0] = function(time) {
-        model.buffers.each(function(buffer) {
+
+      // derive the beat based on the length of the buffer
+      var beat = Math.round((buffers[0].length / model.context.sampleRate) / (60 / synth.metronome.get('tempo'))) * 4;
+
+      var bufferModel = new bs.models.Buffer({bufferNode: newBuffer, source: newSource, beat: beat});
+      
+      var loopTrigger = {
+        beat: beat,
+        callback: function(time) {
           var source = model.context.createBufferSource();
-          source.buffer = buffer.get('bufferNode');
+          source.gain.value = bufferModel.get('gain');
+          source.buffer = bufferModel.bufferNode;
+          newBuffer.source = source;  // bad idea?
           source.connect(synth.masterGain.gainNode);
-          console.log('current time', model.context.currentTime, 'time', time);
+          // console.log('current time', model.context.currentTime, 'time', time);
           source.start(time);
-        });
+        }
       }
-      var buffer = new bs.models.Buffer({bufferNode: newBuffer, source: newSource});
-      this.buffers.add(buffer);
+      
+      this.scheduled.push(loopTrigger);
+      loopTrigger.id = bufferModel.cid;
+      this.buffers.add(bufferModel);
     },
 
     stopRecording: function() {
       var model = this;
-      this.schedule[0] = function(time) {
-        // console.log('stop recording', time, 'current time', model.context.currentTime);
-        model.recorder.stop(time);
-        // console.log(time, model.context.currentTime, time - model.context.currentTime, (time - model.context.currentTime)*1000);
-        setTimeout(function() {
-          model.recorder.getBuffer(function(buffers) {
-            model.getBufferCallback(buffers, time);
-          });
-          model.recording = false;
-          model.schedule[0] = null;
-        }, (time - model.context.currentTime) * 1000);
-      }
+      this.scheduled.push({
+        beat: 16,
+        once: true,
+        callback: function(time) {
+          // console.log('stop recording', time, 'current time', model.context.currentTime);
+          model.recorder.stop(time);
+          // console.log(time, model.context.currentTime, time - model.context.currentTime, (time - model.context.currentTime)*1000);
+          setTimeout(function() {
+            model.recorder.getBuffer(function(buffers) {
+              model.getBufferCallback(buffers, time);
+            });
+            model.recording = false;
+          }, (time - model.context.currentTime) * 1000);
+        }
+      });
     }
   });
 })();

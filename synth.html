@@ -231,6 +231,7 @@
           <input class="tempo" min="20" max="300" step="1" value="<%= tempo %>" type="range" />
           <span class="tempo-reading"><%= tempo %></span>
           <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
+          <div class="beat-indicator"></div>
         </script>
         
         <script class="loop-module-template" type="text/html">

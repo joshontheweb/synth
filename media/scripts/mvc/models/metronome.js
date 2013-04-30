@@ -27,8 +27,8 @@
       tempo: 90,
     },
 
-    beat: function(number) {
-      console.log(number);
+    beat: function(beat) {
+      console.log(beat);
     },
     
     stateChange: function(model, state) {
@@ -85,7 +85,7 @@
 
       this.current16thNote++;	// Advance the beat number, wrap to zero
       
-      if (this.current16thNote == 16) {
+      if (this.current16thNote == 64) {
         this.current16thNote = 0;
       } 
     },
