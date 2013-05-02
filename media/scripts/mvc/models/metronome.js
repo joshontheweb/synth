@@ -14,6 +14,8 @@
       this.noteLength = 0.01          // length of beep
       this.scheduleAheadTime = 0.1;	  // How far ahead to schedule audio (sec) 
       this.current16thNote = 1;
+
+      this.gainNode.gain.value = this.get('state') ? 1 : 0;
       
       this.on('change:state', this.stateChange);
       this.on('beat', this.beat);
@@ -23,7 +25,7 @@
     },
 
     defaults: {
-      state: true, // false = off, true = on
+      state: false, // false = off, true = on
       tempo: 90,
     },
 
