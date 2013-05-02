@@ -26,6 +26,7 @@
 
     defaults: {
       state: false, // false = off, true = on
+      gain: 1,
       tempo: 90,
     },
 

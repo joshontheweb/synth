@@ -8,6 +8,11 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 #oscilloscope {
   width: 400px;
   height: 200px;
+  float: left;
+}
+
+#keyboard {
+  float: left;
 }
 
 .buffer {
@@ -25,6 +30,6 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 .buffer .waveform { position: absolute; left: 0; }
 .buffer .waveform svg { float: left; }
 
-.dashboard { height: 400px; position: relative; }
+.dashboard { position: relative; overflow: hidden; }
 
 .column { height: 100%; float: left; margin-right: 30px; }

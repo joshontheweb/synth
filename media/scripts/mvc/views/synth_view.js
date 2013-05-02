@@ -22,9 +22,9 @@
       }
     },
 
-    renderLowpass: function() {
-      this.lowpassView = new bs.views.FilterView({model: this.model.lowpass});
-      this.$('.low-pass').append(this.lowpassView.render().el);
+    renderFilter: function() {
+      this.filterView = new bs.views.FilterView({model: this.model.filter});
+      this.$('.filter').append(this.filterView.render().el);
     },
 
     renderOscillatorModule: function() {
@@ -72,10 +72,15 @@
       this.$('.metronome').html(this.metronomeView.render().el);
     },
     
+    renderPatches: function() {
+      this.patchView = new bs.views.PatchView({model: this.model.patch});
+      this.$('.patches').html(this.patchView.render().el);
+    },
+    
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
 
-      this.renderLowpass();
+      this.renderFilter();
       this.renderOscillatorModule();
       this.renderKeyboard();
       this.renderOscilloscope();
@@ -85,6 +90,7 @@
       this.renderLfo();
       this.renderLoopModule();
       this.renderMetronome();
+      this.renderPatches();
       
       return this;
     }

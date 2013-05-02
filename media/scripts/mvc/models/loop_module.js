@@ -61,7 +61,7 @@
       newSource.buffer = newBuffer;
       
 
-      newSource.connect(synth.masterGain.gainNode);
+      newSource.connect(synth.masterGain.node);
       // newSource.loop = true;
       // newSource.loopStart = this.context.currentTime - time;
       var offset = this.context.currentTime - time;
@@ -80,7 +80,7 @@
           source.gain.value = bufferModel.get('gain');
           source.buffer = bufferModel.bufferNode;
           newBuffer.source = source;  // bad idea?
-          source.connect(synth.masterGain.gainNode);
+          source.connect(synth.masterGain.node);
           // console.log('current time', model.context.currentTime, 'time', time);
           source.start(time);
         }

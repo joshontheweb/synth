@@ -4,11 +4,11 @@
   bs.models.Gain = Backbone.Model.extend({
     initialize: function(attrs) {
       this.context = attrs.context;
-      this.gainNode = this.context.createGainNode();
+      this.node = this.context.createGainNode();
 
       this.on('change:gain', this.gainChange);
       
-      this.gainNode.gain.value = this.get('gain');
+      this.node.gain.value = this.get('gain');
     },
 
     defaults: {
@@ -16,11 +16,11 @@
     },
 
     gainChange: function(model, gain) {
-      this.gainNode.gain.value = gain;
+      this.node.gain.value = gain;
     },
 
     connect: function(node) {
-      this.gainNode.connect(node);
+      this.node.connect(node);
     }
   });
 })();

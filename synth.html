@@ -115,26 +115,34 @@
 
             <div class="column">
               <h3>Filter</h3>
-              <div class="low-pass"></div>
-
-              <h5>Delay</h5>
-              <div class="delay"></div>
-
-              <h5>LFO</h5>
-              <div class="lfo"></div>
+              <div class="filter"></div>
               
-              <h5>Loop Module</h5>
+              <h3>Loop Module</h3>
               <div class="loop-module"></div>
             </div>
+            
             <div class="column">
-              <h5>Metronome</h5>
+              <h3>Metronome</h3>
               <div class="metronome"></div>
-              <div id="oscilloscope"></div>
+              
+              <h3>Delay</h3>
+              <div class="delay"></div>
+
+              <h3>LFO</h3>
+              <div class="lfo"></div>
+              
+            </div>
+            
+            <div class="column">
+              <h3>Patches</h3>
+              <div class="patches">
+              </div>
             </div>
           </div>
           
 
           <div id="keyboard"></div>
+          <div id="oscilloscope"></div>
         </script>
         
         <script class="oscillator-module-template" type="text/html">
@@ -159,12 +167,23 @@
             <option value="sawtooth">Sawtooth</option>
             <option value="triangle">Triangle</option>
           </select>
+          <h5>Detune</h5>
           <input class="detune" min="-1200" max="1200" step="1" value="<%= detune %>" type="range" />
           <span class="detune-reading"><%= detune %></span>
         </script>
         
         <script class="lfo-template" type="text/html">
+          <h5>Frequency</h5>
           <input class="frequency" min="0" max="40" step="1" value="<%= frequency %>" type="range" />
+          <h5>Gain</h5>
+          <input class="gain" min="0" max="<%= maxGain %>" step=".01" value="<%= gain %>" type="range" />
+          <h5>Waveform</h5>
+          <select class="type" type="select">
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+          </select>
         </script>
         
         
@@ -230,8 +249,8 @@
         <script class="metronome-template" type="text/html">
           <input class="tempo" min="20" max="300" step="1" value="<%= tempo %>" type="range" />
           <span class="tempo-reading"><%= tempo %></span>
-          <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
           <div class="beat-indicator"></div>
+          audio: <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
         </script>
         
         <script class="loop-module-template" type="text/html">
@@ -239,6 +258,15 @@
         
         <script class="buffer-template" type="text/html">
           <div class="waveform"></div>
+        </script>
+
+        <script class="patch-template" type="text/html">
+          <h5>Patch</h5>
+          <select class="sources" type="select">
+          </select>
+          >
+          <select class="destinations" type="select">
+          </select>
         </script>
 
         <!-- libs -->
@@ -268,10 +296,12 @@
 		<script src="/media/scripts/mvc/models/filter_envelope.js"></script>
 		<script src="/media/scripts/mvc/models/volume_envelope.js"></script>
 		<script src="/media/scripts/mvc/models/delay.js"></script>
+		<script src="/media/scripts/mvc/models/lfo.js"></script>
 		<script src="/media/scripts/mvc/models/compressor.js"></script>
 		<script src="/media/scripts/mvc/models/loop_module.js"></script>
 		<script src="/media/scripts/mvc/models/buffer.js"></script>
 		<script src="/media/scripts/mvc/models/metronome.js"></script>
+		<script src="/media/scripts/mvc/models/patch.js"></script>
 
         <!-- collections -->
         <!--<script src="/media/scripts/config.js"></script>-->
@@ -289,6 +319,7 @@
 		<script src="/media/scripts/mvc/views/loop_module_view.js"></script>
 		<script src="/media/scripts/mvc/views/buffer_view.js"></script>
 		<script src="/media/scripts/mvc/views/metronome_view.js"></script>
+		<script src="/media/scripts/mvc/views/patch_view.js"></script>
 
         <!-- init -->
 		<script src="/media/scripts/init.js"></script>

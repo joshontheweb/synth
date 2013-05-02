@@ -5,35 +5,41 @@
     initialize: function() {
       var synth = this;
       this.context = new webkitAudioContext();
-      this.lowpass = new bs.models.Filter({type: 'lowpass', context: this.context});
+      this.filter = new bs.models.Filter({type: 'lowpass', context: this.context});
       this.oscillatorModule = new bs.models.OscillatorModule({context: this.context});
       this.volumeEnvelope = new bs.models.VolumeEnvelope({context: this.context});
-      this.filterEnvelope = new bs.models.FilterEnvelope({context: this.context, filter: this.lowpass});
+      this.filterEnvelope = new bs.models.FilterEnvelope({context: this.context, filter: this.filter});
       this.delay = new bs.models.Delay({context: this.context});
-      this.lfo = new bs.models.Oscillator({context: this.context, type: 'triangle', frequency: 5});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({context: this.context});
       this.metronome = new bs.models.Metronome({context: this.context});
       this.loopModule = new bs.models.LoopModule({context: this.context, metronome: this.metronome});
       this.masterGain = new bs.models.Gain({context: this.context, gain: .5});
-      this.gain = new bs.models.Gain({context: this.context});
-      this.gain.set({gain: 2000});
+      this.lfo = new bs.models.LFO({context: this.context, type: 'triangle', frequency: 5});
 
+      this.patchSources = {
+        'lfo': this.lfo
+      };
       
-      this.oscillatorModule.connect(this.volumeEnvelope.gainNode);
-      this.volumeEnvelope.connect(this.lowpass.filter);
-      this.lowpass.connect(this.filterEnvelope.filter);
+      this.patchDestinations = {
+        'filter': this.filter.node.frequency,
+        'master gain': this.masterGain.node.gain
+      };
+
+      this.patch = new bs.models.Patch({context: this.context, sources: this.patchSources, destinations: this.patchDestinations});
+      
+      this.oscillatorModule.connect(this.volumeEnvelope.node);
+      this.volumeEnvelope.connect(this.filter.node);
+      this.filter.connect(this.filterEnvelope.filterNode);
       this.filterEnvelope.connect(this.compressor.compressor);
       this.filterEnvelope.connect(this.delay.delayNode);
       this.delay.connect(this.compressor.compressor);
-      this.compressor.connect(this.masterGain.gainNode);
-      this.metronome.connect(this.masterGain.gainNode);
-      this.masterGain.gainNode.connect(this.context.destination);
+      this.compressor.connect(this.masterGain.node);
+      this.metronome.connect(this.masterGain.node);
+      this.masterGain.node.connect(this.context.destination);
       this.compressor.connect(this.loopModule.gain);
       
-      this.lfo.connect(this.gain.gainNode);
       this.lfo.start(0);
-      this.gain.connect(this.lowpass.filter.frequency);
       
       // function getBufferCallback( buffers ) {
       //     var newSource = synth.context.createBufferSource();
