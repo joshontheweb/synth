@@ -19,9 +19,9 @@
     beat: function(beat) {
       var model = this;
       _.each(this.scheduled, function(ev) {
-        if (beat.number % ev.beat == 0) {
+        if (((beat.number % ev.numBeats) - (ev.startBeat % ev.numBeats) === 0)) {
           console.log('scheduling', ev, 'beat', beat);
-          ev.callback(beat.time);
+          ev.callback(beat);
           
           if (ev.once) {
             // remove event from schedule event
@@ -41,18 +41,19 @@
       var model = this;
       this.scheduled.push(
         {
-          beat: 16, 
+          startBeat: 0,
+          numBeats: 16, 
           once: true,
-          callback: function(time) {
+          callback: function(beat) {
             model.recording = true;
             model.recorder = new Recorder(model.gain, {workerPath: '/media/scripts/libs/recorder_worker.js', bufferLen: 1024});
-            console.log('started recording', time, 'current time', model.context.currentTime);
-            model.recorder.record(time);
+            console.log('started recording', beat.time, 'current time', model.context.currentTime);
+            model.recorder.record(beat.time);
         }
       });
     },
 
-    getBufferCallback: function(buffers, time) {
+    getBufferCallback: function(buffers, beat) {
       var model = this;
       var newSource = this.context.createBufferSource();
       var newBuffer = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
@@ -64,25 +65,26 @@
       newSource.connect(synth.masterGain.node);
       // newSource.loop = true;
       // newSource.loopStart = this.context.currentTime - time;
-      var offset = this.context.currentTime - time;
+      var offset = this.context.currentTime - beat.time;
       // console.log('current time', this.context.currentTime, 'offset', offset, 'time', time);
       newSource.start(0, offset);
 
       // derive the beat based on the length of the buffer
-      var beat = Math.round((buffers[0].length / model.context.sampleRate) / (60 / synth.metronome.get('tempo'))) * 4;
+      var numBeats = Math.round((buffers[0].length / model.context.sampleRate) / (60 / synth.metronome.get('tempo'))) * 4;
 
       var bufferModel = new bs.models.Buffer({bufferNode: newBuffer, source: newSource, beat: beat});
       
       var loopTrigger = {
-        beat: beat,
-        callback: function(time) {
+        startBeat: beat.number,
+        numBeats: numBeats,
+        callback: function(beat) {
           var source = model.context.createBufferSource();
           source.gain.value = bufferModel.get('gain');
           source.buffer = bufferModel.bufferNode;
           newBuffer.source = source;  // bad idea?
           source.connect(synth.masterGain.node);
           // console.log('current time', model.context.currentTime, 'time', time);
-          source.start(time);
+          source.start(beat.time);
         }
       }
       
@@ -94,18 +96,19 @@
     stopRecording: function() {
       var model = this;
       this.scheduled.push({
-        beat: 16,
+        startBeat: 0,
+        numBeats: 16,
         once: true,
-        callback: function(time) {
+        callback: function(beat) {
           // console.log('stop recording', time, 'current time', model.context.currentTime);
-          model.recorder.stop(time);
+          model.recorder.stop(beat.time);
           // console.log(time, model.context.currentTime, time - model.context.currentTime, (time - model.context.currentTime)*1000);
           setTimeout(function() {
             model.recorder.getBuffer(function(buffers) {
-              model.getBufferCallback(buffers, time);
+              model.getBufferCallback(buffers, beat);
             });
             model.recording = false;
-          }, (time - model.context.currentTime) * 1000);
+          }, (beat.time - model.context.currentTime) * 1000);
         }
       });
     }

@@ -25,7 +25,7 @@
     scrollWaveform: function(beat) {
       var width = this.$el.width();
       
-      this.$waveform.css({'left': -(((width/this.model.get('beat')) * beat.number))});
+      this.$waveform.css({'left': -(((width/this.model.get('beat').number) * beat.number))});
     },
 
     gainChange: function(model, gain) {
