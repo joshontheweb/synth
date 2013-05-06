@@ -62,10 +62,7 @@
     insertBuffer: function(buffer) {
       var bufferView = new bs.views.BufferView({model: buffer});
       this.$el.append(bufferView.render().el);
-      bufferView.drawWaveform();
-      bufferView.drawWaveform();
-      bufferView.drawWaveform();
-      bufferView.drawWaveform();
+      bufferView.readyToDraw = true;
     },
 
     unscheduleEvent: function(model) {

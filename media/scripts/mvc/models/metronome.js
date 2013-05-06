@@ -31,7 +31,7 @@
     },
 
     beat: function(beat) {
-      console.log(beat);
+      // console.log(beat);
     },
     
     stateChange: function(model, state) {

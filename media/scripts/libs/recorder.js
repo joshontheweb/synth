@@ -2,13 +2,15 @@
 
   var WORKER_PATH = 'recorder_worker.js';
 
-  var Recorder = function(source, cfg){
+  var Recorder = function(source, drawCallback, bufferModel, cfg){
     var config = cfg || {};
-    var bufferLen = config.bufferLen || 4096;
+    var bufferLen = cfg.bufferLen || 4096;
     var recordAtTime;
     var stopRecordingAtTime;
     this.context = context = source.context;
     this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
+    this.drawCallback = drawCallback;
+    this.bufferModel = bufferModel;
     var worker = new Worker(config.workerPath || WORKER_PATH);
     worker.postMessage({
       command: 'init',
@@ -24,14 +26,17 @@
       if (stopRecordingAtTime && context.currentTime >= stopRecordingAtTime) return recording = false;
       // console.log('cur time', context.currentTime, 'record at', recordAtTime)
       if (context.currentTime >= recordAtTime) {
-        console.log('started recording at', context.currentTime, 'shoud have record at', recordAtTime)
+        // console.log('started recording at', context.currentTime, 'shoud have record at', recordAtTime)
+        var chan0 = e.inputBuffer.getChannelData(0);
+        var chan1 = e.inputBuffer.getChannelData(1); 
         worker.postMessage({
           command: 'record',
           buffer: [
-            e.inputBuffer.getChannelData(0),
-            e.inputBuffer.getChannelData(1)
+            chan0,
+            chan1
           ]
         });
+        drawCallback(chan1, chan0);
       }
     }
 

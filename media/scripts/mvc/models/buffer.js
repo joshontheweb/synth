@@ -7,10 +7,15 @@
       this.bufferNode = attrs.bufferNode || this.context.createBuffer(2, 4096, this.context.sampleRate);
 
       this.on('change:gain', this.gainChange);
+      this.on('change:bufferNode', this.bufferNodeChange);
     },
 
     defaults: {
       'gain': 1
+    },
+
+    bufferNodeChange: function(model, bufferNode) {
+      this.bufferNode = bufferNode;
     },
 
     gainChange: function(model, gain) {

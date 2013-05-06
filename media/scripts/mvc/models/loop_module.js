@@ -39,6 +39,11 @@
     
     startRecording: function() {
       var model = this;
+      // var newBuffer = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
+      var bufferModel = new bs.models.Buffer({context: this.context});
+      var drawCallback = function(chan0, chan1) {
+        bufferModel.trigger('draw', [chan0, chan1]);
+      }
       this.scheduled.push(
         {
           startBeat: 0,
@@ -46,20 +51,34 @@
           once: true,
           callback: function(beat) {
             model.recording = true;
-            model.recorder = new Recorder(model.gain, {workerPath: '/media/scripts/libs/recorder_worker.js', bufferLen: 1024});
+            model.recorder = new Recorder(model.gain, drawCallback, bufferModel, {workerPath: '/media/scripts/libs/recorder_worker.js', bufferLen: 2048});
             console.log('started recording', beat.time, 'current time', model.context.currentTime);
             model.recorder.record(beat.time);
         }
       });
+      this.buffers.add(bufferModel);
     },
 
     getBufferCallback: function(buffers, beat) {
       var model = this;
       var newSource = this.context.createBufferSource();
-      var newBuffer = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
-      newBuffer.getChannelData(0).set(buffers[0]);
-      newBuffer.getChannelData(1).set(buffers[1]);
-      newSource.buffer = newBuffer;
+      var bufferNode = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
+      var bufferModel = this.recorder.bufferModel;
+      bufferNode.getChannelData(0).set(buffers[0]);
+      bufferNode.getChannelData(1).set(buffers[1]);
+      newSource.buffer = bufferNode;
+
+
+      // try and smooth end of buffers to beginning value.
+      // var offset = 0; 
+      // var offset1 = 0;
+      // var spread = 4096;
+      // for (var i = buffers[0].length - spread; i <= buffers[0].length; i++) {
+      //   offset += ((buffers[0][0] - buffers[0][buffers[0].length - 1]) / spread);
+      //   offset1 += ((buffers[1][0] - buffers[1][buffers[1].length - 1]) / spread);
+      //   buffers[0][i] = offset;
+      //   buffers[1][i] = offset1;
+      // }
       
 
       newSource.connect(synth.masterGain.node);
@@ -69,10 +88,10 @@
       // console.log('current time', this.context.currentTime, 'offset', offset, 'time', time);
       newSource.start(0, offset);
 
-      // derive the beat based on the length of the buffer
+      // derive the length in beats based on the length of the buffer
       var numBeats = Math.round((buffers[0].length / model.context.sampleRate) / (60 / synth.metronome.get('tempo'))) * 4;
 
-      var bufferModel = new bs.models.Buffer({bufferNode: newBuffer, source: newSource, beat: beat});
+      bufferModel.set({numBeats: numBeats, startBeat: beat.number, 'source': newSource, bufferNode: bufferNode});
       
       var loopTrigger = {
         startBeat: beat.number,
@@ -81,16 +100,15 @@
           var source = model.context.createBufferSource();
           source.gain.value = bufferModel.get('gain');
           source.buffer = bufferModel.bufferNode;
-          newBuffer.source = source;  // bad idea?
+          bufferNode.source = source;  // bad idea?
           source.connect(synth.masterGain.node);
           // console.log('current time', model.context.currentTime, 'time', time);
           source.start(beat.time);
         }
       }
-      
+      bufferModel.trigger('doneRecording');
       this.scheduled.push(loopTrigger);
       loopTrigger.id = bufferModel.cid;
-      this.buffers.add(bufferModel);
     },
 
     stopRecording: function() {

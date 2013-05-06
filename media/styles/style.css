@@ -22,13 +22,23 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
   position: relative;
 }
 
+.buffer:after {
+    content:"";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    border-left: 1px solid #444; /*change these values to suit your liking*/
+}
+
 .metronome .beat-indicator {
   width: 15px;
   height: 15px;
 }
 
-.buffer .waveform { position: absolute; left: 0; }
-.buffer .waveform svg { float: left; }
+.buffer .waveform { position: absolute; left: 50%; height: 50px; }
+.buffer .waveform svg { position: absolute; left: 0; top: 0; }
 
 .dashboard { position: relative; overflow: hidden; }
 
