@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.Gain = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.node = this.context.createGainNode();
 
       this.on('change:gain', this.gainChange);

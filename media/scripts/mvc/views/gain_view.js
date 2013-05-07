@@ -3,25 +3,27 @@
 
   bs.views.GainView = Backbone.View.extend({
     initialize: function() {
-      this.listenTo(this.model, 'change:gain', this.updateGainReading)
+      this.listenTo(this.model, 'change:gain', this.gainChange)
     },
     
     template: _.template($('.gain-node-template').html()),
 
     events: {
-      'change .gain': 'gainChange'
+      'change .gain': 'handleGainInput'
     },
 
-    gainChange: function(e) {
+    handleGainInput: function(e) {
       this.model.set({gain: e.target.value});
     },
 
-    updateGainReading: function(model, gain) {
+    gainChange: function(model, gain) {
+      this.$gain.val(gain);
       this.$gainReading.text(gain);
     },
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$gain = this.$('.gain');
       this.$gainReading = this.$('.gain-reading');
       return this;
     }

@@ -22,6 +22,11 @@
       }
     },
 
+    renderPatches: function() {
+      this.patchesView = new bs.views.PatchesView({collection: this.model.patches});
+      this.$('.patches').append(this.patchesView.render().el);
+    },
+
     renderFilter: function() {
       this.filterView = new bs.views.FilterView({model: this.model.filter});
       this.$('.filter').append(this.filterView.render().el);
@@ -72,14 +77,15 @@
       this.$('.metronome').html(this.metronomeView.render().el);
     },
     
-    renderPatches: function() {
-      this.patchView = new bs.views.PatchView({model: this.model.patch});
-      this.$('.patches').html(this.patchView.render().el);
+    renderCVPatches: function() {
+      this.cvPatchView = new bs.views.CVPatchView({model: this.model.cvPatch});
+      this.$('.cv-patches').html(this.cvPatchView.render().el);
     },
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
 
+      this.renderPatches();
       this.renderFilter();
       this.renderOscillatorModule();
       this.renderKeyboard();
@@ -90,7 +96,7 @@
       this.renderLfo();
       this.renderLoopModule();
       this.renderMetronome();
-      this.renderPatches();
+      this.renderCVPatches();
       
       return this;
     }

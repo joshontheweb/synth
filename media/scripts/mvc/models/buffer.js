@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.Buffer = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.bufferNode = attrs.bufferNode || this.context.createBuffer(2, 4096, this.context.sampleRate);
 
       this.on('change:gain', this.gainChange);

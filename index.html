@@ -1,58 +1,347 @@
 <!doctype html>
 <html>
 	<head>
+        <link rel="stylesheet" href="/media/styles/style.css" />
 	</head>
 	<body>
-		HELLO SYNTH
+        <div class="main"></div>
 		
-		<script src="./audiolib.js"></script>
-		<script src="./drum_samples.js"></script>
 		<script>
-			var kick = atob(samples.kick);
+          // var context = new webkitAudioContext();
+          // var oscillator = context.createOscillator();
+          // var gainNode = context.createGainNode();
+          // var lowPass = context.createBiquadFilter();
+          // var oscilloscope = new WavyJones(context, 'oscilloscope');
+          // gainNode.gain.value = 0;
+          // 
+          // var pentatonicMap = [
+          //   0,19,22,26,29,32,38,43,51,58,65,77,86,
+          //   103,115,129,154,173,206,231,259,308,
+          //   346,4461,518,616,691,822,923,1036,1232,
+          //   1383,1644,1845,2071,2463,2765,3288,3691,
+          //   4143,4927,5530,6577,7382,8286,9854,11060,
+          //   13153,14764,16572,19708,22121,26306
+          // ];
+          // 
+          // oscillator.connect(gainNode); // Connect to speakers
+          // gainNode.connect(lowPass);
+          // lowPass.connect(oscilloscope);
+          // oscilloscope.connect(context.destination);
+          // oscillator.start(0); // Start generating sound immediately
+          // 
+          // oscilloscope.lineThickness = 2;
+          // 
+          // var $gain = $('.gain');
+          // var $frequency = $('.frequency');
+          // var $lowPass = $('.low-pass');
+          // var $lowPassReading = $('.low-pass-reading');
+          // var $frequencyReading = $('.frequency-reading');
+          // var $gainReading = $('.gain-reading');
+          // var $waveform = $('.waveform');
+          // 
+          // 
+          // var keyboard = qwertyHancock({
+          //    id: 'keyboard',
+          //    width: 600,
+          //    height: 150,
+          //    octaves: 3,
+          //    startNote: 'A3',
+          //    whiteNotesColour: 'white',
+          //    blackNotesColour: 'black',
+          //    hoverColour: '#f3e939',
+          //    keyboardLayout: 'en'
+          // });
+          // 
+          // keyboard.keyDown(function (note, frequency) {
+          //     oscillator.frequency.value = frequency;
+          //     gainNode.gain.value = 1;
+          // });
+          // 
+          // keyboard.keyUp(function (note, frequency) {
+          //     gainNode.gain.value = 0;
+          // });
+          // 
+          // $frequency.on('change', function(e) {
+          //   var closest;
+          //   var goal = e.target.value;
+          // 
+          //   pentatonicMap.map(function(freq) {
+          //     if (closest == null || Math.abs(freq - goal) < Math.abs(closest - goal)) {
+          //       closest = freq;
+          //     }
+          //   });
+          //   
+          //   oscillator.frequency.value = closest;
+          //   
+          //   $frequencyReading.text(closest);
+          // });
+          // 
+          // $gain.on('change', function(e) {
+          //   gainNode.gain.value = e.target.value;
+          //   $gainReading.text(e.target.value);
+          // });
+          // 
+          // $lowPass.on('change', function(e) {
+          //   lowPass.frequency.value = e.target.value;
+          //   $lowPassReading.text(e.target.value);
+          // });
+          // 
+          // $waveform.on('change', function(e) {
+          //   oscillator.type = e.target.value;
+          // });
 
-			var tempo = 120,
-					notesPerBeat = 4,
-					tickCounter = 1,
-					tick = 0,
-					fps = 60;
-					
-			var audioCallback = function(buffer, channelCount) {
-				lfo.generateBuffer(buffer.length / channelCount);
-				stepSeq.generateBuffer(buffer.length / channelCount);
-				osc.append(buffer, channelCount);
-				flt.append(buffer);
-				sampler.append(buffer, channelCount);
-			}
+        
 
-			var dev = audioLib.AudioDevice(audioCallback, 2);
-			var osc = audioLib.Oscillator(dev.sampleRate, 440);
-			var delay = audioLib.Delay.createBufferBased(2, dev.sampleRate, 400);
-			var flt = audioLib.LP12Filter.createBufferBased(2, dev.sampleRate, 1700);
-			osc.waveShape = 'triangle';
-			var lfo = audioLib.Oscillator(dev.sampleRate, 0.25);
-			var stepSeq = audioLib.StepSequencer(dev.sampleRate, 250, [0.3, 0.25, 0.75, 0.01], 0.5);
-			osc.addAutomation('frequency', lfo, 0.2, 'additiveModulation');
-			flt.addAutomation('cutoff', stepSeq, 1, 'modulation');
-			var sampler = audioLib.Sampler(dev.sampleRate);
-			sampler.loadWav(kick, true);
-			sampler.noteOn(440);
-
-			sampler.addPreProcessing(function() {
-				tickCounter = tickCounter + 1 / dev.sampleRate * tempo / 60;
-
-				if (tickCounter >= 1) {
-					tickCounter = 0;
-
-					this.noteOn(tick ? 440 : 660);
-					tick = (tick + 1) % notesPerBeat;
-				}
-			});
-
-			Sink.doInterval(function(){ 
-				// Get the tick we're at based on latency or zero if output hasn't been initialized yet 
-				currentTick = dev ? ~~(dev.getPlaybackTime() / dev.sampleRate / 60 * tempo) : -1;
-				document.title = (currentTick % notesPerBeat) + 1;
-			}, 1000/fps);
+          
 		</script>
+
+        <!-- templates -->
+		<script class="synth-template" type="text/html">
+          HELLO SYNTH
+
+          <h3>Patch Presets</h3>
+          <div class="patches"></div>
+
+          <div class="dashboard">
+            <div class="column">
+              <h3>Oscillators</h3>
+              <div class="oscillator-module"></div>
+            </div>
+            <div class="column">
+              <h3>Volume Envelope</h3>
+              <div class="volume-envelope"></div>
+            </div>
+            <div class="column">
+              <h3>Filter Envelope</h3>
+              <div class="filter-envelope"></div>
+            </div>
+
+            <div class="column">
+              <h3>Filter</h3>
+              <div class="filter"></div>
+              
+              <h3>Loop Module</h3>
+              <div class="loop-module"></div>
+            </div>
+            
+            <div class="column">
+              <h3>Metronome</h3>
+              <div class="metronome"></div>
+              
+              <h3>Delay</h3>
+              <div class="delay"></div>
+
+              <h3>LFO</h3>
+              <div class="lfo"></div>
+              
+            </div>
+            
+            <div class="column">
+              <h3>CV Patches</h3>
+              <div class="cv-patches">
+              </div>
+            </div>
+          </div>
+          
+
+          <div id="keyboard"></div>
+          <div id="oscilloscope"></div>
+        </script>
+        
+        <script class="oscillator-module-template" type="text/html">
+          <h5>OSC1</h5>
+          <div class="osc-1"></div>
+          <h5>GAIN</h5>
+          <div class="gain-1"></div>
+          <h5>OSC2</h5>
+          <div class="osc-2"></div>
+          <h5>GAIN</h5>
+          <div class="gain-2"></div>
+          <h5>OSC3</h5>
+          <div class="osc-3"></div>
+          <h5>GAIN</h5>
+          <div class="gain-3"></div>
+        </script>
+        
+        <script class="oscillator-template" type="text/html">
+          <select class="type" type="select">
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+          </select>
+          <h5>Detune</h5>
+          <input class="detune" min="-1200" max="1200" step="1" value="<%= detune %>" type="range" />
+          <span class="detune-reading"><%= detune %></span>
+        </script>
+        
+        <script class="lfo-template" type="text/html">
+          <h5>Frequency</h5>
+          <input class="frequency" min="0" max="40" step="1" value="<%= frequency %>" type="range" />
+          <h5>Gain</h5>
+          <input class="gain" min="0" max="<%= maxGain %>" step=".01" value="<%= gain %>" type="range" />
+          <h5>Waveform</h5>
+          <select class="type" type="select">
+            <option value="sine">Sine</option>
+            <option value="square">Square</option>
+            <option value="sawtooth">Sawtooth</option>
+            <option value="triangle">Triangle</option>
+          </select>
+        </script>
+        
+        
+        <script class="gain-node-template" type="text/html">
+          <input class="gain" min="0.0" max="1.0" step=".01" value="<%= gain %>" type="range" />
+          <span class="gain-reading"><%= gain %></span>
+        </script>
+        
+        <script class="keyboard-template" type="text/html">
+          <div id="keyboard"></div>
+        </script>
+        
+        <script class="filter-template" type="text/html">
+          <h5>Frequency</h5>
+          <input class="frequency" min="0" max="20000" step="1" value="<%= frequency %>" type="range" />
+          <span class="frequency-reading"><%= frequency %></span>
+          <h5>Resonance</h5>
+          <input class="resonance" min="0" max="40" step="1" value="<%= resonance %>" type="range" />
+          <span class="resonance-reading"><%= resonance %></span>
+        </script>
+        
+        <script class="envelope-template" type="text/html">
+          <h5>Attack</h5>
+          <input class="attack" min="0" max="1" step="0.01" value="<%= attack %>" type="range" />
+          <span class="attack-reading"><%= attack %></span>
+          
+          <h5>Decay</h5>
+          <input class="decay" min="0" max="1" step="0.01" value="<%= decay %>" type="range" />
+          <span class="decay-reading"><%= decay %></span>
+          
+          <h5>Sustain</h5>
+          <input class="sustain" min="0" max="1" step="0.01" value="<%= sustain %>" type="range" />
+          <span class="sustain-reading"><%= sustain %></span>
+          
+          <h5>Release</h5>
+          <input class="release" min="0" max="1" step="0.01" value="<%= release %>" type="range" />
+          <span class="release-reading"><%= release %></span>
+        </script>
+
+        <script class="filter-envelope-template" type="text/html">
+          <h5>Attack</h5>
+          <input class="attack" min="0" max="1" step="0.01" value="<%= attack %>" type="range" />
+          <span class="attack-reading"><%= attack %></span>
+          
+          <h5>Decay</h5>
+          <input class="decay" min="0" max="1" step="0.01" value="<%= decay %>" type="range" />
+          <span class="decay-reading"><%= decay %></span>
+          
+          <h5>Sustain</h5>
+          <input class="sustain" min="0" max="20000" step="1" value="<%= sustain %>" type="range" />
+          <span class="sustain-reading"><%= sustain %></span>
+          
+          <h5>Release</h5>
+          <input class="release" min="0" max="1" step="0.01" value="<%= release %>" type="range" />
+          <span class="release-reading"><%= release %></span>
+        </script>
+
+        <script class="delay-template" type="text/html">
+          <input class="time" min="0" max="1" step="0.01" value="<%= time %>" type="range" />
+          <span class="time-reading"><%= time %></span>
+        </script>
+        
+        <script class="metronome-template" type="text/html">
+          <input class="tempo" min="20" max="300" step="1" value="<%= tempo %>" type="range" />
+          <span class="tempo-reading"><%= tempo %></span>
+          <div class="beat-indicator"></div>
+          audio: <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
+        </script>
+        
+        <script class="loop-module-template" type="text/html">
+          Press ~ to start recording a loop<br/>
+          on the downbeat. <br/><br/>
+          Then again to stop.
+        </script>
+        
+        <script class="buffer-template" type="text/html">
+          <div class="waveform"></div>
+        </script>
+
+        <script class="cv-patch-template" type="text/html">
+          <h5>CV Patch</h5>
+          <select class="sources" type="select">
+          </select>
+          >
+          <select class="destinations" type="select">
+          </select>
+        </script>
+
+        <script class="patches-template" type="text/html">
+          <h5>Patches</h5>
+          <select class="patches" type="select">
+          </select>
+        </script>
+
+        <script class="patch-template" type="text/html">
+          <option value="<%= _id %>">Patch <%= id %></option>
+        </script>
+        
+        <!-- libs -->
+		<script src="/media/scripts/libs/audiolib.js"></script>
+		<script src="/media/scripts/libs/jquery.js"></script>
+		<script src="/media/scripts/libs/raphael.js"></script>
+		<script src="/media/scripts/libs/qwertyhancock.js"></script>
+		<script src="/media/scripts/libs/wavyjones.js"></script>
+		<script src="/media/scripts/libs/underscore.js"></script>
+		<script src="/media/scripts/libs/backbone.js"></script>
+		<script src="/media/scripts/libs/backbone.localstorage.js"></script>
+		<script src="/media/scripts/libs/wavyjones.js"></script>
+		<script src="/media/scripts/libs/recorder.js"></script>
+
+        <!-- config -->
+		<script src="/media/scripts/config.js"></script>
+
+        <!-- routers -->
+		<!--<script src="/media/scripts/mvc/routers/main.js"></script>-->
+        
+        <!-- models -->
+		<script src="/media/scripts/mvc/models/synth.js"></script>
+		<script src="/media/scripts/mvc/models/oscillator.js"></script>
+		<script src="/media/scripts/mvc/models/oscillator_module.js"></script>
+		<script src="/media/scripts/mvc/models/gain.js"></script>
+		<script src="/media/scripts/mvc/models/keyboard.js"></script>
+		<script src="/media/scripts/mvc/models/filter.js"></script>
+		<script src="/media/scripts/mvc/models/filter_envelope.js"></script>
+		<script src="/media/scripts/mvc/models/volume_envelope.js"></script>
+		<script src="/media/scripts/mvc/models/delay.js"></script>
+		<script src="/media/scripts/mvc/models/lfo.js"></script>
+		<script src="/media/scripts/mvc/models/compressor.js"></script>
+		<script src="/media/scripts/mvc/models/loop_module.js"></script>
+		<script src="/media/scripts/mvc/models/buffer.js"></script>
+		<script src="/media/scripts/mvc/models/metronome.js"></script>
+		<script src="/media/scripts/mvc/models/cv_patch.js"></script>
+		<script src="/media/scripts/mvc/models/patch.js"></script>
+
+        <!-- collections -->
+		<script src="/media/scripts/mvc/collections/patches.js"></script>
+        
+        <!-- views -->
+		<script src="/media/scripts/mvc/views/synth_view.js"></script>
+		<script src="/media/scripts/mvc/views/oscillator_view.js"></script>
+		<script src="/media/scripts/mvc/views/gain_view.js"></script>
+		<script src="/media/scripts/mvc/views/keyboard_view.js"></script>
+		<script src="/media/scripts/mvc/views/filter_view.js"></script>
+		<script src="/media/scripts/mvc/views/oscillator_module_view.js"></script>
+		<script src="/media/scripts/mvc/views/envelope_view.js"></script>
+		<script src="/media/scripts/mvc/views/delay_view.js"></script>
+		<script src="/media/scripts/mvc/views/lfo_view.js"></script>
+		<script src="/media/scripts/mvc/views/loop_module_view.js"></script>
+		<script src="/media/scripts/mvc/views/buffer_view.js"></script>
+		<script src="/media/scripts/mvc/views/metronome_view.js"></script>
+		<script src="/media/scripts/mvc/views/cv_patch_view.js"></script>
+		<script src="/media/scripts/mvc/views/patch_view.js"></script>
+		<script src="/media/scripts/mvc/views/patches_view.js"></script>
+
+        <!-- init -->
+		<script src="/media/scripts/init.js"></script>
 	</body>
 </html>

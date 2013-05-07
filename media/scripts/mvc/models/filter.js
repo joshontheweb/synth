@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.Filter = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.node = this.context.createBiquadFilter();
       this.node.type = this.filterMap[attrs.type];
       this.node.frequency.value = this.get('frequency');

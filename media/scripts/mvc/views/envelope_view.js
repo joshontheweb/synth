@@ -38,26 +38,34 @@
     },
 
     attackChange: function(envelope, attack) {
+      this.$attack.val(attack);
       this.$attackReading.text(attack);
     },
 
     decayChange: function(envelope, decay) {
+      this.$decay.val(decay);
       this.$decayReading.text(decay);
     },
 
     sustainChange: function(envelope, sustain) {
+      this.$sustain.val(sustain);
       this.$sustainReading.text(sustain);
     },
 
     releaseChange: function(envelope, release) {
+      this.$release.val(release);
       this.$releaseReading.text(release);
     },
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$attack = this.$('.attack');
       this.$attackReading = this.$('.attack-reading');
+      this.$decay = this.$('.decay');
       this.$decayReading = this.$('.decay-reading');
+      this.$sustain = this.$('.sustain');
       this.$sustainReading = this.$('.sustain-reading');
+      this.$release = this.$('.release');
       this.$releaseReading = this.$('.release-reading');
       return this;
     }

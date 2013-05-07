@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.LoopModule = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.gain = this.context.createGainNode();
       this.buffers = new Backbone.Collection();
       this.buffers.model = bs.models.Buffer;

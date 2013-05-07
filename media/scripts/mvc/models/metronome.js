@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.Metronome = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.gainNode = this.context.createGainNode();
       
       this.nextNoteTime = 0.0;        // when the next note is due.

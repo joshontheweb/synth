@@ -2,7 +2,7 @@
   'use strict';
 
   bs.models.Oscillator = Backbone.Model.extend({
-    initialize: function(options) {
+    initialize: function(attrs, options) {
       this.context = options.context || new webkitCreateAudioContext();
       this.node = this.context.createOscillator();
 

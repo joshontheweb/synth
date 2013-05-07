@@ -3,7 +3,7 @@
 
   bs.models.VolumeEnvelope = Backbone.Model.extend({
     initialize: function(attrs, options) {
-      this.context = attrs.context;
+      this.context = options.context;
       this.gainNode = this.node = this.context.createGainNode();
       this.gainNode.gain.value = this.get('gain');
     },

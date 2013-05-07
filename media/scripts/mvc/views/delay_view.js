@@ -17,12 +17,13 @@
     },
 
     timeChange: function(delay, time) {
-      this.model.delayNode.delayTime.value = time;
+      this.$time.val(time);
       this.$timeReading.text(time);
     },
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$time = this.$('.time');
       this.$timeReading = this.$('.time-reading');
       return this;
     }

@@ -4,6 +4,7 @@
   bs.views.MetronomeView = Backbone.View.extend({
     initialize: function(options) {
       this.listenTo(this.model, 'change:tempo', this.tempoChange);
+      this.listenTo(this.model, 'change:state', this.stateChange);
       this.listenTo(this.model, 'beat', this.beat);
     },
     
@@ -23,7 +24,12 @@
     },
     
     tempoChange: function(model, tempo) {
+      this.$tempo.val(tempo);
       this.$tempoReading.text(tempo);
+    },
+
+    stateChange: function(model, state) {
+      this.$state.attr('checked', state)
     },
 
     beat: function(beat) {
@@ -38,6 +44,8 @@
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$tempo = this.$('.tempo');
+      this.$state = this.$('.state');
       this.$tempoReading = this.$('.tempo-reading');
       this.$beatIndicator = this.$('.beat-indicator');
       return this;

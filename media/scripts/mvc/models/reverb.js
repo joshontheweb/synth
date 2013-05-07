@@ -2,8 +2,8 @@
   'use strict';
 
   bs.models.Reverb = Backbone.Model.extend({
-    initialize: function(attrs) {
-      this.context = attrs.context;
+    initialize: function(attrs, options) {
+      this.context = options.context;
       this.reverb = this.context.createConvolver();
     },
 

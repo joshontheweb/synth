@@ -5,28 +5,29 @@
     initialize: function() {
       var synth = this;
       this.context = new webkitAudioContext();
-      this.filter = new bs.models.Filter({type: 'lowpass', context: this.context});
-      this.oscillatorModule = new bs.models.OscillatorModule({context: this.context});
-      this.volumeEnvelope = new bs.models.VolumeEnvelope({context: this.context});
-      this.filterEnvelope = new bs.models.FilterEnvelope({context: this.context, filter: this.filter});
-      this.delay = new bs.models.Delay({context: this.context});
+      this.patches = new bs.collections.Patches();
+      this.filter = new bs.models.Filter({type: 'lowpass'}, {context: this.context});
+      this.oscillatorModule = new bs.models.OscillatorModule({}, {context: this.context});
+      this.volumeEnvelope = new bs.models.VolumeEnvelope({}, {context: this.context});
+      this.filterEnvelope = new bs.models.FilterEnvelope({filter: this.filter}, {context: this.context});
+      this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
-      this.compressor = new bs.models.Compressor({context: this.context});
-      this.metronome = new bs.models.Metronome({context: this.context});
-      this.loopModule = new bs.models.LoopModule({context: this.context, metronome: this.metronome});
-      this.masterGain = new bs.models.Gain({context: this.context, gain: .5});
-      this.lfo = new bs.models.LFO({context: this.context, type: 'triangle', frequency: 5});
+      this.compressor = new bs.models.Compressor({}, {context: this.context});
+      this.metronome = new bs.models.Metronome({}, {context: this.context});
+      this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
+      this.masterGain = new bs.models.Gain({gain: .5}, {context: this.context});
+      this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
-      this.patchSources = {
+      this.cvPatchSources = {
         'lfo': this.lfo
       };
       
-      this.patchDestinations = {
+      this.cvPatchDestinations = {
         'filter': this.filter.node.frequency,
         'master gain': this.masterGain.node.gain
       };
 
-      this.patch = new bs.models.Patch({context: this.context, sources: this.patchSources, destinations: this.patchDestinations});
+      this.cvPatch = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations}, {context: this.context});
       
       this.oscillatorModule.connect(this.volumeEnvelope.node);
       this.volumeEnvelope.connect(this.filter.node);
@@ -40,42 +41,35 @@
       this.compressor.connect(this.loopModule.gain);
       
       this.lfo.start(0);
+      this.patches.fetch({add: true});
       
-      // function getBufferCallback( buffers ) {
-      //     var newSource = synth.context.createBufferSource();
-      //     var newBuffer = synth.context.createBuffer( 2, buffers[0].length, synth.context.sampleRate );
-      //     newBuffer.getChannelData(0).set(buffers[0]);
-      //     newBuffer.getChannelData(1).set(buffers[1]);
-      //     newSource.buffer = newBuffer;
-      // 
-      //     newSource.connect( synth.context.destination );
-      //     newSource.loop = true;
-      //     newSource.start(0);
-      // }
-      // 
-      // this.recorders = [];
-      // 
-      // $(window).on('keypress', function(e) {
-      //   if (e.keyCode == 96) {
-      //     if (this.recorder) {
-      //       synth.recorders.push(this.recorder);
-      //       this.recorder.stop(0);
-      //       this.recorder.getBuffer(getBufferCallback);
-      //       
-      //       // _.each(this.recorders, function(recorder) {
-      //       //   recorder.stop();
-      //       // }
-      //       
-      //       this.recorder = false;
-      //       return;
-      //     }
-      // 
-      //     this.recorder = new Recorder(synth.compressor.compressor, {workerPath: '/media/scripts/libs/recorder_worker.js'});
-      //     this.recorder.record();
-      //   }
-      // });
-  
-      // this.delay.connect(this.context.destination);
+    },
+
+    savePatch: function() {
+      var jsonStr = JSON.stringify({
+        filter: this.filter.toJSON(),
+        oscillatorModule: this.oscillatorModule.toJSON(),
+        volumeEnvelope: this.volumeEnvelope.toJSON(),
+        filterEnvelope: this.filterEnvelope.toJSON(),
+        delay: this.delay.toJSON(),
+        keyboard: this.keyboard.toJSON(),
+        compressor: this.compressor.toJSON(),
+        metronome: this.metronome.toJSON(),
+        loopModule: this.loopModule.toJSON(),
+        masterGain: this.masterGain.toJSON(),
+        lfo: this.lfo.toJSON()
+      });
+      
+      this.patches.create({id: this.patches.length, parameters: JSON.parse(jsonStr)}, {wait: true});
+    },
+
+    loadPatch: function(parameters) {
+      var key;
+      for (key in parameters) {
+        if (parameters.hasOwnProperty(key)) {
+          this[key].set(parameters[key]);
+        }
+      }
     }
   });
   

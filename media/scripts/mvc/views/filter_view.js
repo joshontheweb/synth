@@ -23,16 +23,20 @@
     },
 
     frequencyChange: function(filter, frequency) {
+      this.$frequency.val(frequency);
       this.$frequencyReading.text(frequency);
     },
 
     resonanceChange: function(filter, resonance) {
+      this.$resonance.val(resonance);
       this.$resonanceReading.text(resonance);
     },
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$frequency = this.$('.frequency');
       this.$frequencyReading = this.$('.frequency-reading');
+      this.$resonance = this.$('.resonance');
       this.$resonanceReading = this.$('.resonance-reading');
       return this;
     }

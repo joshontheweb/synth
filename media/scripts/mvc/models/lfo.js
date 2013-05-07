@@ -2,7 +2,7 @@
   'use strict';
 
   bs.models.LFO = Backbone.Model.extend({
-    initialize: function(options) {
+    initialize: function(attrs, options) {
       this.context = options.context || new webkitCreateAudioContext();
       this.oscillatorNode = this.context.createOscillator();
       this.gainNode = this.context.createGainNode();
