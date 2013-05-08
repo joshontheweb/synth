@@ -79,7 +79,9 @@
     
     renderCVPatches: function() {
       this.cvPatchView = new bs.views.CVPatchView({model: this.model.cvPatch});
-      this.$('.cv-patches').html(this.cvPatchView.render().el);
+      this.cvPatch1View = new bs.views.CVPatchView({model: this.model.cvPatch1});
+      this.$('.cv-patches').append(this.cvPatchView.render().el);
+      this.$('.cv-patches').append(this.cvPatch1View.render().el);
     },
     
     render: function() {

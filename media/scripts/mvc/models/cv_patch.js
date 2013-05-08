@@ -18,7 +18,8 @@
       'sources': [],
       'destinations': [],
       'destination': null,
-      'source': null
+      'source': null,
+      'outputIndex': 0
     },
 
     sourceChange: function(model, source) {
@@ -30,9 +31,9 @@
 
     destinationChange: function(model, destination) {
       var source = this.get('source');
-      source.disconnect();
+      source.disconnect(this.get('outputIndex'));
       source.set({'maxGain': destination.maxValue});
-      source.connect(destination);
+      source.connect(destination, this.get('outputIndex'));
     }
     
   });

@@ -40,7 +40,7 @@
     startRecording: function() {
       var model = this;
       // var newBuffer = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
-      var bufferModel = new bs.models.Buffer({context: this.context});
+      var bufferModel = new bs.models.Buffer({}, {context: this.context});
       var drawCallback = function(chan0, chan1) {
         bufferModel.trigger('draw', [chan0, chan1]);
       }

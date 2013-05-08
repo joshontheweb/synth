@@ -15,6 +15,7 @@
       'change .type': 'handleTypeInput',
       'change .frequency': 'handleFrequencyInput',
       'change .gain': 'handleGainInput',
+      'click .tempo-sync': 'handleTempoSyncInput'
     },
 
     handleTypeInput: function(e) {
@@ -27,6 +28,11 @@
 
     handleGainInput: function(e) {
       this.model.set({gain: e.target.value});
+    },
+
+    handleTempoSyncInput: function(e) {
+      e.preventDefault();
+      this.model.set({frequency: synth.metronome.get('tempo') / 60});
     },
 
     typeChange: function(model, type) {

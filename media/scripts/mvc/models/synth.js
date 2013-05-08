@@ -24,16 +24,25 @@
       
       this.cvPatchDestinations = {
         'filter': this.filter.node.frequency,
+        'filter resonance': this.filter.node.Q,
+        'delay': this.delay.node.delayTime,
+        'osc1 pitch': this.oscillatorModule.osc1.node.frequency,
+        'osc1 gain': this.oscillatorModule.gain1.node.gain,
+        'osc2 pitch': this.oscillatorModule.osc2.node.frequency,
+        'osc2 gain': this.oscillatorModule.gain2.node.gain,
+        'osc3 pitch': this.oscillatorModule.osc3.node.frequency,
+        'osc3 gain': this.oscillatorModule.gain3.node.gain,
         'master gain': this.masterGain.node.gain
       };
 
-      this.cvPatch = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations}, {context: this.context});
+      this.cvPatch = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations, outputIndex: 0}, {context: this.context});
+      this.cvPatch1 = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations, outputIndex: 1}, {context: this.context});
       
       this.oscillatorModule.connect(this.volumeEnvelope.node);
       this.volumeEnvelope.connect(this.filter.node);
       this.filter.connect(this.filterEnvelope.filterNode);
       this.filterEnvelope.connect(this.compressor.compressor);
-      this.filterEnvelope.connect(this.delay.delayNode);
+      this.filterEnvelope.connect(this.delay.node);
       this.delay.connect(this.compressor.compressor);
       this.compressor.connect(this.masterGain.node);
       this.metronome.connect(this.masterGain.node);
@@ -54,7 +63,7 @@
         delay: this.delay.toJSON(),
         keyboard: this.keyboard.toJSON(),
         compressor: this.compressor.toJSON(),
-        metronome: this.metronome.toJSON(),
+        // metronome: this.metronome.toJSON(),
         loopModule: this.loopModule.toJSON(),
         masterGain: this.masterGain.toJSON(),
         lfo: this.lfo.toJSON()

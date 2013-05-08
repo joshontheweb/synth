@@ -42,7 +42,7 @@
         this.$waveform.width(0);
         this.paper = Raphael(this.$waveform[0], '100%', '100%');
         this.x = 0;
-        console.log('x', this.x);
+        // console.log('x', this.x);
         this.y = yCenter;
         this.firstDraw = false;
       }
@@ -58,7 +58,7 @@
       pathString += 'Z';
 
 
-      console.log(pathString);
+      // console.log(pathString);
       // feed to path
       this.path = this.paper.path(pathString);
       var pixels = pcm.length / inc;

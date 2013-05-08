@@ -27,13 +27,13 @@
       this.osc2.start(0);
       this.osc3.start(0);
 
-      this.on('change:frequency', this.frequencyChange);
       this.on('change:osc1', this.setOsc1);
       this.on('change:osc2', this.setOsc2);
       this.on('change:osc3', this.setOsc3);
       this.on('change:gain1', this.setGain1);
       this.on('change:gain2', this.setGain2);
       this.on('change:gain3', this.setGain3);
+      this.on('change:frequency', this.frequencyChange);
 
       this.listenTo(this.osc1, 'change', this.syncWithOsc1);
       this.listenTo(this.osc2, 'change', this.syncWithOsc2);
@@ -59,7 +59,7 @@
     },
 
     syncWithOsc1: function(model) {
-      this.set({'osc1': model.changed});
+      this.set({'osc1': _.extend(this.get('osc1'), model.changed)});
     },
 
     setOsc2: function(model, attrs) {
@@ -67,7 +67,7 @@
     },
 
     syncWithOsc2: function(model) {
-      this.set({'osc2': model.changed});
+      this.set({'osc2': _.extend(this.get('osc2'), model.changed)});
     },
 
     setOsc3: function(model, attrs) {
@@ -75,7 +75,7 @@
     },
 
     syncWithOsc3: function(model) {
-      this.set({'osc3': model.changed});
+      this.set({'osc3': _.extend(this.get('osc3'), model.changed)});
     },
 
     setGain1: function(model, attrs) {

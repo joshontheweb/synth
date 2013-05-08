@@ -11,11 +11,17 @@
     patchTemplate: _.template($('.patch-template').html()),
 
     events: {
+      'click .save-patch': 'savePatch',
       'change .patches': 'loadPatch'
     },
 
     insertPatch: function(patch) {
       this.$patches.append(this.patchTemplate(patch.toJSON()));
+    },
+
+    savePatch: function(e) {
+      e.preventDefault();
+      synth.savePatch();
     },
 
     loadPatch: function(e) {
