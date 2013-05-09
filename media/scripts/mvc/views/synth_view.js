@@ -78,10 +78,8 @@
     },
     
     renderCVPatches: function() {
-      this.cvPatchView = new bs.views.CVPatchView({model: this.model.cvPatch});
-      this.cvPatch1View = new bs.views.CVPatchView({model: this.model.cvPatch1});
-      this.$('.cv-patches').append(this.cvPatchView.render().el);
-      this.$('.cv-patches').append(this.cvPatch1View.render().el);
+      this.cvPatchModuleView = new bs.views.CVPatchModuleView({model: this.model.cvPatchModule});
+      this.$('.cv-patches').html(this.cvPatchModuleView.render().el);
     },
     
     render: function() {

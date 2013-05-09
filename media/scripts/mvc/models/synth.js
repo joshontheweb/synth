@@ -18,6 +18,7 @@
       this.masterGain = new bs.models.Gain({gain: .5}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
+      // setup cv patches
       this.cvPatchSources = {
         'lfo': this.lfo
       };
@@ -35,9 +36,9 @@
         'master gain': this.masterGain.node.gain
       };
 
-      this.cvPatch = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations, outputIndex: 0}, {context: this.context});
-      this.cvPatch1 = new bs.models.CVPatch({sources: this.cvPatchSources, destinations: this.cvPatchDestinations, outputIndex: 1}, {context: this.context});
+      this.cvPatchModule = new bs.models.CVPatchModule({}, {patchSources: this.cvPatchSources, patchDestinations: this.cvPatchDestinations});
       
+      // route node path
       this.oscillatorModule.connect(this.volumeEnvelope.node);
       this.volumeEnvelope.connect(this.filter.node);
       this.filter.connect(this.filterEnvelope.filterNode);
@@ -66,7 +67,8 @@
         // metronome: this.metronome.toJSON(),
         loopModule: this.loopModule.toJSON(),
         masterGain: this.masterGain.toJSON(),
-        lfo: this.lfo.toJSON()
+        lfo: this.lfo.toJSON(),
+        cvPatchModule: this.cvPatchModule.toJSON()
       });
       
       this.patches.create({id: this.patches.length, parameters: JSON.parse(jsonStr)}, {wait: true});

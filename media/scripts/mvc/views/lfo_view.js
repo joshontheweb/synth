@@ -15,7 +15,7 @@
       'change .type': 'handleTypeInput',
       'change .frequency': 'handleFrequencyInput',
       'change .gain': 'handleGainInput',
-      'click .tempo-sync': 'handleTempoSyncInput'
+      'change .tempo-sync': 'handleTempoSyncInput'
     },
 
     handleTypeInput: function(e) {
@@ -31,8 +31,12 @@
     },
 
     handleTempoSyncInput: function(e) {
-      e.preventDefault();
-      this.model.set({frequency: synth.metronome.get('tempo') / 60});
+      if (e.target.checked) {
+        this.model.set({frequency: synth.metronome.get('tempo') / 60});
+        this.startListeningToTempo();
+      } else {
+        this.stopListening(synth.metronome);
+      }
     },
 
     typeChange: function(model, type) {
@@ -49,6 +53,13 @@
 
     maxGainChange: function(model, maxGain) {
       this.$gain[0].max = maxGain;
+    },
+
+    startListeningToTempo: function() {
+      var view = this;
+      this.listenTo(synth.metronome, 'change:tempo', function(model, tempo) {
+        view.model.set({frequency: tempo / 60});
+      });
     },
 
     render: function() {

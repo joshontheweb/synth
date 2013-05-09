@@ -4,6 +4,9 @@ body {
 
 h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 
+.dashboard { position: relative; overflow: hidden; }
+
+.column { height: 100%; float: left; margin-right: 30px; }
 
 #oscilloscope {
   width: 400px;
@@ -40,6 +43,8 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 .buffer .waveform { position: absolute; left: 50%; height: 50px; }
 .buffer .waveform svg { position: absolute; left: 0; top: 0; }
 
-.dashboard { position: relative; overflow: hidden; }
+.cv-patches-list {
+  list-style-type: none;
+  padding: 0;
+}
 
-.column { height: 100%; float: left; margin-right: 30px; }

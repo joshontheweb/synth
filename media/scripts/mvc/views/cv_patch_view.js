@@ -6,15 +6,17 @@
       'change .sources': 'handleSourceInput',
       'change .destinations': 'handleDestinationInput'
     },
+
+    tagName: 'li',
     
     template: _.template($('.cv-patch-template').html()),
     
     handleSourceInput: function(e) {
-      this.model.set({source: this.model.sources[e.target.value]});
+      this.model.set({source: e.target.value});
     },
 
     handleDestinationInput: function(e) {
-      this.model.set({destination: this.model.destinations[e.target.value]});
+      this.model.set({destination: e.target.value});
     },
 
     renderSources: function() {
@@ -43,6 +45,9 @@
       this.renderSources();
       this.renderDestinations();
 
+      this.$sources.val(this.model.get('source'));
+      this.$destinations.val(this.model.get('destination'));
+      
       return this;
     }
   });

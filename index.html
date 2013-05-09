@@ -187,7 +187,8 @@
             <option value="sawtooth">Sawtooth</option>
             <option value="triangle">Triangle</option>
           </select>
-          <a href="#" class="tempo-sync">tempo sync</a>
+          <h5>Tempo Sync</h5>
+          <input type="checkbox" class="tempo-sync" />
         </script>
         
         
@@ -267,15 +268,6 @@
           <div class="waveform"></div>
         </script>
 
-        <script class="cv-patch-template" type="text/html">
-          <h5>CV Patch</h5>
-          <select class="sources" type="select">
-          </select>
-          >
-          <select class="destinations" type="select">
-          </select>
-        </script>
-
         <script class="patches-template" type="text/html">
           <h5>Patches</h5>
           <select class="patches" type="select">
@@ -285,6 +277,19 @@
 
         <script class="patch-template" type="text/html">
           <option value="<%= _id %>">Patch <%= id %></option>
+        </script>
+
+        <script class="cv-patch-template" type="text/html">
+          <h5>CV Patch</h5>
+          <select class="sources" type="select">
+          </select>
+          >
+          <select class="destinations" type="select">
+          </select>
+        </script>
+
+        <script class="cv-patches-template" type="text/html">
+          <ul class="cv-patches-list"></ul>
         </script>
         
         <!-- libs -->
@@ -322,9 +327,11 @@
 		<script src="/media/scripts/mvc/models/metronome.js"></script>
 		<script src="/media/scripts/mvc/models/cv_patch.js"></script>
 		<script src="/media/scripts/mvc/models/patch.js"></script>
+		<script src="/media/scripts/mvc/models/cv_patch_module.js"></script>
 
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>
+		<script src="/media/scripts/mvc/collections/cv_patches.js"></script>
         
         <!-- views -->
 		<script src="/media/scripts/mvc/views/synth_view.js"></script>
@@ -342,6 +349,7 @@
 		<script src="/media/scripts/mvc/views/cv_patch_view.js"></script>
 		<script src="/media/scripts/mvc/views/patch_view.js"></script>
 		<script src="/media/scripts/mvc/views/patches_view.js"></script>
+		<script src="/media/scripts/mvc/views/cv_patch_module_view.js"></script>
 
         <!-- init -->
 		<script src="/media/scripts/init.js"></script>
