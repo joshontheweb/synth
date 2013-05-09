@@ -8,6 +8,8 @@
 
       this.on('change:gain', this.gainChange);
       this.on('change:bufferNode', this.bufferNodeChange);
+
+      this.listenTo(synth.metronome, 'change:tempo', this.updateSourcePlaybackRate);
     },
 
     defaults: {
@@ -20,6 +22,13 @@
 
     gainChange: function(model, gain) {
       this.bufferNode.source.gain.value = gain;
+    },
+
+    updateSourcePlaybackRate: function() {
+      var source = this.bufferNode.source;
+      console.log(source);
+      console.log('tempo', synth.metronome.get('tempo'), 'buffer tempo', this.get('tempo'))
+      source.playbackRate.value = synth.metronome.get('tempo') / this.get('tempo');
     }
   });
 })();

@@ -40,7 +40,7 @@
     startRecording: function() {
       var model = this;
       // var newBuffer = this.context.createBuffer(2, buffers[0].length, this.context.sampleRate);
-      var bufferModel = new bs.models.Buffer({}, {context: this.context});
+      var bufferModel = new bs.models.Buffer({tempo: synth.metronome.get('tempo')}, {context: this.context});
       var drawCallback = function(chan0, chan1) {
         bufferModel.trigger('draw', [chan0, chan1]);
       }
@@ -67,6 +67,7 @@
       bufferNode.getChannelData(0).set(buffers[0]);
       bufferNode.getChannelData(1).set(buffers[1]);
       newSource.buffer = bufferNode;
+      bufferNode.source = newSource;
 
 
       // try and smooth end of buffers to beginning value.
@@ -100,6 +101,7 @@
           var source = model.context.createBufferSource();
           source.gain.value = bufferModel.get('gain');
           source.buffer = bufferModel.bufferNode;
+          source.playbackRate.value = synth.metronome.get('tempo') / bufferModel.get('tempo') * source.playbackRate.value;
           bufferNode.source = source;  // bad idea?
           source.connect(synth.masterGain.node);
           // console.log('current time', model.context.currentTime, 'time', time);
