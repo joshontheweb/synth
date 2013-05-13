@@ -3,6 +3,10 @@
 
   bs.views.OscillatorView = Backbone.View.extend({
     initialize: function() {
+      this.detuneKnob = new bs.models.Knob({min: -1200, max: 1200});
+
+      this.listenTo(this.detuneKnob, 'change:value', this.handleDetuneInput);
+      
       this.listenTo(this.model, 'change:type', this.typeChange);
       this.listenTo(this.model, 'change:detune', this.detuneChange);
     },
@@ -11,15 +15,14 @@
 
     events: {
       'change .type': 'handleTypeInput',
-      'change .detune': 'handleDetuneInput'
     },
 
     handleTypeInput: function(e) {
       this.model.set({type: e.target.value});
     },
 
-    handleDetuneInput: function(e) {
-      this.model.set({detune: e.target.value});
+    handleDetuneInput: function(knob, detune) {
+      this.model.set({detune: detune});
     },
     
     typeChange: function(oscillator, type) {
@@ -28,7 +31,12 @@
 
     detuneChange: function(oscillator, detune) {
       this.$detuneReading.text(detune);
-      this.$detune.val(detune);
+      this.detuneKnob.set({value: detune});
+    },
+
+    renderKnobs: function() {
+      this.detuneKnobView = new bs.views.KnobView({model: this.detuneKnob});
+      this.$detune.html(this.detuneKnobView.render().el);
     },
 
     render: function() {
@@ -36,7 +44,10 @@
       this.$type = this.$('.type');
       this.$detuneReading = this.$('.detune-reading');
       this.$detune = this.$('.detune');
-      this.$type.val(this.model.get('type'))
+
+      this.renderKnobs();
+      
+      this.$type.val(this.model.get('type'));
       return this;
     }
   });

@@ -3,9 +3,13 @@
 
   bs.views.MetronomeView = Backbone.View.extend({
     initialize: function(options) {
+      this.tempoKnob = new bs.models.Knob({min: 20, max: 300, value: this.model.get('tempo'), startDegree: -140});
+      
       this.listenTo(this.model, 'change:tempo', this.tempoChange);
       this.listenTo(this.model, 'change:state', this.stateChange);
       this.listenTo(this.model, 'beat', this.beat);
+
+      this.listenTo(this.tempoKnob, 'change:value', this.handleTempoInput);
     },
     
     template: _.template($('.metronome-template').html()),
@@ -19,8 +23,8 @@
       this.model.set({'state': e.target.checked});
     },
 
-    handleTempoInput: function(e) {
-      this.model.set({'tempo': e.target.value});
+    handleTempoInput: function(knob, tempo) {
+      this.model.set({'tempo': tempo});
     },
     
     tempoChange: function(model, tempo) {
@@ -42,12 +46,20 @@
       }
     },
 
+    renderKnobs: function() {
+      this.tempoKnobView = new bs.views.KnobView({model: this.tempoKnob});
+      this.$tempo.html(this.tempoKnobView.render().el);
+    },
+
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       this.$tempo = this.$('.tempo');
       this.$state = this.$('.state');
       this.$tempoReading = this.$('.tempo-reading');
       this.$beatIndicator = this.$('.beat-indicator');
+
+      this.renderKnobs();
+      
       return this;
     }
   });

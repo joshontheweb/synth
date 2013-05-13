@@ -26,7 +26,8 @@
       this.cvPatchDestinations = {
         'filter': this.filter.node.frequency,
         'filter resonance': this.filter.node.Q,
-        'delay': this.delay.node.delayTime,
+        'delay time': this.delay.node.delayTime,
+        'delay gain': this.delay.gainNode.gain,
         'osc1 pitch': this.oscillatorModule.osc1.node.frequency,
         'osc1 gain': this.oscillatorModule.gain1.node.gain,
         'osc2 pitch': this.oscillatorModule.osc2.node.frequency,
