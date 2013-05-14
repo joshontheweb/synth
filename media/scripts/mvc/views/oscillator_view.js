@@ -3,11 +3,13 @@
 
   bs.views.OscillatorView = Backbone.View.extend({
     initialize: function() {
+      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, startDegree: -140});
       this.detuneKnob = new bs.models.Knob({min: -1200, max: 1200});
 
       this.listenTo(this.detuneKnob, 'change:value', this.handleDetuneInput);
+      this.listenTo(this.waveformKnob, 'change:type', this.handleWaveformInput);
       
-      this.listenTo(this.model, 'change:type', this.typeChange);
+      this.listenTo(this.model, 'change:type', this.waveformChange);
       this.listenTo(this.model, 'change:detune', this.detuneChange);
     },
     
@@ -17,16 +19,16 @@
       'change .type': 'handleTypeInput',
     },
 
-    handleTypeInput: function(e) {
-      this.model.set({type: e.target.value});
+    handleWaveformInput: function(knob, waveform) {
+      this.model.set({type: waveform});
     },
 
     handleDetuneInput: function(knob, detune) {
       this.model.set({detune: detune});
     },
     
-    typeChange: function(oscillator, type) {
-      this.$type.val(type);
+    waveformChange: function(oscillator, waveform) {
+      this.waveformKnob.set({type: waveform})
     },
 
     detuneChange: function(oscillator, detune) {
@@ -35,19 +37,20 @@
     },
 
     renderKnobs: function() {
+      this.waveformKnobView = new bs.views.TypeKnobView({model: this.waveformKnob, className: 'knob-wrapper waveform-knob-wrapper'});
       this.detuneKnobView = new bs.views.KnobView({model: this.detuneKnob});
+      this.$waveform.html(this.waveformKnobView.render().el);
       this.$detune.html(this.detuneKnobView.render().el);
     },
 
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
-      this.$type = this.$('.type');
+      this.$waveform = this.$('.waveform');
       this.$detuneReading = this.$('.detune-reading');
       this.$detune = this.$('.detune');
 
       this.renderKnobs();
       
-      this.$type.val(this.model.get('type'));
       return this;
     }
   });

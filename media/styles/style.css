@@ -9,12 +9,14 @@ body {
 .cf:after { clear: both; }
 
 h3 { font-variant: small-caps; text-transform: lowercase; font-size: 20px; }
-h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
+h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
 .dashboard-top { overflow: hidden; clear: both; padding: 15px 15px 0 15px; }
 .dashboard { position: relative; overflow: hidden; padding: 0 15px 15px 15px; }
+.bottom { padding: 0 15px 15px 15px; }
 
 .column { height: 100%; float: left; margin-right: 15px; }
+
 
 .group {
   position: relative;
@@ -27,11 +29,14 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 .group h3:first-child {
   position: absolute;
   top: -34px;
-  left: 20px;
+  left: 15px;
   background: #fff;
   padding-left: 5px;
   padding-right: 5px;
 }
+
+.dashboard-top .group { height: 80px; margin-top: 0; }
+.dashboard .group { height: 265px }
 
 .block {
   float: left;
@@ -40,6 +45,7 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 
 .reading {
   font-size: 10px;
+  display: none;
 }
 
 #oscilloscope {
@@ -89,7 +95,6 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
   border: 1px solid #000;
   border-radius: 20px;
   background: #000;
-  margin: 0 auto 5px auto;
 }
 
 .knob .indicator {
@@ -134,4 +139,20 @@ h5 { margin: 5px 0; text-transform: lowercase; font-variant: small-caps }
 
 .delay .block:first-child {
   margin-right: 20px;
+}
+
+.filter-envelope input, .volume-envelope input {
+  margin-top: 7px;
+  margin-bottom: 25px;
+}
+
+.knob-wrapper {
+  height: 32px;
+  width: 32px;
+  padding: 20px;
+  background: url('images/notches.png') -1px 1px no-repeat
+}
+
+.waveform-knob-wrapper {
+  background: url('images/waveforms.png') no-repeat;
 }

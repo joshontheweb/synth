@@ -105,15 +105,8 @@
               </div>
             </div>
             <div class="column">
-              <div class="group">
-                <h3>CV Patches</h3>
-                <div class="cv-patches">
-                </div>
-              </div>
-            </div>
-            <div class="column">
               <div class="group cf">
-                <h3>Tempo</h3>
+                <h3>Metronome</h3>
                 <div class="metronome"></div>
               </div>
             </div>
@@ -129,6 +122,14 @@
                 <div class="filter"></div>
               </div>
             </div>
+
+            <div class="column">
+              <div class="group cf">
+                <h3>LFO</h3>
+                <div class="lfo"></div>
+              </div>
+            </div>
+
           </div>
 
           <div class="dashboard">
@@ -159,20 +160,20 @@
             </div>
             
             <div class="column">
-              
-
-              <div class="group cf">
-                <h3>LFO</h3>
-                <div class="lfo"></div>
+              <div class="group">
+                <h3>CV Patches</h3>
+                <div class="cv-patches">
+                </div>
               </div>
-              
             </div>
             
           </div>
           
 
-          <div id="keyboard"></div>
-          <div id="oscilloscope"></div>
+          <div class="bottom cf">
+            <div id="keyboard"></div>
+            <div id="oscilloscope"></div>
+          </div>
         </script>
         
         <script class="oscillator-module-template" type="text/html">
@@ -197,12 +198,8 @@
         </script>
         
         <script class="oscillator-template" type="text/html">
-          <select class="type" type="select">
-            <option value="sine">Sine</option>
-            <option value="square">Square</option>
-            <option value="sawtooth">Sawtooth</option>
-            <option value="triangle">Triangle</option>
-          </select>
+          <h5>Waveform</h5>
+          <div class="waveform"></div>
           <h5>Detune</h5>
           <div class='detune'></div>
           <!--<input class="detune" min="-1200" max="1200" step="1" value="<%= detune %>" type="range" />-->
@@ -210,14 +207,9 @@
         </script>
         
         <script class="lfo-template" type="text/html">
-          <div>
+          <div class="block">
             <h5>Waveform</h5>
-            <select class="type" type="select">
-              <option value="sine">Sine</option>
-              <option value="square">Square</option>
-              <option value="sawtooth">Sawtooth</option>
-              <option value="triangle">Triangle</option>
-            </select>
+            <div class="waveform"></div>
           </div>
           <div class="block frequency-block">
             <h5>Freq</h5>
@@ -229,8 +221,10 @@
             <div class="gain"></div>
             <div class="reading gain-reading"><%= gain %></div>
           </div>
-          <h5>Tempo Sync</h5>
-          <input type="checkbox" class="tempo-sync" />
+          <div class="block">
+            <h5>Tempo Sync</h5>
+            <input type="checkbox" class="tempo-sync" />
+          </div>
         </script>
         
         
@@ -307,6 +301,7 @@
         
         <script class="metronome-template" type="text/html">
           <div class="block">
+            <h5>Tempo</h5>
             <div class="tempo"></div>
             <span class="reading tempo-reading"><%= tempo %></span>
           </div>
@@ -395,6 +390,7 @@
 		<script src="/media/scripts/mvc/models/patch.js"></script>
 		<script src="/media/scripts/mvc/models/cv_patch_module.js"></script>
 		<script src="/media/scripts/mvc/models/knob.js"></script>
+		<script src="/media/scripts/mvc/models/type_knob.js"></script>
 
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>
@@ -418,6 +414,8 @@
 		<script src="/media/scripts/mvc/views/patches_view.js"></script>
 		<script src="/media/scripts/mvc/views/cv_patch_module_view.js"></script>
 		<script src="/media/scripts/mvc/views/knob_view.js"></script>
+		<script src="/media/scripts/mvc/views/type_knob_view.js"></script>
+
 
         <!-- init -->
 		<script src="/media/scripts/init.js"></script>
