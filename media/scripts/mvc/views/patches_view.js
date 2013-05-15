@@ -3,6 +3,7 @@
 
   bs.views.PatchesView = Backbone.View.extend({
     initialize: function() {
+      _.bindAll(this);
       this.listenTo(this.collection, 'add', this.insertPatch);
     },
     
@@ -11,22 +12,30 @@
     patchTemplate: _.template($('.patch-template').html()),
 
     events: {
-      'click .save-patch': 'savePatch',
       'change .patches': 'loadPatch'
     },
 
     insertPatch: function(patch) {
       this.$patches.append(this.patchTemplate(patch.toJSON()));
+      this.$patches.val(patch.id);
     },
 
-    savePatch: function(e) {
-      e.preventDefault();
-      synth.savePatch();
+    savePatchCallback: function(name) {
+      this.savePatchPopupView.exit();
+      this.savePatch(name);
+    },
+
+    savePatch: function(name) {
+      synth.savePatch(name);
     },
 
     loadPatch: function(e) {
       var patch = this.collection.get(e.target.value);
       synth.loadPatch(patch.get('parameters'));
+    },
+
+    initSavePatchPopup: function() {
+      this.savePatchPopupView = new bs.views.SavePatchPopupView({trigger: this.$('.save-patch'), callback: this.savePatchCallback});
     },
 
     render: function() {
@@ -37,6 +46,8 @@
       this.collection.each(function(patch) {
         view.insertPatch(patch);
       });
+
+      this.initSavePatchPopup();
       
       return this;
     }

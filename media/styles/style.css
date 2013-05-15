@@ -8,12 +8,37 @@ body {
 .cf:before, .cf:after { content: ""; display: table; }
 .cf:after { clear: both; }
 
+a { 
+  text-decoration: none; 
+  background: #000;
+  color: #fff;
+  padding: 5px 10px;
+  font-variant: small-caps; 
+  text-transform: lowercase; 
+  font-size: 15px;
+}
+
 h3 { font-variant: small-caps; text-transform: lowercase; font-size: 20px; }
 h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
+.popup {
+  position: absolute;
+  top: 300px;
+  left: 770px;
+  margin-left: -300px;
+  border: 1px solid #000;
+  padding: 15px;
+  background: #fff;
+  border-radius: 5px;
+}
+
+.patch-name {
+  padding: 5px;
+}
+
 .dashboard-top { overflow: hidden; clear: both; padding: 15px 15px 0 15px; }
 .dashboard { position: relative; overflow: hidden; padding: 0 15px 15px 15px; }
-.bottom { padding: 0 15px 15px 15px; }
+.bottom { padding: 0 15px 15px 15px; position: relative; }
 
 .column { height: 100%; float: left; margin-right: 15px; }
 
@@ -83,6 +108,11 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 .buffer .waveform { position: absolute; left: 50%; height: 50px; }
 .buffer .waveform svg { position: absolute; left: 0; top: 0; }
 
+.save-patch {
+  display: block;
+  margin-top: 18px;
+}
+
 .cv-patches-list {
   list-style-type: none;
   padding: 0;
@@ -109,6 +139,16 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   -khtml-user-select: none;
   -webkit-user-select: none;
   user-select: none;
+}
+
+/* in order to proctect the keyboard from unwanted mouseup events */
+.unselectable .bottom:after {
+  content: "";
+/*  background: yellow;*/
+  position: absolute;
+  height: 150px;
+  width: 600px;
+  
 }
 
 .frequency-block {

@@ -99,7 +99,7 @@
 		<script class="synth-template" type="text/html">
           <div class="dashboard-top">
             <div class="column">
-              <div class="group">
+              <div class="group patch-presets-group">
                 <h3>Patch Presets</h3>
                 <div class="patches"></div>
               </div>
@@ -327,11 +327,11 @@
           <h5>Patches</h5>
           <select class="patches" type="select">
           </select>
-          <a href="#" class="save-patch">Save Patch</a>
+          <a href="#" class="save-patch">Save Patch as Preset</a>
         </script>
 
         <script class="patch-template" type="text/html">
-          <option value="<%= _id %>">Patch <%= id %></option>
+          <option value="<%= _id %>"><%= name %></option>
         </script>
 
         <script class="cv-patch-template" type="text/html">
@@ -351,6 +351,11 @@
           <div class="knob">
             <div class="indicator"></div>
           </div>
+        </script>
+
+        <script class="save-patch-popup-template" type="text/html">
+          <input type="text" class="patch-name" placeholder="name your patch" />
+          <a href="#" class="save">Save</a>
         </script>
         
         <!-- libs -->
@@ -397,6 +402,7 @@
 		<script src="/media/scripts/mvc/collections/cv_patches.js"></script>
         
         <!-- views -->
+		<script src="/media/scripts/mvc/views/popup_view.js"></script>
 		<script src="/media/scripts/mvc/views/synth_view.js"></script>
 		<script src="/media/scripts/mvc/views/oscillator_view.js"></script>
 		<script src="/media/scripts/mvc/views/gain_view.js"></script>
@@ -415,6 +421,8 @@
 		<script src="/media/scripts/mvc/views/cv_patch_module_view.js"></script>
 		<script src="/media/scripts/mvc/views/knob_view.js"></script>
 		<script src="/media/scripts/mvc/views/type_knob_view.js"></script>
+		<script src="/media/scripts/mvc/views/save_patch_popup_view.js"></script>
+        
 
 
         <!-- init -->

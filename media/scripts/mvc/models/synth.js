@@ -56,7 +56,7 @@
       
     },
 
-    savePatch: function() {
+    savePatch: function(name) {
       var jsonStr = JSON.stringify({
         filter: this.filter.toJSON(),
         oscillatorModule: this.oscillatorModule.toJSON(),
@@ -72,7 +72,7 @@
         cvPatchModule: this.cvPatchModule.toJSON()
       });
       
-      this.patches.create({id: this.patches.length, parameters: JSON.parse(jsonStr)}, {wait: true});
+      this.patches.create({name: name, parameters: JSON.parse(jsonStr)}, {wait: true});
     },
 
     loadPatch: function(parameters) {

@@ -5,7 +5,7 @@
     initialize: function() {
       this.frequencyKnob = new bs.models.Knob({min: 0, max: 40, startDegree: -140});
       this.gainKnob = new bs.models.Knob({min: 0, max: this.model.get('maxGain'), value: this.model.get('gain'), decimalPlace: 100, startDegree: -140});
-      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, startDegree: -140});
+      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, type: this.model.get('type'), startDegree: -140});
       
       this.listenTo(this.model, 'change:type', this.waveformChange);
       this.listenTo(this.model, 'change:frequency', this.frequencyChange);
@@ -77,7 +77,7 @@
       this.$gain.html(this.gainKnobView.render().el);
       this.$waveform.html(this.waveformKnobView.render().el);
 
-      this.waveformChange(this.model, this.model.get('type'));
+      // this.waveformChange(this.model, this.model.get('type'));
     },
 
     render: function() {

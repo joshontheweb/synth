@@ -3,7 +3,7 @@
 
   bs.views.OscillatorView = Backbone.View.extend({
     initialize: function() {
-      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, startDegree: -140});
+      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, type: this.model.get('type'), startDegree: -140});
       this.detuneKnob = new bs.models.Knob({min: -1200, max: 1200});
 
       this.listenTo(this.detuneKnob, 'change:value', this.handleDetuneInput);
