@@ -16,9 +16,10 @@ a {
   font-variant: small-caps; 
   text-transform: lowercase; 
   font-size: 15px;
+  line-height: 14px;
 }
 
-h3 { font-variant: small-caps; text-transform: lowercase; font-size: 20px; }
+h3 { font-variant: small-caps; text-transform: lowercase; font-size: 20px; line-height: 20px; }
 h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
 .popup {
@@ -74,9 +75,11 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 }
 
 #oscilloscope {
-  width: 400px;
-  height: 200px;
+  width: 550px;
+  height: 150px;
+  background: #222;
   float: left;
+  margin-left: 25px;
 }
 
 #keyboard {
@@ -88,16 +91,30 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   width: 100%;
   overflow: hidden;
   position: relative;
+  background: #222;
 }
 
-.buffer:after {
+.buffer:before {
     content:"";
     position: absolute;
     z-index: -1;
     top: 0;
     bottom: 0;
     left: 50%;
-    border-left: 1px solid #444; /*change these values to suit your liking*/
+    border-left: 1px solid #fff; /*change these values to suit your liking*/
+    z-index: 100;
+}
+
+.buffer .delete {
+  display: none;
+}
+
+.buffer:hover .delete {
+  display: block;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 100;
 }
 
 .metronome .beat-indicator {
@@ -182,8 +199,8 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 }
 
 .filter-envelope input, .volume-envelope input {
-  margin-top: 7px;
-  margin-bottom: 25px;
+  margin-top: 15px;
+  margin-bottom: 30px;
 }
 
 .knob-wrapper {
@@ -196,3 +213,33 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 .waveform-knob-wrapper {
   background: url('images/waveforms.png') no-repeat;
 }
+
+input[type=range] {
+    -webkit-appearance: none;
+    background-color: #555;
+    height: 3px;
+    border: 1px solid black;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+     -webkit-appearance: none;
+    background-color: #fff;
+    border: 5px solid #000;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    width: 11px;
+    height: 26px;
+}
+
+select {
+  -webkit-appearance: none;
+  border: 1px solid black;
+  background: #fff url('images/downarrow.png') right 6px top 5px no-repeat;
+  padding: 5px 25px 5px 5px;
+  font-variant: small-caps; 
+  text-transform: lowercase; 
+  font-size: 14px;
+  line-height: 14px;
+  margin-left: 0;
+}
+

@@ -7,6 +7,7 @@
       this.gain = this.context.createGainNode();
       this.buffers = new Backbone.Collection();
       this.buffers.model = bs.models.Buffer;
+      this.buffers.parentModel = this;
       this.metronome = attrs.metronome;
       this.sources = [];
       this.scheduled = [];

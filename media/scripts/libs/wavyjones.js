@@ -3,7 +3,7 @@ var WavyJones = function (context, elem) {
 
 	analyser.width = document.getElementById(elem).offsetWidth;
 	analyser.height = document.getElementById(elem).offsetHeight;
-	analyser.lineColor = 'yellow';
+	analyser.lineColor = '#70db49';
 	analyser.lineThickness = 5;
 
     var paper = Raphael(elem, analyser.width, analyser.height),
@@ -11,7 +11,7 @@ var WavyJones = function (context, elem) {
         noDataPoints = 10,
 		freqData = new Uint8Array(analyser.frequencyBinCount);
 
-    oscLine.attr({stroke: analyser.lineColor, 'stroke-width': analyser.lineThickness});
+    oscLine.attr({stroke: analyser.lineColor, 'stroke-width': analyser.lineThickness, 'glow': 'blue'});
 
     var drawLine = function () {
         analyser.getByteTimeDomainData(freqData);

@@ -12,10 +12,12 @@
     template: _.template($('.cv-patch-template').html()),
     
     handleSourceInput: function(e) {
+      this.$sources.blur();
       this.model.set({source: e.target.value});
     },
 
     handleDestinationInput: function(e) {
+      this.$destinations.blur();
       this.model.set({destination: e.target.value});
     },
 

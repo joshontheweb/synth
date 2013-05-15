@@ -30,6 +30,7 @@
     },
 
     loadPatch: function(e) {
+      this.$patches.blur();
       var patch = this.collection.get(e.target.value);
       synth.loadPatch(patch.get('parameters'));
     },

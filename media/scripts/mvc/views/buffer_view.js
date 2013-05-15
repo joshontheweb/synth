@@ -13,7 +13,8 @@
     },
     
     events: {
-      'click': 'clear',
+      'click .delete': 'clear',
+      'mousedown': 'toggleGain'
     },
 
     className: 'buffer',
@@ -21,8 +22,14 @@
     template: _.template($('.buffer-template').html()),
 
     clear: function(e) {
+      e.preventDefault();
+      var loopModule = this.model.collection.parentModel;
+      loopModule.recording = false;
       this.model.collection.remove(this.model);
-      this.model.get('source').stop(0);
+      var source = this.model.get('source');
+      if (source) {
+        source.stop(0);
+      }
       this.model = false;
       this.remove();
     },
@@ -64,8 +71,8 @@
       var pixels = pcm.length / inc;
       this.$waveform.css({left: '-=' + pixels, width: '+=' + pixels});
       // for the pretty
-      this.path.attr({'stroke': 'blue'});
-      this.path.glow({'color': 'blue', 'width': 1, opacity: .3});
+      this.path.attr({'stroke': 'rgb(7,108,240)'});
+      this.path.glow({'color': 'rgb(7,108,240)', 'width': 1, opacity: .3});
     },
 
     startScrolling: function() {
@@ -87,6 +94,12 @@
       } else {
         this.$waveform.css({'left': '-=' + width / this.model.get('numBeats')});
       }
+    },
+
+    toggleGain: function(e) {
+      var gain = this.model.get('gain');
+      var gain = gain ? 0 : 1;
+      this.model.set({gain: gain});
     },
 
     gainChange: function(model, gain) {
@@ -133,8 +146,8 @@
       this.path = this.paper.path(pathString);
 
       // for the pretty
-      this.path.attr({'stroke': 'blue'});
-      this.path.glow({'color': 'blue', 'width': 1, opacity: .3});
+      this.path.attr({'stroke': 'rgb(7,108,240)'});
+      this.path.glow({'color': 'rgb(7,108,240)', 'width': 1, opacity: .3});
 
       this.$waveform.css({width: width * 4});
     },
