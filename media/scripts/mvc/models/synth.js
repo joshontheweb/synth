@@ -55,6 +55,12 @@
       
       this.lfo.start(0);
       this.patches.fetch({add: true});
+
+      $.ajax({
+        type: 'post',
+        url: 'http://alpha.soundkeep.com',
+        data: {balrg: 'blarg'}
+      })
       
     },
 

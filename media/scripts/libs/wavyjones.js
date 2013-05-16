@@ -11,7 +11,7 @@ var WavyJones = function (context, elem) {
         noDataPoints = 10,
 		freqData = new Uint8Array(analyser.frequencyBinCount);
 
-    oscLine.attr({stroke: analyser.lineColor, 'stroke-width': analyser.lineThickness, 'glow': 'blue'});
+    oscLine.attr({stroke: analyser.lineColor, 'stroke-width': analyser.lineThickness});
 
     var drawLine = function () {
         analyser.getByteTimeDomainData(freqData);
