@@ -18,6 +18,7 @@
       this.masterGain = new bs.models.Gain({gain: .5}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
+
       // setup cv patches
       this.cvPatchSources = {
         'lfo': this.lfo
@@ -38,6 +39,7 @@
       };
 
       this.cvPatchModule = new bs.models.CVPatchModule({}, {patchSources: this.cvPatchSources, patchDestinations: this.cvPatchDestinations});
+
       
       // route node path
       this.oscillatorModule.connect(this.volumeEnvelope.node);

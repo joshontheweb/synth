@@ -17,6 +17,31 @@
       _.bindAll(this);
     },
 
+    startMicrophone: function() {
+      var model = this;
+      if (this.microphone) {
+        model.micGain.connect(model.gain);
+        model.micGain.connect(synth.oscilloscope);
+        model.micOn = true;
+      } else {
+        navigator.webkitGetUserMedia({audio: true}, function(stream) { 
+          model.microphone = synth.context.createMediaStreamSource(stream);
+          model.micGain = model.context.createGainNode();
+          model.micGain.value = 20;
+          model.microphone.connect(model.micGain);
+          model.micGain.connect(model.gain);
+          model.micGain.connect(synth.oscilloscope);
+          model.micOn = true;
+        });
+      }
+      
+    },
+
+    stopMicrophone: function() {
+      this.micGain.disconnect();
+      this.micOn = false;
+    },
+
     beat: function(beat) {
       var model = this;
       _.each(this.scheduled, function(ev) {

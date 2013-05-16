@@ -12,6 +12,10 @@
       this.listenTo(this.model.buffers, 'remove', this.unscheduleEvent);
     },
 
+    events: {
+      'click .microphone': 'toggleMicrophone'
+    },
+
     template: _.template($('.loop-module-template').html()),
 
     handleKeydown: function(e) {
@@ -59,7 +63,18 @@
       } 
     },
 
+    toggleMicrophone: function() {
+      if (this.model.micOn) {
+        this.model.stopMicrophone();
+        this.$microphone.removeClass('active');
+      } else {
+        this.model.startMicrophone();    
+        this.$microphone.addClass('active');
+      }
+    },
+
     insertBuffer: function(buffer) {
+      this.$info.empty();
       var bufferView = new bs.views.BufferView({model: buffer});
       this.$el.append(bufferView.render().el);
       bufferView.readyToDraw = true;
@@ -76,6 +91,8 @@
     
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
+      this.$info = this.$('.info');
+      this.$microphone = this.$('.microphone');
       return this;
     }
   });

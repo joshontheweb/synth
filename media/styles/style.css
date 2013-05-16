@@ -107,14 +107,18 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
 .buffer .delete {
   display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 100;
 }
 
 .buffer:hover .delete {
   display: block;
-  position: absolute;
-  top: 0;
-  right: 0;
-  z-index: 100;
+}
+
+.buffer .delete:hover {
+  display: block;
 }
 
 .metronome .beat-indicator {
@@ -243,3 +247,26 @@ select {
   margin-left: 0;
 }
 
+.loop-module {
+  height: 100%;
+  overflow: scroll;
+}
+
+.loop-module .microphone {
+  position: absolute;
+  height: 16px;
+  width: 16px;
+  top: 5px;
+  right: 5px;
+  background: url('images/mic.png');
+  opacity: .5;
+  padding: 0;
+}
+
+.loop-module .microphone.active {
+  opacity: 1;
+}
+
+.loop-module-group {
+  width: 224px;
+}

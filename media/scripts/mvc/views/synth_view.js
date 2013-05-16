@@ -43,8 +43,8 @@
     },
 
     renderOscilloscope: function() {
-      this.oscilloscope = new WavyJones(this.model.context, 'oscilloscope');
-      this.model.compressor.connect(this.oscilloscope);
+      this.model.oscilloscope = new WavyJones(this.model.context, 'oscilloscope');
+      this.model.compressor.connect(this.model.oscilloscope);
     },
 
     renderVolumeEnvelope: function() {
