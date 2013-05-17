@@ -3,8 +3,8 @@
 
   bs.views.FilterView = Backbone.View.extend({
     initialize: function() {
-      this.frequencyKnob = new bs.models.Knob({min: 0, max: 20000, value: 20000, startDegree: -140});
-      this.resonanceKnob = new bs.models.Knob({min: 0, max: 40, startDegree: -140});
+      this.frequencyKnob = this.model.frequencyKnob = new bs.models.Knob({min: 0, max: 20000, value: 20000, startDegree: -140});
+      this.resonanceKnob =  this.model.resonanceKnob = new bs.models.Knob({min: 0, max: 40, startDegree: -140});
       
       this.listenTo(this.model, 'change:frequency', this.frequencyChange);
       this.listenTo(this.model, 'change:resonance', this.resonanceChange);

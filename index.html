@@ -302,10 +302,10 @@
           <div class="block">
             <h5>Tempo</h5>
             <div class="tempo"></div>
-            <span class="reading tempo-reading"><%= tempo %></span>
           </div>
           <div class="block">
             <div class="beat-indicator"></div>
+            <div class="reading tempo-reading"><%= tempo %></div>
             <div class="on-off">
               on: <input type="checkbox" class="state" value="1" <% if (state) { %>checked<% } %>/>
             </div>
@@ -379,6 +379,7 @@
 		<script src="/media/scripts/libs/backbone.localstorage.js"></script>
 		<script src="/media/scripts/libs/wavyjones.js"></script>
 		<script src="/media/scripts/libs/recorder.js"></script>
+		<script src="/media/scripts/libs/webmidiapishim.js"></script>
 
         <!-- config -->
 		<script src="/media/scripts/config.js"></script>

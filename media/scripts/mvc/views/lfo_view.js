@@ -3,9 +3,9 @@
 
   bs.views.LfoView = Backbone.View.extend({
     initialize: function() {
-      this.frequencyKnob = new bs.models.Knob({min: 0, max: 40, startDegree: -140});
-      this.gainKnob = new bs.models.Knob({min: 0, max: this.model.get('maxGain'), value: this.model.get('gain'), decimalPlace: 100, startDegree: -140});
-      this.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, type: this.model.get('type'), startDegree: -140});
+      this.frequencyKnob = this.model.frequencyKnob = new bs.models.Knob({min: 0, max: 40, startDegree: -140});
+      this.gainKnob = this.model.gainKnob = new bs.models.Knob({min: 0, max: this.model.get('maxGain'), value: this.model.get('gain'), decimalPlace: 100, startDegree: -140});
+      this.waveformKnob = this.model.waveformKnob = new bs.models.TypeKnob({min: 0, max: 280, type: this.model.get('type'), startDegree: -140});
       
       this.listenTo(this.model, 'change:type', this.waveformChange);
       this.listenTo(this.model, 'change:frequency', this.frequencyChange);

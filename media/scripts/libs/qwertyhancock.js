@@ -204,16 +204,16 @@
             };
         }
 
-        var keyboardDown = function (key) {
-           if (key.keyCode in keysDown) {
+        var keyboardDown = function (note) {
+           if (note in keysDown) {
                return;
            }
 
-           keysDown[key.keyCode] = true;
+           keysDown[note] = true;
 
            for (var i = 0; i < raphKeys.length; i++) {
-               if ((typeof keyToKey[key.keyCode] !== 'undefined') && (typeof raphKeys[i] !== 'undefined')) {
-                   var keyPressed = keyToKey[key.keyCode].replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString());
+               if ((typeof note !== 'undefined') && (typeof raphKeys[i] !== 'undefined')) {
+                   var keyPressed = note.replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString()).replace('U', (parseInt(qwertyOctave, 10) + 2).toString());
                    if (raphKeys[i].attrs.title === keyPressed) {
                        raphKeys[i].attr({fill: hoverColour});
                        keyDownCallback(raphKeys[i].attrs.title, getFrequency(raphKeys[i].attrs.title));
@@ -222,8 +222,8 @@
            }
 
            for (i = 0; i < raphSharpKeys.length; i++) {
-               if ((typeof keyToKey[key.keyCode] !== 'undefined') && (typeof raphSharpKeys[i] !== 'undefined')) {
-                   keyPressed = keyToKey[key.keyCode].replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString());
+               if ((typeof note !== 'undefined') && (typeof raphSharpKeys[i] !== 'undefined')) {
+                   keyPressed = note.replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString()).replace('U', (parseInt(qwertyOctave, 10) + 2).toString());
                    if (raphSharpKeys[i].attrs.title === keyPressed) {
                        raphSharpKeys[i].attr({fill: hoverColour});
                        keyDownCallback(keyPressed, getFrequency(keyPressed));
@@ -232,11 +232,11 @@
            }
        };
 
-       var keyboardUp = function (key) {
-            delete keysDown[key.keyCode];
+       var keyboardUp = function (note) {
+            delete keysDown[note];
             for (var i = 0; i < raphKeys.length; i++) {
-               if ((typeof keyToKey[key.keyCode] !== 'undefined') && (typeof raphKeys[i] !== 'undefined')) {
-                   var keyPressed = keyToKey[key.keyCode].replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString());
+               if ((typeof note !== 'undefined') && (typeof raphKeys[i] !== 'undefined')) {
+                   var keyPressed = note.replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString()).replace('U', (parseInt(qwertyOctave, 10) + 2).toString());
                    if (raphKeys[i].attrs.title === keyPressed) {
                        raphKeys[i].attr({fill: whiteNotesColour});
                        keyUpCallback(raphKeys[i].attrs.title, getFrequency(raphKeys[i].attrs.title));
@@ -245,8 +245,8 @@
             }
 
             for (i = 0; i < raphSharpKeys.length; i++) {
-               if ((typeof keyToKey[key.keyCode] !== 'undefined') && (typeof raphSharpKeys[i] !== 'undefined')) {
-                   keyPressed = keyToKey[key.keyCode].replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString());
+               if ((typeof note !== 'undefined') && (typeof raphSharpKeys[i] !== 'undefined')) {
+                   keyPressed = note.replace('l', qwertyOctave).replace('u', (parseInt(qwertyOctave, 10) + 1).toString()).replace('U', (parseInt(qwertyOctave, 10) + 2).toString());
                    if (raphSharpKeys[i].attrs.title === keyPressed) {
                        raphSharpKeys[i].attr({fill: blackNotesColour});
                        keyUpCallback(keyPressed, getFrequency(keyPressed));
@@ -255,8 +255,58 @@
             }
         };
 
-       window.onkeydown = keyboardDown;
-       window.onkeyup = keyboardUp;
+        var handleKeydown =  function(e) {
+          var note = keyToKey[e.keyCode];
+          keyboardDown(note);
+        }
+
+        var handleKeyup = function(e) {
+          var note = keyToKey[e.keyCode];
+          keyboardUp(note);
+        }
+
+       window.onkeydown = handleKeydown;
+       window.onkeyup = handleKeyup;
+
+       var midiIn =  function(e) {
+         console.log('yay im in here', e);
+         var keyCode = e.data[1]
+
+        var keyToKey = {
+          48: 'Cl',
+          49: 'C#l',
+          50: 'Dl',
+          51: 'D#l',
+          52: 'El',
+          53: 'Fl',
+          54: 'F#l',
+          55: 'Gl',
+          56: 'G#l',
+          57: 'Al',
+          58: 'A#l',
+          59: 'Bl',
+          60: 'Cu',
+          61: 'C#u',
+          62: 'Du',
+          63: 'D#u',
+          64: 'Eu',
+          65: 'Fu',
+          66: 'F#u',
+          67: 'Gu',
+          68: 'G#u',
+          69: 'Au',
+          70: 'A#u',
+          71: 'Bu',
+          72: 'CU'
+        };
+        
+        if (e.data[0] == 144) {
+          keyboardDown(keyToKey[keyCode]);
+        } else if (e.data[0] == 128) {
+          keyboardUp(keyToKey[keyCode]);
+        }
+        
+       }
 
        var setKeyDownCallback = function (userCallback) {
            keyDownCallback = userCallback;
@@ -268,7 +318,8 @@
 
        return {
             keyDown: setKeyDownCallback,
-            keyUp: setKeyUpCallback
+            keyUp: setKeyUpCallback,
+            midiIn: midiIn
        };
     };
 

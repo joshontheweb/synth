@@ -78,6 +78,11 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   display: none;
 }
 
+.tempo-reading {
+  display: block;
+  font-size: 13px;
+}
+
 #oscilloscope {
   width: 550px;
   height: 150px;
@@ -285,3 +290,4 @@ select {
 .loop-module-group {
   width: 224px;
 }
+

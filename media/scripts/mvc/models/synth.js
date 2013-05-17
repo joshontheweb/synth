@@ -19,6 +19,7 @@
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
 
+
       // setup cv patches
       this.cvPatchSources = {
         'lfo': this.lfo

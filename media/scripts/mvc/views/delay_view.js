@@ -3,8 +3,8 @@
 
   bs.views.DelayView = Backbone.View.extend({
     initialize: function() {
-      this.timeKnob = new bs.models.Knob({min: 0, max: 1, value: this.model.get('time'), decimalPlace: 100, startDegree: -140});
-      this.gainKnob = new bs.models.Knob({min: 0, max: 1, value: this.model.get('gain'), decimalPlace: 100, startDegree: -140});
+      this.timeKnob = this.model.timeKnob = new bs.models.Knob({min: 0, max: 1, value: this.model.get('time'), decimalPlace: 100, startDegree: -140});
+      this.gainKnob = this.model.gainKnob = new bs.models.Knob({min: 0, max: 1, value: this.model.get('gain'), decimalPlace: 100, startDegree: -140});
 
       this.listenTo(this.model, 'change:time', this.timeChange);
       this.listenTo(this.model, 'change:gain', this.gainChange);

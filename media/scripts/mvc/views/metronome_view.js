@@ -3,7 +3,7 @@
 
   bs.views.MetronomeView = Backbone.View.extend({
     initialize: function(options) {
-      this.tempoKnob = new bs.models.Knob({min: 20, max: 300, value: this.model.get('tempo'), startDegree: -140});
+      this.tempoKnob = this.model.tempoKnob = new bs.models.Knob({min: 20, max: 300, value: this.model.get('tempo'), startDegree: -140});
       
       this.listenTo(this.model, 'change:tempo', this.tempoChange);
       this.listenTo(this.model, 'change:state', this.stateChange);
