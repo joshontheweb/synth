@@ -283,13 +283,10 @@
             var max = knob.get('max');
             var decimal = knob.get('decimalPlace');
 
-            if (min >= 0) {
-              var range = max - min;
-            } else {
-              var range = max + Math.abs(min);
-            }
+            var range = Math.abs(max - min);
       
             var value = (valDiff / valRange) * range;
+            value += min;
             console.log('valdiff', valDiff, 'valRange', valRange, 'range', range, 'value', value, 'startVal', startVal);
             value += new Number(startVal);
 
