@@ -137,6 +137,9 @@
       bufferModel.trigger('doneRecording');
       this.scheduled.push(loopTrigger);
       loopTrigger.id = bufferModel.cid;
+      model.recorder.exportWAV(function(wav) {
+        bufferModel.set({'wav': wav});
+      });
     },
 
     stopRecording: function() {

@@ -33,6 +33,10 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   border-radius: 5px;
 }
 
+.popup h5 {
+  margin-bottom: 10px;
+}
+
 .patch-name {
   padding: 5px;
 }
@@ -105,6 +109,18 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
     z-index: 100;
 }
 
+.buffer .upload {
+  display: none;
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
+  height: 16px;
+  width: 16px;
+  background: url('images/share.png');
+  padding: 0;
+  z-index: 100;
+}
+
 .buffer .delete {
   display: none;
   position: absolute;
@@ -113,11 +129,10 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   z-index: 100;
 }
 
-.buffer:hover .delete {
+.buffer:hover .upload {
   display: block;
 }
-
-.buffer .delete:hover {
+.buffer:hover .delete {
   display: block;
 }
 

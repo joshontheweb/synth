@@ -36,7 +36,7 @@ var WavyJones = function (context, elem) {
         oscLine.attr('stroke-width', analyser.lineThickness);
         oscLine.attr('path', graphStr);
 
-        setTimeout(drawLine, 5);
+        setTimeout(drawLine, 30);
     };
 
     drawLine();

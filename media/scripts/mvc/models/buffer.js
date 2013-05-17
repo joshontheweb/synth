@@ -16,6 +16,32 @@
       'gain': 1
     },
 
+    uploadBuffer: function(name) {
+      var formData = new FormData();
+
+      formData.append('projectID', null);         
+      formData.append('track', JSON.stringify(new bs.models.Loop({bpm: this.get('tempo')}).toJSON()));         
+      formData.append( name + '.wav', this.get('wav'), name + '.wav');
+      
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://localhost:1337/upload', true);
+      xhr.onload = function(e) {
+        console.log('hooray', e);
+      };
+      
+      // Listen to the upload progress.
+      // var progressBar = document.querySelector('progress');
+      xhr.upload.onprogress = function(e) {
+        if (e.lengthComputable) {
+          console.log('progress', e);
+          // progressBar.value = (e.loaded / e.total) * 100;
+          // progressBar.textContent = progressBar.value; // Fallback for unsupported browsers.
+        }
+      }
+      
+      xhr.send(formData);    
+    },
+
     bufferNodeChange: function(model, bufferNode) {
       this.bufferNode = bufferNode;
     },

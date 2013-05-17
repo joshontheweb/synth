@@ -227,7 +227,6 @@
           </div>
         </script>
         
-        
         <script class="gain-node-template" type="text/html">
           <div class="gain"></div>
           <span class="reading gain-reading"><%= gain %></span>
@@ -324,6 +323,7 @@
         
         <script class="buffer-template" type="text/html">
           <a href="#" class="delete">x</a>
+          <a href="#" class="upload" title="Open Source This Loop"></a>
           <div class="waveform"></div>
         </script>
 
@@ -359,6 +359,12 @@
 
         <script class="save-patch-popup-template" type="text/html">
           <input type="text" class="patch-name" placeholder="name your patch" />
+          <a href="#" class="save">Save</a>
+        </script>
+        
+        <script class="save-loop-popup-template" type="text/html">
+          <h5>Name your loop to open source it</h5>
+          <input type="text" class="loop-name" placeholder="name your loop" />
           <a href="#" class="save">Save</a>
         </script>
         
@@ -400,6 +406,7 @@
 		<script src="/media/scripts/mvc/models/cv_patch_module.js"></script>
 		<script src="/media/scripts/mvc/models/knob.js"></script>
 		<script src="/media/scripts/mvc/models/type_knob.js"></script>
+		<script src="/media/scripts/mvc/models/loop.js"></script>
 
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>
@@ -426,6 +433,7 @@
 		<script src="/media/scripts/mvc/views/knob_view.js"></script>
 		<script src="/media/scripts/mvc/views/type_knob_view.js"></script>
 		<script src="/media/scripts/mvc/views/save_patch_popup_view.js"></script>
+		<script src="/media/scripts/mvc/views/save_loop_popup_view.js"></script>
         
 
 

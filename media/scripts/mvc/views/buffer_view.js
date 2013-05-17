@@ -3,6 +3,7 @@
 
   bs.views.BufferView = Backbone.View.extend({
     initialize: function() {
+      _.bindAll(this);
       // this.listenTo(synth.metronome, 'beat', this.scrollWaveform);
       this.listenTo(this.model, 'change:gain', this.gainChange);
       this.listenTo(this.model, 'draw', this.draw);
@@ -14,12 +15,17 @@
     
     events: {
       'click .delete': 'clear',
-      'mousedown': 'toggleGain'
+      'mousedown': 'toggleGain',
     },
 
     className: 'buffer',
     
     template: _.template($('.buffer-template').html()),
+
+    uploadBuffer: function(name) {
+      this.model.uploadBuffer(name);
+      this.saveLoopPopupView.exit();
+    },
 
     clear: function(e) {
       e.preventDefault();
@@ -152,9 +158,16 @@
       this.$waveform.css({width: width * 4});
     },
 
+    initSaveLoopPopup: function() {
+      this.saveLoopPopupView = new bs.views.SaveLoopPopupView({trigger: this.$('.upload'), callback: this.uploadBuffer});
+    },
+
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       this.$waveform = this.$('.waveform');
+
+      this.initSaveLoopPopup();
+      
       return this;
     }
   });
