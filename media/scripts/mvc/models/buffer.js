@@ -24,7 +24,7 @@
       formData.append( name + '.wav', this.get('wav'), name + '.wav');
       
       var xhr = new XMLHttpRequest();
-      xhr.open('POST', 'http://localhost:1337/upload', true);
+      xhr.open('POST', 'http://alpha.soundkeep.com/upload', true);
       xhr.onload = function(e) {
         console.log('hooray', e);
       };
