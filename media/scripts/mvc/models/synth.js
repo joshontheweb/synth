@@ -9,7 +9,7 @@
       this.filter = new bs.models.Filter({type: 'lowpass'}, {context: this.context});
       this.oscillatorModule = new bs.models.OscillatorModule({}, {context: this.context});
       this.volumeEnvelope = new bs.models.VolumeEnvelope({}, {context: this.context});
-      this.filterEnvelope = new bs.models.FilterEnvelope({filter: this.filter}, {context: this.context});
+      this.filterEnvelope = new bs.models.FilterEnvelope({}, {context: this.context, filter: this.filter});
       this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({}, {context: this.context});
@@ -26,8 +26,8 @@
       };
       
       this.cvPatchDestinations = {
-        'filter': this.filter.node.frequency,
-        'filter resonance': this.filter.node.Q,
+        'filter': this.filter.postNode.frequency,
+        'filter resonance': this.filter.postNode.Q,
         'delay time': this.delay.node.delayTime,
         'delay gain': this.delay.gainNode.gain,
         'osc1 pitch': this.oscillatorModule.osc1.node.frequency,
@@ -44,10 +44,9 @@
       
       // route node path
       this.oscillatorModule.connect(this.volumeEnvelope.node);
-      this.volumeEnvelope.connect(this.filter.node);
-      this.filter.connect(this.filterEnvelope.filterNode);
-      this.filterEnvelope.connect(this.compressor.compressor);
-      this.filterEnvelope.connect(this.delay.node);
+      this.volumeEnvelope.connect(this.filter.preNode);
+      this.filter.connect(this.delay.node);
+      this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);
       this.compressor.connect(this.masterGain.node);
       this.metronome.connect(this.masterGain.node);

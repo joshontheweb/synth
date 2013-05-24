@@ -20,7 +20,7 @@
       var formData = new FormData();
 
       formData.append('projectID', null);         
-      formData.append('track', JSON.stringify(new bs.models.Loop({bpm: this.get('tempo')}).toJSON()));         
+      formData.append('track', JSON.stringify(new bs.models.Loop({bpm: this.get('tempo')}).toJSON()));
       formData.append( name + '.wav', this.get('wav'), name + '.wav');
       
       var xhr = new XMLHttpRequest();

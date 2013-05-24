@@ -4,7 +4,8 @@
   bs.models.FilterEnvelope = Backbone.Model.extend({
     initialize: function(attrs, options) {
       this.context = options.context;
-      this.filterNode = this.context.createBiquadFilter();
+      this.filterNode = options.filter.preNode;
+      // this.filterNode = this.context.createBiquadFilter();
     },
 
     defaults: {

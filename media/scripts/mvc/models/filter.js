@@ -4,10 +4,17 @@
   bs.models.Filter = Backbone.Model.extend({
     initialize: function(attrs, options) {
       this.context = options.context;
-      this.node = this.context.createBiquadFilter();
-      this.node.type = this.filterMap[attrs.type];
-      this.node.frequency.value = this.get('frequency');
-      this.node.frequency.q = this.get('quality');
+      this.preNode = this.context.createBiquadFilter();
+      this.preNode.type = this.filterMap[attrs.type];
+      this.preNode.frequency.value = this.get('frequency');
+      this.preNode.frequency.q = this.get('quality');
+
+      this.postNode = this.context.createBiquadFilter();
+      this.postNode.type = this.filterMap[attrs.type];
+      this.postNode.frequency.value = this.get('frequency');
+      this.postNode.frequency.q = this.get('quality');
+
+      this.preNode.connect(this.postNode);
 
       this.on('change:frequency', this.frequencyChange);
       this.on('change:resonance', this.resonanceChange);
@@ -25,15 +32,16 @@
     },
 
     frequencyChange: function(filter, freq) {
-      this.node.frequency.value = freq;
+      this.postNode.frequency.value = freq;
     },
     
     resonanceChange: function(filter, resonance) {
-      this.node.Q.value = resonance;
+      this.preNode.Q.value = resonance;
+      this.postNode.Q.value = resonance;
     },
 
     connect: function(node) {
-      this.node.connect(node);
+      this.postNode.connect(node);
     }
     
   });

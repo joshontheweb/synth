@@ -10,7 +10,7 @@
 
     initKeyboard: function() {
       var view = this;
-      this.model.keyboard = qwertyHancock({id: 'keyboard'});
+      this.model.keyboard = qwertyHancock({id: 'keyboard', startNote: 'C3'});
       
       this.model.keyboard.keyDown(function(note, freq) {
         view.model.pressed += 1;
