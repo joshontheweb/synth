@@ -318,7 +318,7 @@
       this.renderMetronome();
       this.renderCVPatches();
 
-      this.initMidi();
+      // this.initMidi();
       
       return this;
     }
