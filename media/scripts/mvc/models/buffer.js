@@ -25,6 +25,7 @@
       
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'http://staging.soundkeep.com/upload', true);
+      xhr.withCredentials = true;
       xhr.onload = function(e) {
         console.log('hooray', e);
       };
