@@ -2,7 +2,7 @@
   'use strict';
 
   bs.collections.Patches = Backbone.Collection.extend({
-    localStorage: new Backbone.LocalStorage("patches"),
+    url: 'http://localhost:1337/synthpatches',
     model: bs.models.Patch
   });
 })();
