@@ -283,6 +283,13 @@ select {
   padding: 0;
 }
 
+.loop-module .record {
+  background: red;
+  position: absolute;
+  left: 25px;
+  bottom: 25px;
+}
+
 .loop-module .microphone.active {
   opacity: 1;
 }

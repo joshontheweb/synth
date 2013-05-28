@@ -13,18 +13,26 @@
     },
 
     events: {
-      'click .microphone': 'toggleMicrophone'
+      'click .microphone': 'toggleMicrophone',
+      'click .record': 'toggleRecord'
     },
 
     template: _.template($('.loop-module-template').html()),
 
+    toggleRecord: function(e) {
+      e.preventDefault();
+      if (this.model.recording) {
+        this.model.stopRecording();
+        this.$record.text('Record Loop');
+      } else {
+        this.model.startRecording();
+        this.$record.text('Stop Recording');
+      }
+    },
+
     handleKeydown: function(e) {
       if (e.keyCode == 192) { // ~
-        if (this.model.recording) {
-          this.model.stopRecording();
-        } else {
-          this.model.startRecording();
-        }
+        this.toggleRecord(e);
       }
 
       if (e.keyCode >= 49 && e.keyCode <= 58) {
@@ -76,7 +84,7 @@
     insertBuffer: function(buffer) {
       this.$info.empty();
       var bufferView = new bs.views.BufferView({model: buffer});
-      this.$el.append(bufferView.render().el);
+      this.$el.prepend(bufferView.render().el);
       bufferView.readyToDraw = true;
     },
 
@@ -92,6 +100,7 @@
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       this.$info = this.$('.info');
+      this.$record = this.$('.record');
       this.$microphone = this.$('.microphone');
       return this;
     }

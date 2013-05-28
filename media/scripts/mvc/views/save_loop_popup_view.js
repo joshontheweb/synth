@@ -10,7 +10,6 @@
     },
 
     handleKeypress: function(e) {
-      e.stopPropagation();
       if (e.keyCode == 13) { // enter
         this.saveLoop(e);
       } 

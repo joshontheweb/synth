@@ -82,7 +82,7 @@
             model.recorder.record(beat.time);
         }
       });
-      this.buffers.add(bufferModel);
+      this.buffers.add(bufferModel, {at: 0});
     },
 
     getBufferCallback: function(buffers, beat) {
