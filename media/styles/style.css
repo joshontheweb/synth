@@ -41,6 +41,10 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   padding: 5px;
 }
 
+.patches select.patches {
+  width: 100%;
+}
+
 .dashboard-top { overflow: hidden; clear: both; padding: 15px 15px 0 15px; }
 .dashboard { position: relative; overflow: hidden; padding: 0 15px 15px 15px; }
 .bottom { padding: 0 15px 15px 15px; position: relative; }
@@ -84,7 +88,7 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 }
 
 #oscilloscope {
-  width: 550px;
+  width: 575px;
   height: 150px;
   background: #222;
   float: left;
@@ -194,6 +198,10 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
 .frequency-block {
   margin-right: 10px;
+}
+
+.filter-frequency-block {
+  margin-right: 25px;
 }
 
 .metronome .beat-indicator {
