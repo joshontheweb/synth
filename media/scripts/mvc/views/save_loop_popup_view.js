@@ -35,6 +35,8 @@
 
     render: function() {
       this.$el.html(this.template());
+      this.$el.show();
+      this.delegateEvents();
       $('body').append(this.$el);
       this.$name = this.$('.loop-name');
       this.$name.focus();
