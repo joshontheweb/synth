@@ -10,15 +10,19 @@
       this.on('change:frequency', this.frequencyChange);
       this.on('change:detune', this.detuneChange);
       
-      this.node.type = this.get('type');
-      this.node.frequency.value = this.get('frequency');
-      this.node.detune = this.get('detune');
+      this.initOscillatorNode();
     },
 
     defaults: {
       'type': 'sawtooth',
       'frequency': 440,
       'detune': 0,
+    },
+
+    initOscillatorNode: function() {
+      this.node.type = this.get('type');
+      this.node.frequency.value = this.get('frequency');
+      this.node.detune = this.get('detune');
     },
 
     frequencyChange: function(model, freq) {

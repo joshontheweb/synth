@@ -10,7 +10,7 @@
 
     defaults: {
       'gain': 0,
-      'attack': 0,
+      'attack': .01,
       'decay': 0.2,
       'sustain': 0.8,
       'release': 0.2
@@ -20,19 +20,20 @@
       var now = this.context.currentTime;
 
       this.gainNode.gain.cancelScheduledValues(now);
-      this.gainNode.gain.setValueAtTime(0, now);
-      this.gainNode.gain.linearRampToValueAtTime(1, now + this.get('attack'));
+      this.gainNode.gain.setTargetAtTime(1, now, this.get('attack'));
+      // this.gainNode.gain.linearRampToValueAtTime(1, now + this.get('attack'));
         
       now += this.get('attack');
-      this.gainNode.gain.linearRampToValueAtTime(this.get('sustain'), now + this.get('decay'));
+      this.gainNode.gain.setTargetAtTime(this.get('sustain'), now, this.get('decay'));
+      // this.gainNode.gain.linearRampToValueAtTime(this.get('sustain'), now + this.get('decay'));
     },
 
     triggerRelease: function() {
       var now = this.context.currentTime;
       
-      // this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
       this.gainNode.gain.cancelScheduledValues(now);
-      this.gainNode.gain.linearRampToValueAtTime(0, now + this.get('release'));
+      this.gainNode.gain.setTargetAtTime(0, now, this.get('release'));
+      // this.gainNode.gain.linearRampToValueAtTime(0, now + this.get('release'));
     },
 
     connect: function(node) {
