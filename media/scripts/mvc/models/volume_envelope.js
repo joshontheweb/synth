@@ -21,11 +21,9 @@
 
       this.gainNode.gain.cancelScheduledValues(now);
       this.gainNode.gain.setTargetAtTime(1, now, this.get('attack'));
-      // this.gainNode.gain.linearRampToValueAtTime(1, now + this.get('attack'));
         
       now += this.get('attack');
       this.gainNode.gain.setTargetAtTime(this.get('sustain'), now, this.get('decay'));
-      // this.gainNode.gain.linearRampToValueAtTime(this.get('sustain'), now + this.get('decay'));
     },
 
     triggerRelease: function() {
@@ -33,7 +31,6 @@
       
       this.gainNode.gain.cancelScheduledValues(now);
       this.gainNode.gain.setTargetAtTime(0, now, this.get('release'));
-      // this.gainNode.gain.linearRampToValueAtTime(0, now + this.get('release'));
     },
 
     connect: function(node) {

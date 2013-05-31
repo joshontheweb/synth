@@ -9,7 +9,7 @@
     },
 
     defaults: {
-      'attack': 0,
+      'attack': .01,
       'decay': 0.2,
       'sustain': 20000,
       'release': 0.2
@@ -19,11 +19,10 @@
       var now = this.context.currentTime;
 
       this.filterNode.frequency.cancelScheduledValues(now);
-      this.filterNode.frequency.setValueAtTime(0, now);
-      this.filterNode.frequency.linearRampToValueAtTime(20000, now + this.get('attack'));
+      this.filterNode.frequency.setTargetAtTime(20000, now, this.get('attack'));
         
       now += this.get('attack');
-      this.filterNode.frequency.linearRampToValueAtTime(this.get('sustain'), now + this.get('decay'));
+      this.filterNode.frequency.setTargetAtTime(this.get('sustain'), now, this.get('decay'));
     },
 
     triggerRelease: function() {
@@ -31,7 +30,8 @@
       
       // this.gainNode.gain.setValueAtTime(this.gainNode.gain.value, now);
       this.filterNode.frequency.cancelScheduledValues(now);
-      this.filterNode.frequency.linearRampToValueAtTime(0, now + this.get('release'));
+      this.filterNode.frequency.setTargetAtTime(0, now, this.get('release'));
+      // this.filterNode.frequency.linearRampToValueAtTime(0, now + this.get('release'));
     },
 
     connect: function(node) {

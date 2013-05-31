@@ -44,8 +44,7 @@
       
       // route node path
       this.oscillatorModule.connect(this.volumeEnvelope.node);
-      // this.oscillatorModule.connect(this.compressor.compressor);
-      this.volumeEnvelope.connect(this.compressor.compressor);
+      this.volumeEnvelope.connect(this.filter.preNode);
       this.filter.connect(this.delay.node);
       this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);
