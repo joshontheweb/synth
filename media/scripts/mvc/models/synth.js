@@ -21,7 +21,10 @@
       // setup cv patches
       this.cvPatchSources = {
         'none': null,
-        'lfo': this.lfo
+        'lfo': this.lfo,
+        'osc1': this.oscillatorModule.gain1,
+        'osc2': this.oscillatorModule.gain2,
+        'osc3': this.oscillatorModule.gain3
       };
       
       this.cvPatchDestinations = {
@@ -30,12 +33,13 @@
         'filter resonance': this.filter.postNode.Q,
         'delay time': this.delay.node.delayTime,
         'delay gain': this.delay.gainNode.gain,
-        'osc1 pitch': this.oscillatorModule.osc1.node.frequency,
+        'osc1 frequency': this.oscillatorModule.osc1.node.frequency,
         'osc1 gain': this.oscillatorModule.gain1.node.gain,
-        'osc2 pitch': this.oscillatorModule.osc2.node.frequency,
+        'osc2 frequency': this.oscillatorModule.osc2.node.frequency,
         'osc2 gain': this.oscillatorModule.gain2.node.gain,
-        'osc3 pitch': this.oscillatorModule.osc3.node.frequency,
+        'osc3 frequency': this.oscillatorModule.osc3.node.frequency,
         'osc3 gain': this.oscillatorModule.gain3.node.gain,
+        'lfo': this.lfo.oscillatorNode.frequency,
         'master gain': this.masterGain.node.gain
       };
 

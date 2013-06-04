@@ -164,6 +164,11 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   margin: 0;
 }
 
+.add-cv-patch {
+  margin-top: 15px;
+  float: left;
+}
+
 .knob {
   width: 30px;
   height: 30px;

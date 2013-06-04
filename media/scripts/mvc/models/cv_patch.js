@@ -36,11 +36,17 @@
     setSource: function(source) {
       var prevSource = this.sources[this.previousAttributes().source];
       var source = this.sources[source];
+      var destination = this.destinations[this.get('destination')];
       this.gainNode.disconnect();
       this.gainNode = this.context.createGainNode();
       
       if (source) {
         source.connect(this.gainNode);
+      }
+
+      if (destination) {
+        this.gainNode.gain.value = (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2;
+        this.gainNode.connect(destination);
       }
     },
 

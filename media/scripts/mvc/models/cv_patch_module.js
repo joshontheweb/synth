@@ -8,7 +8,7 @@
       var cvPatches = attrs.cvPatches || [];
       
       this.cvPatches = new bs.collections.CVPatches(cvPatches, {context: this.context, patchSources: options.patchSources, patchDestinations: options.patchDestinations});
-      this.cvPatches.add([{outputIndex: 0}]);
+      this.cvPatches.add([{}]);
       
       this.on('change:cvPatches', this.cvPatchesChange);
     },

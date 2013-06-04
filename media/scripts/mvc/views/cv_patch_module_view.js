@@ -9,6 +9,15 @@
 
     template: _.template($('.cv-patches-template').html()),
 
+    events: {
+      'click .add-cv-patch': 'handleAddPatchClick'
+    },
+
+    handleAddPatchClick: function(e) {
+      e.preventDefault();
+      this.model.cvPatches.add({});
+    },
+
     insertPatch: function(patch) {
       var patchView = new bs.views.CVPatchView({model: patch});
       this.$patchesList.append(patchView.render().el);
