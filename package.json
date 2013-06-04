@@ -1,0 +1,19 @@
+{
+  "name": "synth",
+  "version": "0.0.0",
+  "description": "webaudio synthesizer",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/joshontheweb/synth.git"
+  },
+  "author": "joshontheweb",
+  "license": "BSD",
+  "dependencies": {
+    "mime": "~1.2.9"
+  }
+}

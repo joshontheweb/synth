@@ -17,7 +17,10 @@
 
     insertPatch: function(patch) {
       this.$patches.append(this.patchTemplate(patch.toJSON()));
-      this.$patches.val(patch.id);
+      
+      if (patch.get('name') == synth.get('patch')) {
+        this.$patches.val(patch.id);
+      }
     },
 
     savePatchCallback: function(name) {
@@ -26,6 +29,7 @@
     },
 
     savePatch: function(name) {
+      synth.set({patch: name});
       synth.savePatch(name);
     },
 
@@ -33,6 +37,7 @@
       this.$patches.blur();
       var patch = this.collection.get(e.target.value);
       synth.loadPatch(JSON.parse(patch.get('parameters')));
+      router.navigate('/' + patch.get('name').replace(' ', '-'));
     },
 
     initSavePatchPopup: function() {

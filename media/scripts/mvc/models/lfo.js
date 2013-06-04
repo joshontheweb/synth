@@ -13,11 +13,11 @@
       this.on('change:frequency', this.frequencyChange);
       this.on('change:detune', this.detuneChange);
       this.on('change:gain', this.gainChange);
-      this.on('change:maxGain', this.maxGainChange);
       
       this.oscillatorNode.type = this.get('type');
       this.oscillatorNode.frequency.value = this.get('frequency');
       this.oscillatorNode.detune = this.get('detune');
+      this.gainNode.gain.value = this.get('gain');
     },
 
     defaults: {
@@ -42,24 +42,19 @@
 
     gainChange: function(model, gain) {
       this.gainNode.gain.value = gain;
+      console.log('lfo gain', gain);
     },
     
-    maxGainChange: function(model, maxGain) {
-      var prev = this.previousAttributes();
-      var ratio = prev.gain / prev.maxGain;
-      this.set({'gain': maxGain * ratio});
-    },
-
     start: function(time) {
       this.oscillatorNode.start(time);
     },
 
-    connect: function(node) {
-      this.gainNode.connect(node);
+    connect: function(node, index) {
+      this.gainNode.connect(node, index);
     },
 
-    disconnect: function() {
-      this.gainNode.disconnect();
+    disconnect: function(index) {
+      this.gainNode.disconnect(index);
     }
   });
   

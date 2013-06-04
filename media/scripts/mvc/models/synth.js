@@ -18,14 +18,14 @@
       this.masterGain = new bs.models.Gain({gain: .5}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
-
-
       // setup cv patches
       this.cvPatchSources = {
+        'none': null,
         'lfo': this.lfo
       };
       
       this.cvPatchDestinations = {
+        'none': null,
         'filter': this.filter.postNode.frequency,
         'filter resonance': this.filter.postNode.Q,
         'delay time': this.delay.node.delayTime,
@@ -39,7 +39,7 @@
         'master gain': this.masterGain.node.gain
       };
 
-      this.cvPatchModule = new bs.models.CVPatchModule({}, {patchSources: this.cvPatchSources, patchDestinations: this.cvPatchDestinations});
+      this.cvPatchModule = new bs.models.CVPatchModule({}, {context: this.context, patchSources: this.cvPatchSources, patchDestinations: this.cvPatchDestinations});
 
       
       // route node path
@@ -54,8 +54,17 @@
       this.compressor.connect(this.loopModule.gain);
       
       this.lfo.start(0);
-      this.patches.fetch({add: true});
+      this.patches.fetch({add: true,
+        success: function(collection, res) {
+          var patch = collection.findWhere({name: synth.get('patch')});
+          synth.loadPatch(JSON.parse(patch.get('parameters')));
+        }
+      });
 
+    },
+
+    defaults: {
+      patch: 'warm'
     },
 
     savePatch: function(name) {
@@ -74,7 +83,12 @@
         cvPatchModule: this.cvPatchModule.toJSON()
       });
       
-      this.patches.create({name: name, parameters: JSON.parse(jsonStr)}, {wait: true});
+      this.patches.create({name: name, parameters: JSON.parse(jsonStr)}, {
+        wait: true,
+        success: function(patch) {
+          router.navigate(patch.get('name').replace(' ', '-'));
+        }
+      });
     },
 
     loadPatch: function(parameters) {

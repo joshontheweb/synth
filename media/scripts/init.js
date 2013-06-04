@@ -1,5 +1,4 @@
 (function() {
-  window.synth = new bs.models.Synth();
-  window.synthView = new bs.views.SynthView({model: window.synth, el: $('.main')});
-  window.synthView.render();
+  window.router = new bs.routers.Main();
+  Backbone.history.start({pushState: true});
 })();

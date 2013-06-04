@@ -7,14 +7,15 @@
       
       var cvPatches = attrs.cvPatches || [];
       
-      this.cvPatches = new bs.collections.CVPatches(cvPatches, {patchSources: options.patchSources, patchDestinations: options.patchDestinations});
-      this.cvPatches.add([{outputIndex: 1}]);
+      this.cvPatches = new bs.collections.CVPatches(cvPatches, {context: this.context, patchSources: options.patchSources, patchDestinations: options.patchDestinations});
+      this.cvPatches.add([{outputIndex: 0}]);
       
       this.on('change:cvPatches', this.cvPatchesChange);
     },
 
     cvPatchesChange: function(model, cvPatches) {
-      this.cvPatches.reset(cvPatches);
+      this.cvPatches.reset();
+      this.cvPatches.add(cvPatches);
     },
 
     toJSON: function() {
