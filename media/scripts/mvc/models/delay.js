@@ -36,8 +36,8 @@
     },
     
     connect: function(node) {
-      this.node.connect(node);
-      this.delay2Node.connect(node);
+      this.gainNode.connect(node);
+      this.gain2Node.connect(node);
     }
   });
 })();
