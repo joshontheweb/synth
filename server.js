@@ -28,5 +28,5 @@ var server = http.createServer(function(req, res) {
 });
 
 server.listen(8000);
-console.log('Listening on port: 8008');
+console.log('Listening on port: 8000');
 
