@@ -29,7 +29,7 @@
       
       this.cvPatchDestinations = {
         'none': null,
-        'filter': this.filter.postNode.frequency,
+        'filter': this.filter.modulationProcessor,
         'filter resonance': this.filter.postNode.Q,
         'delay time': this.delay.node.delayTime,
         'delay gain': this.delay.gainNode.gain,
