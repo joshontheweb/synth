@@ -50,6 +50,7 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 .bottom { padding: 0 15px 15px 15px; position: relative; }
 
 .column { height: 100%; float: left; margin-right: 15px; }
+.row .block { float: left !important;}
 
 
 .group {
@@ -76,6 +77,12 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   float: left;
   text-align: center;
 }
+
+.oscillator-module .block {
+  float: none;
+}
+
+.mixer .block { float: none; }
 
 .reading {
   font-size: 10px;

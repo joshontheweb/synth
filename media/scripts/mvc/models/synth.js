@@ -8,14 +8,15 @@
       this.patches = new bs.collections.Patches();
       this.filter = new bs.models.Filter({type: 'lowpass'}, {context: this.context});
       this.oscillatorModule = new bs.models.OscillatorModule({}, {context: this.context});
-      this.volumeEnvelope = new bs.models.VolumeEnvelope({}, {context: this.context});
-      this.filterEnvelope = new bs.models.FilterEnvelope({}, {context: this.context, filter: this.filter});
+      this.mixer = new bs.models.Mixer({}, {context: this.context});
+      this.volumeEnvelope = new bs.models.Envelope({}, {context: this.context});
+      this.filterEnvelope = new bs.models.Envelope({gain: 20000}, {context: this.context});
       this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({}, {context: this.context});
       this.metronome = new bs.models.Metronome({}, {context: this.context});
       this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
-      this.masterGain = new bs.models.Gain({gain: .5}, {context: this.context});
+      this.masterGain = new bs.models.Gain({gain: 0}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
       // setup cv patches
@@ -24,7 +25,9 @@
         'lfo': this.lfo,
         'osc1': this.oscillatorModule.gain1,
         'osc2': this.oscillatorModule.gain2,
-        'osc3': this.oscillatorModule.gain3
+        'osc3': this.oscillatorModule.gain3,
+        'volume envelope': this.volumeEnvelope,
+        'filter envelope': this.filterEnvelope
       };
       
       this.cvPatchDestinations = {
@@ -34,11 +37,11 @@
         'delay time': this.delay.node.delayTime,
         'delay gain': this.delay.gainNode.gain,
         'osc1 frequency': this.oscillatorModule.osc1.node.frequency,
-        'osc1 gain': this.oscillatorModule.gain1.node.gain,
+        'osc1 gain': this.mixer.gain1.node.gain,
         'osc2 frequency': this.oscillatorModule.osc2.node.frequency,
-        'osc2 gain': this.oscillatorModule.gain2.node.gain,
+        'osc2 gain': this.mixer.gain2.node.gain,
         'osc3 frequency': this.oscillatorModule.osc3.node.frequency,
-        'osc3 gain': this.oscillatorModule.gain3.node.gain,
+        'osc3 gain': this.mixer.gain3.node.gain,
         'lfo': this.lfo.oscillatorNode.frequency,
         'master gain': this.masterGain.node.gain
       };
@@ -47,8 +50,11 @@
 
       
       // route node path
-      this.oscillatorModule.connect(this.volumeEnvelope.node);
-      this.volumeEnvelope.connect(this.filter.preNode);
+      this.oscillatorModule.connect(this.mixer);
+      this.mixer.connect(this.filter.preNode);
+      // this.oscillatorModule.connect(this.compressor.compressor);
+      this.filterEnvelope.connect(this.filter.modulationProcessor);
+      this.volumeEnvelope.connect(this.masterGain.node.gain);
       this.filter.connect(this.delay.node);
       this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);

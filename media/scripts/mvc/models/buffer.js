@@ -19,9 +19,11 @@
     uploadBuffer: function(name) {
       var formData = new FormData();
 
+      formData.append('apiKey', '$2a$10$.Jnu2qCTKz2H4Ett4cJyUet7Oe2dlVP.5l95aPnJflUtVYUlINGLK');
+
       formData.append('projectID', null);         
       formData.append('track', JSON.stringify(new bs.models.Loop({bpm: this.get('tempo')}).toJSON()));
-      formData.append( name + '.wav', this.get('wav'), name + '.wav');
+      formData.append( 'audio', this.get('wav'), name + '.wav');
       
       var xhr = new XMLHttpRequest();
       xhr.open('POST', 'http://soundkeep.com/upload', true);

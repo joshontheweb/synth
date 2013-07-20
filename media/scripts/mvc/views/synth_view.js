@@ -37,6 +37,11 @@
       this.$('.oscillator-module').append(this.oscillatorView.render().el);
     },
 
+    renderMixer: function() {
+      this.mixerView = new bs.views.MixerView({model: this.model.mixer});
+      this.$('.mixer').append(this.mixerView.render().el);
+    },
+
     renderKeyboard: function() {
       this.keyboardView = new bs.views.KeyboardView({model: this.model.keyboard});
       this.$el.append(this.keyboardView.render().el);
@@ -308,6 +313,7 @@
       this.renderPatches();
       this.renderFilter();
       this.renderOscillatorModule();
+      this.renderMixer();
       this.renderKeyboard();
       this.renderOscilloscope();
       this.renderVolumeEnvelope();

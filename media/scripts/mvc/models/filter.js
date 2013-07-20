@@ -8,14 +8,15 @@
       this.preNode.type = this.filterMap[attrs.type];
       this.preNode.frequency.value = this.get('frequency');
       this.preNode.frequency.q = this.get('quality');
+
+      
       this.modulationProcessor = this.context.createScriptProcessor(4096);
       this.modulationProcessor.maxValue = 20000;
-
       this.modulationProcessor.onaudioprocess = _.bind(this.onFreqModProcess, this);
 
       this.postNode = this.context.createBiquadFilter();
       this.postNode.type = this.filterMap[attrs.type];
-      this.postNode.frequency.value = this.get('frequency');
+      this.postNode.frequency.value = 0;
       this.postNode.frequency.q = this.get('quality');
 
       this.preNode.connect(this.postNode);
@@ -41,13 +42,13 @@
       var input = e.inputBuffer.getChannelData(0);
       var output = e.outputBuffer.getChannelData(0);
       for (var i = 0; i < input.length; i++) {
-          output[i] = (input[i] + this.postNode.frequency.value) > 0 ? input[i] : (input[i] - (input[i] + this.postNode.frequency.value)) + 1;
+          output[i] = (input[i] + this.postNode.frequency.value) > 0 ? input[i] : (input[i] - (input[i] + this.postNode.frequency.value)) + .01;
       }
-      console.log(output);
+      // console.log(output);
     },
 
     frequencyChange: function(filter, freq) {
-      this.postNode.frequency.value = freq;
+      this.preNode.frequency.value = freq;
     },
     
     resonanceChange: function(filter, resonance) {
