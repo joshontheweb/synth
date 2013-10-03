@@ -14,8 +14,8 @@
       this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({}, {context: this.context});
-      this.metronome = new bs.models.Metronome({}, {context: this.context});
-      this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
+      // this.metronome = new bs.models.Metronome({}, {context: this.context});
+      // this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
       this.masterGain = new bs.models.Gain({gain: 0}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
@@ -52,16 +52,15 @@
       // route node path
       this.oscillatorModule.connect(this.mixer);
       this.mixer.connect(this.filter.preNode);
-      // this.oscillatorModule.connect(this.compressor.compressor);
       this.filterEnvelope.connect(this.filter.modulationProcessor);
       this.volumeEnvelope.connect(this.masterGain.node.gain);
       this.filter.connect(this.delay.node);
       this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);
       this.compressor.connect(this.masterGain.node);
-      this.metronome.connect(this.masterGain.node);
+      // this.metronome.connect(this.masterGain.node);
       this.masterGain.node.connect(this.context.destination);
-      this.compressor.connect(this.loopModule.gain);
+      // this.compressor.connect(this.loopModule.gain);
       
       this.lfo.start(0);
       this.patches.fetch({add: true,

@@ -10,7 +10,8 @@
       this.preNode.frequency.q = this.get('quality');
 
       
-      this.modulationProcessor = this.context.createScriptProcessor(4096);
+      // adjust this buffersize to account for lag in the filter
+      this.modulationProcessor = this.context.createScriptProcessor(2048);
       this.modulationProcessor.maxValue = 20000;
       this.modulationProcessor.onaudioprocess = _.bind(this.onFreqModProcess, this);
 

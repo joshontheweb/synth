@@ -49,7 +49,7 @@
 
     renderOscilloscope: function() {
       this.model.oscilloscope = new WavyJones(this.model.context, 'oscilloscope');
-      this.model.compressor.connect(this.model.oscilloscope);
+      this.model.masterGain.connect(this.model.oscilloscope);
     },
 
     renderVolumeEnvelope: function() {
@@ -320,8 +320,8 @@
       this.renderFilterEnvelope();
       this.renderDelay();
       this.renderLfo();
-      this.renderLoopModule();
-      this.renderMetronome();
+      // this.renderLoopModule();
+      // this.renderMetronome();
       this.renderCVPatches();
 
       // this.initMidi();

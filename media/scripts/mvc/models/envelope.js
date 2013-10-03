@@ -21,7 +21,7 @@
 
     defaults: {
       'gain': 0,
-      'attack': .01,
+      'attack': 0.01,
       'decay': 0.2,
       'sustain': 0.8,
       'release': 0.2
@@ -33,17 +33,13 @@
       this.gainNode.gain.cancelScheduledValues(now);
       this.gainNode.gain.setTargetAtTime(1, now, this.get('attack'));
         
-      now += this.get('attack');
-      this.gainNode.gain.setTargetAtTime(this.get('sustain'), now, this.get('decay'));
-      console.log(this.gainNode.gain.value);
+      this.gainNode.gain.setTargetAtTime(this.get('sustain'), now + this.get('attack'), this.get('decay'));
     },
 
     triggerRelease: function() {
       var now = this.context.currentTime;
-      console.log(this.gainNode.gain.value);
       this.gainNode.gain.cancelScheduledValues(now);
       this.gainNode.gain.setTargetAtTime(0, now, this.get('release'));
-      console.log(this.gainNode.gain.value);
     },
 
     connect: function(node) {
