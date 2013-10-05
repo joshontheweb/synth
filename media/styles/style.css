@@ -22,6 +22,10 @@ a {
 h3 { font-variant: small-caps; text-transform: lowercase; font-size: 20px; line-height: 20px; }
 h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 
+.error {
+  color: red;
+}
+
 .popup {
   position: absolute;
   top: 300px;
@@ -31,6 +35,10 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   padding: 15px;
   background: #fff;
   border-radius: 5px;
+}
+
+.popup .error {
+  font-size: 12px;
 }
 
 .popup h5 {
@@ -85,7 +93,7 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
 .mixer .block { float: none; width: 70px; }
 .mixer .noise-block { 
   position: relative;
-  top: 46px;
+  top: 45px;
   margin-left: -15px;
 }
 
