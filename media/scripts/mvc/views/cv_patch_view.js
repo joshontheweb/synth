@@ -25,7 +25,8 @@
       var sourceKey;
       for (sourceKey in this.model.sources) {
         if (this.model.sources.hasOwnProperty(sourceKey)) {
-          this.$sources.append('<option value="' + sourceKey + '">' + sourceKey + '</option>');
+          var source = this.model.sources[sourceKey];
+          this.$sources.append('<option value="' + sourceKey + '">' + source.title + '</option>');
         }
       }
     },
@@ -34,7 +35,8 @@
       var destKey;
       for (destKey in this.model.destinations) {
         if (this.model.destinations.hasOwnProperty(destKey)) {
-          this.$destinations.append('<option value="' + destKey + '">' + destKey + '</option>');
+          var destination = this.model.destinations[destKey];
+          this.$destinations.append('<option value="' + destKey + '">' + destination.title + '</option>');
         }
       }
     },

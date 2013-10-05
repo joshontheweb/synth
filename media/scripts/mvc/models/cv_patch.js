@@ -35,8 +35,8 @@
 
     setSource: function(source) {
       var prevSource = this.sources[this.previousAttributes().source];
-      var source = this.sources[source];
-      var destination = this.destinations[this.get('destination')];
+      var source = this.sources[source].node;
+      var destination = this.destinations[this.get('destination')].node;
       this.gainNode.disconnect();
       this.gainNode = this.context.createGainNode();
       
@@ -56,7 +56,7 @@
 
     setDestination: function(destination) {
       var prevDestination = this.destinations[this.previousAttributes().destination];
-      var destination = this.destinations[destination];
+      var destination = this.destinations[destination].node;
 
       if (prevDestination) {
         this.gainNode.disconnect();

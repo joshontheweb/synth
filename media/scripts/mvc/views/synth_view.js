@@ -58,7 +58,7 @@
     },
 
     renderFilterEnvelope: function() {
-      this.envelopeView = new bs.views.EnvelopeView({model: this.model.filterEnvelope, template: _.template($('.filter-envelope-template').html())});
+      this.envelopeView = new bs.views.EnvelopeView({model: this.model.filterEnvelope, template: _.template($('.envelope-template').html())});
       this.$('.filter-envelope').append(this.envelopeView.render().el);
     },
 

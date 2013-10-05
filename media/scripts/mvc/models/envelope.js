@@ -16,10 +16,11 @@
       }
       
       this.valueSource.connect(this.gainNode);
-      this.gainNode.gain.value = this.get('gain');
+      this.gainNode.gain.value = this.get('maxValue');
     },
 
     defaults: {
+      'maxValue': 1,
       'gain': 0,
       'attack': 0.01,
       'decay': 0.2,
@@ -31,7 +32,7 @@
       var now = this.context.currentTime;
 
       this.gainNode.gain.cancelScheduledValues(now);
-      this.gainNode.gain.setTargetAtTime(1, now, this.get('attack'));
+      this.gainNode.gain.setTargetAtTime(this.get('maxValue'), now, this.get('attack'));
         
       this.gainNode.gain.setTargetAtTime(this.get('sustain'), now + this.get('attack'), this.get('decay'));
     },
