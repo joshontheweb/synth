@@ -37,7 +37,7 @@
       this.$patches.blur();
       var patch = this.collection.get(e.target.value);
       synth.loadPatch(patch.get('parameters'));
-      router.navigate('/' + patch.get('name').replace(' ', '-'));
+      router.navigate('/' + patch.get('name').replace(/ /g, '-'));
     },
 
     initSavePatchPopup: function() {

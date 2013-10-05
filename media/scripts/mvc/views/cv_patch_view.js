@@ -5,12 +5,14 @@
     initialize: function() {
       this.gainKnob = this.model.gainKnob = new bs.models.Knob({
         min: 0,
-        max: this.model.destination.maxValue > 20000 ? 20000 : this.model.destination.maxValue,
+        max: this.model.calcMaxGainValue(),
         value: this.model.get('gain'),
         startDegree: -140
       });
-      
+
       this.listenTo(this.gainKnob, 'change:value', this.handleGainInput);
+      
+      this.listenTo(this.model, 'change:gain', this.gainChange);
     },
     
     events: {
@@ -36,6 +38,10 @@
     
     handleGainInput: function(knob, gain) {
       this.model.set({gain: gain});
+    },
+
+    gainChange: function(model, gain) {
+      this.gainKnob.set({value: gain});
     },
 
     renderSources: function() {

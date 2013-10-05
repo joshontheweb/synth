@@ -17,6 +17,8 @@
 
       this.setSource(this.get('source'));
       this.setDestination(this.get('destination'));
+
+      this.gainNode.gain.value = this.get('gain');
     },
 
     defaults: {
@@ -40,7 +42,7 @@
     setSource: function(source) {
       var prevSource = this.sources[this.previousAttributes().source];
       var source = this.sources[source].node;
-      var destination = this.destinations[this.get('destination')].node;
+      this.destination = this.destinations[this.get('destination')].node;
       this.gainNode.disconnect();
       this.gainNode = this.context.createGainNode();
       
@@ -48,9 +50,9 @@
         source.connect(this.gainNode);
       }
 
-      if (destination) {
-        this.set({gain: (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2});
-        this.gainNode.connect(destination);
+      if (this.destination) {
+        this.set({gain: this.get('gain') || (this.calcMaxGainValue() / 2)});
+        this.gainNode.connect(this.destination);
       }
     },
 
@@ -60,18 +62,28 @@
 
     setDestination: function(destination) {
       var prevDestination = this.destinations[this.previousAttributes().destination];
-      var destination = this.destinations[destination].node;
+      this.destination = this.destinations[destination].node;
 
       if (prevDestination) {
         this.gainNode.disconnect();
       }
 
-      if (destination) {
+      if (this.destination) {
         // set to max of 20000 or maxValue 
         // for some reason maxValue on oscillator.frequency is 100000.  this is to combat that.
-        this.set({gain: (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2});
-        this.gainNode.connect(destination);
+        this.set({gain: this.get('gain') || (this.calcMaxGainValue() / 2)});
+        this.gainNode.connect(this.destination);
       }
+    },
+
+    calcMaxGainValue: function() {
+      var maxValue = 20000;
+
+      if (this.destination) {
+        maxValue = (this.destination.maxValue > 20000 ? 20000 : destination.maxValue);
+      }
+      
+      return maxValue;
     },
 
     gainChange: function(model, gain) {
