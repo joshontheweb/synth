@@ -5,17 +5,12 @@
     initialize: function(attrs, options) {
       this.context = options.context;
       this.gainNode = this.node = this.context.createGainNode();
-      this.valueSource = this.context.createScriptProcessor(16384);
+
+      this.generateBuffer();
+      this.createSourceNode();
+      this.startSourceNode();
       
-      this.valueSource.onaudioprocess = function(e) {
-        var input = e.inputBuffer.getChannelData(0);
-        var output = e.outputBuffer.getChannelData(0);
-        for (var i = 0; i < input.length; i++) { 
-          output[i] = 1;
-        }
-      }
-      
-      this.valueSource.connect(this.gainNode);
+      this.sourceNode.connect(this.gainNode);
       this.gainNode.gain.value = this.get('gain');
     },
 
@@ -26,6 +21,28 @@
       'decay': 0.2,
       'sustain': 0.8,
       'release': 0.2
+    },
+
+    generateBuffer: function() {
+      // Generate a 5 second white noise buffer.
+      var lengthInSamples = 5 * this.context.sampleRate;
+      this.buffer = this.context.createBuffer(1, lengthInSamples, this.context.sampleRate);
+      var data = this.buffer.getChannelData(0);
+
+      for (var i = 0; i < lengthInSamples; i++) {
+        data[i] = 1;
+      }
+    },
+
+    createSourceNode: function() {
+      // Create a source node from the buffer.
+      this.sourceNode = this.context.createBufferSource();
+      this.sourceNode.buffer = this.buffer;
+    },
+
+    startSourceNode: function() {
+      this.sourceNode.loop = true;
+      this.sourceNode.start(0);
     },
 
     triggerAttack: function() {

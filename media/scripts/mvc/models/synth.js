@@ -21,7 +21,7 @@
 
       // setup cv patches
       this.cvPatchSources = {
-        'none': {title: 'None', node: null},
+        'none': {title: '-- Source --', node: null},
         'lfo': {title: 'LFO', node: this.lfo},
         'osc1': {title: 'Osc1', node: this.oscillatorModule.gain1},
         'osc2': {title: 'Osc2', node: this.oscillatorModule.gain2},
@@ -32,7 +32,7 @@
       };
       
       this.cvPatchDestinations = {
-        'none': {title: 'None', node: null},
+        'none': {title: '-- Destination --', node: null},
         'flt': {title: 'Filter', node: this.filter.postNode.frequency},
         'fltres': {title: 'Filter Resonance', node: this.filter.postNode.Q},
         'dlt': {title: 'Delay Time', node: this.delay.node.delayTime},
