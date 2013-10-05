@@ -26,6 +26,7 @@
         'osc1': {title: 'Osc1', node: this.oscillatorModule.gain1},
         'osc2': {title: 'Osc2', node: this.oscillatorModule.gain2},
         'osc3': {title: 'Osc3', node: this.oscillatorModule.gain3},
+        'noise': {title: 'Noise', node: this.mixer.whiteNoise.sourceNode},
         'venv': {title: 'Amp Envelope', node: this.volumeEnvelope},
         'fenv': {title: 'Filter Envelope', node: this.filterEnvelope}
       };
@@ -37,11 +38,15 @@
         'dlt': {title: 'Delay Time', node: this.delay.node.delayTime},
         'dlg': {title: 'Delay Gain', node: this.delay.gainNode.gain},
         'osc1f': {title: 'Osc1 Frequency', node: this.oscillatorModule.osc1.node.frequency},
-        'osc1g': {title: 'Osc1 Gain', node: this.mixer.gain1.node.gain},
         'osc2f': {title: 'Osc2 Frequency', node: this.oscillatorModule.osc2.node.frequency},
-        'osc2g': {title: 'Osc2 Gain', node: this.mixer.gain2.node.gain},
         'osc3f': {title: 'Osc3 Frequency', node: this.oscillatorModule.osc3.node.frequency},
+        'osc1d': {title: 'Osc1 Detune', node: this.oscillatorModule.osc1.node.detune},
+        'osc2d': {title: 'Osc2 Detune', node: this.oscillatorModule.osc2.node.detune},
+        'osc3d': {title: 'Osc3 Detune', node: this.oscillatorModule.osc3.node.detune},
+        'osc1g': {title: 'Osc1 Gain', node: this.mixer.gain1.node.gain},
+        'osc2g': {title: 'Osc2 Gain', node: this.mixer.gain2.node.gain},
         'osc3g': {title: 'Osc3 Gain', node: this.mixer.gain3.node.gain},
+        'noise': {title: 'Noise', node: this.mixer.noiseGain.node},
         'lfo': {title: 'LFO', node: this.lfo.oscillatorNode.frequency},
         'mstrg': {title: 'Master Gain', node: this.masterGain.node.gain}
       };

@@ -205,9 +205,15 @@
         </script>
         
         <script class="mixer-template" type="text/html">
-          <div class="block">
-            <h5>GAIN</h5>
-            <div class="gain-1"></div>
+          <div class="row">
+            <div class="block">
+              <h5>GAIN</h5>
+              <div class="gain-1"></div>
+            </div>
+            <div class="block noise-block">
+              <h5>Noise</h5>
+              <div class="noise-gain"></div>
+            </div>
           </div>
           <div class="block">
             <h5>GAIN</h5>
@@ -422,6 +428,7 @@
 		<script src="/media/scripts/mvc/models/knob.js"></script>
 		<script src="/media/scripts/mvc/models/type_knob.js"></script>
 		<script src="/media/scripts/mvc/models/loop.js"></script>
+		<script src="/media/scripts/mvc/models/white_noise.js"></script>
 
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>

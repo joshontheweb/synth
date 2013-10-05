@@ -80,7 +80,7 @@
       var maxValue = 20000;
 
       if (this.destination) {
-        maxValue = (this.destination.maxValue > 20000 ? 20000 : destination.maxValue);
+        maxValue = (this.destination.maxValue > 20000 ? 20000 : this.destination.maxValue);
       }
       
       return maxValue;

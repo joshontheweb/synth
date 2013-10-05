@@ -82,7 +82,12 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   float: none;
 }
 
-.mixer .block { float: none; }
+.mixer .block { float: none; width: 70px; }
+.mixer .noise-block { 
+  position: relative;
+  top: 46px;
+  margin-left: -15px;
+}
 
 .reading {
   font-size: 10px;
