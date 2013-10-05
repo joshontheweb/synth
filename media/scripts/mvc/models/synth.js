@@ -46,7 +46,7 @@
         'osc1g': {title: 'Osc1 Gain', node: this.mixer.gain1.node.gain},
         'osc2g': {title: 'Osc2 Gain', node: this.mixer.gain2.node.gain},
         'osc3g': {title: 'Osc3 Gain', node: this.mixer.gain3.node.gain},
-        'noise': {title: 'Noise', node: this.mixer.noiseGain.node},
+        'noise': {title: 'Noise', node: this.mixer.noiseGain.node.gain},
         'lfo': {title: 'LFO', node: this.lfo.oscillatorNode.frequency},
         'mstrg': {title: 'Master Gain', node: this.masterGain.node.gain}
       };
