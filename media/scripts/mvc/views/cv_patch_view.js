@@ -19,6 +19,8 @@
     },
 
     tagName: 'li',
+
+    className: 'cv-patch',
     
     template: _.template($('.cv-patch-template').html()),
     

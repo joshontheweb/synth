@@ -176,12 +176,35 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   float: left;
 }
 
+.cv-patch .gain {
+  display: inline-block;
+  position: relative;
+  top: 3px;
+}
+
+.cv-patch .knob-wrapper {
+  background: none;
+  height: 16px;
+  width: 16px;
+  padding: 0;
+}
+
+.cv-patch .knob-wrapper .knob {
+  height: 15px;
+  width: 15px;
+}
+
 .knob {
   width: 30px;
   height: 30px;
   border: 1px solid #000;
-  border-radius: 20px;
+  border-radius: 50%;
   background: #000;
+}
+
+.mini-knob .knob {
+  height: 15px;
+  width: 15px;
 }
 
 .knob .indicator {
@@ -189,6 +212,12 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   height: 20px;
   margin: 0 auto;
   border-top: 10px solid #fff;
+}
+
+.mini-knob .indicator {
+  height: 5px;
+  height: 11px;
+  border-top-width: 5px;
 }
 
 .unselectable {
@@ -252,6 +281,13 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   width: 32px;
   padding: 20px;
   background: url('images/notches.png') -1px 1px no-repeat
+}
+
+.mini-knob .knob-wrapper {
+  background: none;
+  height: 16px;
+  width: 16px;
+  padding: 0;
 }
 
 .waveform-knob-wrapper {
