@@ -16,7 +16,7 @@
       }
       
       this.valueSource.connect(this.gainNode);
-      this.gainNode.gain.value = this.get('maxValue');
+      this.gainNode.gain.value = this.get('gain');
     },
 
     defaults: {
