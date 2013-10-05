@@ -7,9 +7,12 @@
       this.sources = this.collection.patchSources;
       this.destinations = this.collection.patchDestinations;
       this.gainNode = this.context.createGainNode();
+      this.destination = this.destinations[this.get('destination')].node;
 
       this.on('change:source', this.sourceChange);
       this.on('change:destination', this.destinationChange);
+      this.on('change:gain', this.gainChange);
+      
       this.listenTo(this.collection, 'reset', this.exit);
 
       this.setSource(this.get('source'));
@@ -17,6 +20,7 @@
     },
 
     defaults: {
+      'gain': 0,
       'destination': 'none',
       'source': 'none',
       'outputIndex': 0
@@ -45,7 +49,7 @@
       }
 
       if (destination) {
-        this.gainNode.gain.value = (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2;
+        this.set({gain: (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2});
         this.gainNode.connect(destination);
       }
     },
@@ -65,10 +69,14 @@
       if (destination) {
         // set to max of 20000 or maxValue 
         // for some reason maxValue on oscillator.frequency is 100000.  this is to combat that.
-        this.gainNode.gain.value = (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2;
+        this.set({gain: (destination.maxValue > 20000 ? 20000 : destination.maxValue) / 2});
         this.gainNode.connect(destination);
       }
+    },
+
+    gainChange: function(model, gain) {
+      console.log(gain);
+      this.gainNode.gain.value = gain;
     }
-    
   });
 })();
