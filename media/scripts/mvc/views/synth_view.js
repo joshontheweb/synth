@@ -11,13 +11,13 @@
 
     handleKeyDown: function(note, freq) {
       this.model.oscillatorModule.set({frequency: freq});
-      this.model.volumeEnvelope.triggerAttack();
+      this.model.ampEnvelope.triggerAttack();
       this.model.filterEnvelope.triggerAttack();
     },
     
     handleKeyUp: function(note, freq) {
       if (!this.model.keyboard.pressed) {
-        this.model.volumeEnvelope.triggerRelease();
+        this.model.ampEnvelope.triggerRelease();
         this.model.filterEnvelope.triggerRelease();
       }
     },
@@ -52,9 +52,9 @@
       this.model.masterGain.connect(this.model.oscilloscope);
     },
 
-    renderVolumeEnvelope: function() {
-      this.envelopeView = new bs.views.EnvelopeView({model: this.model.volumeEnvelope});
-      this.$('.volume-envelope').append(this.envelopeView.render().el);
+    renderAmpEnvelope: function() {
+      this.envelopeView = new bs.views.EnvelopeView({model: this.model.ampEnvelope});
+      this.$('.amp-envelope').append(this.envelopeView.render().el);
     },
 
     renderFilterEnvelope: function() {
@@ -316,7 +316,7 @@
       this.renderMixer();
       this.renderKeyboard();
       this.renderOscilloscope();
-      this.renderVolumeEnvelope();
+      this.renderAmpEnvelope();
       this.renderFilterEnvelope();
       this.renderDelay();
       this.renderLfo();

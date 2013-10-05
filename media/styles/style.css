@@ -276,7 +276,7 @@ h5 { margin: 0; text-transform: lowercase; font-variant: small-caps }
   margin-right: 20px;
 }
 
-.filter-envelope input, .volume-envelope input {
+.filter-envelope input, .amp-envelope input {
   margin-top: 15px;
   margin-bottom: 30px;
 }

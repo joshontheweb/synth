@@ -9,7 +9,7 @@
       this.filter = new bs.models.Filter({type: 'lowpass'}, {context: this.context});
       this.oscillatorModule = new bs.models.OscillatorModule({}, {context: this.context});
       this.mixer = new bs.models.Mixer({}, {context: this.context});
-      this.volumeEnvelope = new bs.models.Envelope({}, {context: this.context});
+      this.ampEnvelope = new bs.models.Envelope({}, {context: this.context});
       this.filterEnvelope = new bs.models.Envelope({maxValue: 20000}, {context: this.context});
       this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
@@ -27,7 +27,7 @@
         'osc2': {title: 'Osc2', node: this.oscillatorModule.gain2},
         'osc3': {title: 'Osc3', node: this.oscillatorModule.gain3},
         'noise': {title: 'Noise', node: this.mixer.whiteNoise.sourceNode},
-        'venv': {title: 'Amp Envelope', node: this.volumeEnvelope},
+        'aenv': {title: 'Amp Envelope', node: this.ampEnvelope},
         'fenv': {title: 'Filter Envelope', node: this.filterEnvelope}
       };
       
@@ -58,7 +58,7 @@
       this.oscillatorModule.connect(this.mixer);
       this.mixer.connect(this.filter.preNode);
       this.filterEnvelope.connect(this.filter.postNode.frequency);
-      this.volumeEnvelope.connect(this.masterGain.node.gain);
+      this.ampEnvelope.connect(this.masterGain.node.gain);
       this.filter.connect(this.delay.node);
       this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);
@@ -87,7 +87,7 @@
       var jsonStr = JSON.stringify({
         filter: this.filter.toJSON(),
         oscillatorModule: this.oscillatorModule.toJSON(),
-        volumeEnvelope: this.volumeEnvelope.toJSON(),
+        ampEnvelope: this.ampEnvelope.toJSON(),
         filterEnvelope: this.filterEnvelope.toJSON(),
         delay: this.delay.toJSON(),
         keyboard: this.keyboard.toJSON(),
