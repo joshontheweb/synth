@@ -70,7 +70,7 @@
       } else if (value <= this.model.get('min')) {
         this.model.set({value: this.model.get('min')});
       } else {
-        this.model.set({value: Math.round(value * this.model.get('decimalPlace')) / this.model.get('decimalPlace')});
+        this.model.set({value: (value * this.model.get('decimalPlace')) / this.model.get('decimalPlace')});
       }
     },
 
