@@ -23,18 +23,15 @@
     valueChange: function(model, value) {
       var value = this.model.get('value');
       var degrees = ((value / this.range) * this.degreeRange);
-      console.log(value, degrees);
       this.rotateEl(this.$knob, degrees);
     },
 
     handleMouseDown: function(e) {
-      console.log('mousedown');
       this.startDrag(e);
       this.listenToMouseUp();
     },
 
     handleMouseUp: function(e) {
-      console.log('mouseup');
       this.stopDrag();
     },
 
@@ -68,13 +65,12 @@
       var value = (pixelDiff / pixelRange) * this.range;
       value += new Number(this.startVal);
       
-      console.log('y', e.pageY, 'val', value);
       if (value >= this.model.get('max')) {
         this.model.set({value: this.model.get('max')});
       } else if (value <= this.model.get('min')) {
         this.model.set({value: this.model.get('min')});
       } else {
-        this.model.set({value: Math.round(value * this.model.get('decimalPlace')) / this.model.get('decimalPlace')});
+        this.model.set({value: (value * this.model.get('decimalPlace')) / this.model.get('decimalPlace')});
       }
     },
 

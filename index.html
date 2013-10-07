@@ -105,12 +105,16 @@
                 <div class="patches"></div>
               </div>
             </div>
+            
+            <!--
             <div class="column">
               <div class="group cf">
                 <h3>Metronome</h3>
                 <div class="metronome"></div>
               </div>
             </div>
+            -->
+            
             <div class="column">
               <div class="group cf">
                 <h3>Delay</h3>
@@ -142,8 +146,8 @@
             </div>
             <div class="column">
               <div class="group">
-                <h3>Volume Envelope</h3>
-                <div class="volume-envelope"></div>
+                <h3>Mixer</h3>
+                <div class="mixer"></div>
               </div>
             </div>
             <div class="column">
@@ -152,13 +156,21 @@
                 <div class="filter-envelope"></div>
               </div>
             </div>
+            <div class="column">
+              <div class="group">
+                <h3>Amp Envelope</h3>
+                <div class="amp-envelope"></div>
+              </div>
+            </div>
 
+            <!--
             <div class="column">
               <div class="group loop-module-group">
                 <h3>Loop Module</h3>
                 <div class="loop-module"></div>
               </div>
             </div>
+            -->
             
             <div class="column">
               <div class="group">
@@ -179,32 +191,54 @@
         
         <script class="oscillator-module-template" type="text/html">
           <div class="block">
-            <h5>OSC1</h5>
+            <!--<h5>OSC1</h5>-->
             <div class="osc-1"></div>
-            <h5>GAIN</h5>
-            <div class="gain-1"></div>
           </div>
           <div class="block">
-            <h5>OSC2</h5>
+            <!--<h5>OSC2</h5>-->
             <div class="osc-2"></div>
+          </div>
+          <div class="block">
+            <!--<h5>OSC3</h5>-->
+            <div class="osc-3"></div>
+          </div>
+        </script>
+        
+        <script class="mixer-template" type="text/html">
+          <div class="row">
+            <div class="block">
+              <h5>GAIN</h5>
+              <div class="gain-1"></div>
+            </div>
+            <div class="block noise-block">
+              <h5>Noise</h5>
+              <div class="noise-gain"></div>
+            </div>
+          </div>
+          <div class="block">
             <h5>GAIN</h5>
             <div class="gain-2"></div>
           </div>
           <div class="block">
-            <h5>OSC3</h5>
-            <div class="osc-3"></div>
             <h5>GAIN</h5>
             <div class="gain-3"></div>
           </div>
         </script>
         
+        
         <script class="oscillator-template" type="text/html">
-          <h5>Waveform</h5>
-          <div class="waveform"></div>
-          <h5>Detune</h5>
-          <div class='detune'></div>
-          <!--<input class="detune" min="-1200" max="1200" step="1" value="<%= detune %>" type="range" />-->
-          <span class="reading detune-reading"><%= detune %></span>
+          <div class="row">
+            <div class="block">
+              <h5>Waveform</h5>
+              <div class="waveform"></div>
+            </div>
+            <div class="block">
+              <h5>Detune</h5>
+              <div class='detune'></div>
+              <!--<input class="detune" min="-1200" max="1200" step="1" value="<%= detune %>" type="range" />-->
+              <span class="reading detune-reading"><%= detune %></span>
+            </div>
+          </div>
         </script>
         
         <script class="lfo-template" type="text/html">
@@ -222,10 +256,12 @@
             <div class="gain"></div>
             <div class="reading gain-reading"><%= gain %></div>
           </div>
+          <!--
           <div class="block">
             <h5>Tempo Sync</h5>
             <input type="checkbox" class="tempo-sync" />
           </div>
+          -->
         </script>
         
         <script class="gain-node-template" type="text/html">
@@ -256,33 +292,15 @@
           <span class="reading attack-reading"><%= attack %></span>
           
           <h5>Decay</h5>
-          <input class="decay" min="0" max="3" step="0.01" value="<%= decay %>" type="range" />
+          <input class="decay" min=".01" max="3" step="0.01" value="<%= decay %>" type="range" />
           <span class="reading decay-reading"><%= decay %></span>
           
           <h5>Sustain</h5>
-          <input class="sustain" min="0" max="1" step="0.01" value="<%= sustain %>" type="range" />
+          <input class="sustain" min="0" max="<%= maxValue %>" step="0.01" value="<%= sustain %>" type="range" />
           <span class="reading sustain-reading"><%= sustain %></span>
           
           <h5>Release</h5>
-          <input class="release" min="0" max="3" step="0.01" value="<%= release %>" type="range" />
-          <span class="reading release-reading"><%= release %></span>
-        </script>
-
-        <script class="filter-envelope-template" type="text/html">
-          <h5>Attack</h5>
-          <input class="attack" min=".01" max="3" step="0.01" value="<%= attack %>" type="range" />
-          <span class="reading attack-reading"><%= attack %></span>
-          
-          <h5>Decay</h5>
-          <input class="decay" min="0" max="3" step="0.01" value="<%= decay %>" type="range" />
-          <span class="reading decay-reading"><%= decay %></span>
-          
-          <h5>Sustain</h5>
-          <input class="sustain" min="0" max="20000" step="1" value="<%= sustain %>" type="range" />
-          <span class="reading sustain-reading"><%= sustain %></span>
-          
-          <h5>Release</h5>
-          <input class="release" min="0" max="3" step="0.01" value="<%= release %>" type="range" />
+          <input class="release" min=".01" max="3" step="0.01" value="<%= release %>" type="range" />
           <span class="reading release-reading"><%= release %></span>
         </script>
 
@@ -347,6 +365,7 @@
           >
           <select class="destinations" type="select">
           </select>
+          <div class="gain mini-knob"></div>
         </script>
 
         <script class="cv-patches-template" type="text/html">
@@ -361,6 +380,7 @@
         </script>
 
         <script class="save-patch-popup-template" type="text/html">
+          <div class="error"></div>
           <input type="text" class="patch-name" placeholder="name your patch" />
           <a href="#" class="save">Save</a>
         </script>
@@ -379,6 +399,7 @@
 		<script src="/media/scripts/libs/wavyjones.js"></script>
 		<script src="/media/scripts/libs/underscore.js"></script>
 		<script src="/media/scripts/libs/backbone.js"></script>
+		<script src="/media/scripts/libs/backbone.localstorage.js"></script>
 		<script src="/media/scripts/libs/wavyjones.js"></script>
 		<script src="/media/scripts/libs/recorder.js"></script>
 		<script src="/media/scripts/libs/webmidiapishim.js"></script>
@@ -393,11 +414,11 @@
 		<script src="/media/scripts/mvc/models/synth.js"></script>
 		<script src="/media/scripts/mvc/models/oscillator.js"></script>
 		<script src="/media/scripts/mvc/models/oscillator_module.js"></script>
+		<script src="/media/scripts/mvc/models/mixer.js"></script>
 		<script src="/media/scripts/mvc/models/gain.js"></script>
 		<script src="/media/scripts/mvc/models/keyboard.js"></script>
 		<script src="/media/scripts/mvc/models/filter.js"></script>
-		<script src="/media/scripts/mvc/models/filter_envelope.js"></script>
-		<script src="/media/scripts/mvc/models/volume_envelope.js"></script>
+		<script src="/media/scripts/mvc/models/envelope.js"></script>
 		<script src="/media/scripts/mvc/models/delay.js"></script>
 		<script src="/media/scripts/mvc/models/lfo.js"></script>
 		<script src="/media/scripts/mvc/models/compressor.js"></script>
@@ -410,6 +431,7 @@
 		<script src="/media/scripts/mvc/models/knob.js"></script>
 		<script src="/media/scripts/mvc/models/type_knob.js"></script>
 		<script src="/media/scripts/mvc/models/loop.js"></script>
+		<script src="/media/scripts/mvc/models/white_noise.js"></script>
 
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>
@@ -419,6 +441,7 @@
 		<script src="/media/scripts/mvc/views/popup_view.js"></script>
 		<script src="/media/scripts/mvc/views/synth_view.js"></script>
 		<script src="/media/scripts/mvc/views/oscillator_view.js"></script>
+		<script src="/media/scripts/mvc/views/mixer_view.js"></script>
 		<script src="/media/scripts/mvc/views/gain_view.js"></script>
 		<script src="/media/scripts/mvc/views/keyboard_view.js"></script>
 		<script src="/media/scripts/mvc/views/filter_view.js"></script>

@@ -2,12 +2,27 @@
   'use strict';
 
   bs.views.CVPatchView = Backbone.View.extend({
+    initialize: function() {
+      this.gainKnob = this.model.gainKnob = new bs.models.Knob({
+        min: 0,
+        max: this.model.calcMaxGainValue(),
+        value: this.model.get('gain'),
+        startDegree: -140
+      });
+
+      this.listenTo(this.gainKnob, 'change:value', this.handleGainInput);
+      
+      this.listenTo(this.model, 'change:gain', this.gainChange);
+    },
+    
     events: {
       'change .sources': 'handleSourceInput',
       'change .destinations': 'handleDestinationInput'
     },
 
     tagName: 'li',
+
+    className: 'cv-patch',
     
     template: _.template($('.cv-patch-template').html()),
     
@@ -20,12 +35,21 @@
       this.$destinations.blur();
       this.model.set({destination: e.target.value});
     },
+    
+    handleGainInput: function(knob, gain) {
+      this.model.set({gain: gain});
+    },
+
+    gainChange: function(model, gain) {
+      this.gainKnob.set({value: gain});
+    },
 
     renderSources: function() {
       var sourceKey;
       for (sourceKey in this.model.sources) {
         if (this.model.sources.hasOwnProperty(sourceKey)) {
-          this.$sources.append('<option value="' + sourceKey + '">' + sourceKey + '</option>');
+          var source = this.model.sources[sourceKey];
+          this.$sources.append('<option value="' + sourceKey + '">' + source.title + '</option>');
         }
       }
     },
@@ -34,18 +58,26 @@
       var destKey;
       for (destKey in this.model.destinations) {
         if (this.model.destinations.hasOwnProperty(destKey)) {
-          this.$destinations.append('<option value="' + destKey + '">' + destKey + '</option>');
+          var destination = this.model.destinations[destKey];
+          this.$destinations.append('<option value="' + destKey + '">' + destination.title + '</option>');
         }
       }
     },
-
+    
+    renderKnob: function() {
+      this.gainKnobView = new bs.views.KnobView({model: this.gainKnob});
+      this.$gain.html(this.gainKnobView.render().el);
+    },
+    
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
       this.$sources = this.$('.sources');
       this.$destinations = this.$('.destinations');
+      this.$gain = this.$('.gain');
 
       this.renderSources();
       this.renderDestinations();
+      this.renderKnob();
 
       this.$sources.val(this.model.get('source'));
       this.$destinations.val(this.model.get('destination'));

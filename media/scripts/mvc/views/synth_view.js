@@ -11,13 +11,13 @@
 
     handleKeyDown: function(note, freq) {
       this.model.oscillatorModule.set({frequency: freq});
-      this.model.volumeEnvelope.triggerAttack();
+      this.model.ampEnvelope.triggerAttack();
       this.model.filterEnvelope.triggerAttack();
     },
     
     handleKeyUp: function(note, freq) {
       if (!this.model.keyboard.pressed) {
-        this.model.volumeEnvelope.triggerRelease();
+        this.model.ampEnvelope.triggerRelease();
         this.model.filterEnvelope.triggerRelease();
       }
     },
@@ -37,6 +37,11 @@
       this.$('.oscillator-module').append(this.oscillatorView.render().el);
     },
 
+    renderMixer: function() {
+      this.mixerView = new bs.views.MixerView({model: this.model.mixer});
+      this.$('.mixer').append(this.mixerView.render().el);
+    },
+
     renderKeyboard: function() {
       this.keyboardView = new bs.views.KeyboardView({model: this.model.keyboard});
       this.$el.append(this.keyboardView.render().el);
@@ -44,16 +49,16 @@
 
     renderOscilloscope: function() {
       this.model.oscilloscope = new WavyJones(this.model.context, 'oscilloscope');
-      this.model.compressor.connect(this.model.oscilloscope);
+      this.model.masterGain.connect(this.model.oscilloscope);
     },
 
-    renderVolumeEnvelope: function() {
-      this.envelopeView = new bs.views.EnvelopeView({model: this.model.volumeEnvelope});
-      this.$('.volume-envelope').append(this.envelopeView.render().el);
+    renderAmpEnvelope: function() {
+      this.envelopeView = new bs.views.EnvelopeView({model: this.model.ampEnvelope});
+      this.$('.amp-envelope').append(this.envelopeView.render().el);
     },
 
     renderFilterEnvelope: function() {
-      this.envelopeView = new bs.views.EnvelopeView({model: this.model.filterEnvelope, template: _.template($('.filter-envelope-template').html())});
+      this.envelopeView = new bs.views.EnvelopeView({model: this.model.filterEnvelope, template: _.template($('.envelope-template').html())});
       this.$('.filter-envelope').append(this.envelopeView.render().el);
     },
 
@@ -308,14 +313,15 @@
       this.renderPatches();
       this.renderFilter();
       this.renderOscillatorModule();
+      this.renderMixer();
       this.renderKeyboard();
       this.renderOscilloscope();
-      this.renderVolumeEnvelope();
+      this.renderAmpEnvelope();
       this.renderFilterEnvelope();
       this.renderDelay();
       this.renderLfo();
-      this.renderLoopModule();
-      this.renderMetronome();
+      // this.renderLoopModule();
+      // this.renderMetronome();
       this.renderCVPatches();
 
       // this.initMidi();

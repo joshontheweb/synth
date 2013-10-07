@@ -36,8 +36,8 @@
     loadPatch: function(e) {
       this.$patches.blur();
       var patch = this.collection.get(e.target.value);
-      synth.loadPatch(JSON.parse(patch.get('parameters')));
-      router.navigate('/' + patch.get('name').replace(' ', '-'));
+      synth.loadPatch(patch.get('parameters'));
+      router.navigate('/' + patch.get('name').replace(/ /g, '-'));
     },
 
     initSavePatchPopup: function() {

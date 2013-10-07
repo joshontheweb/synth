@@ -23,13 +23,22 @@
     savePatch: function(e) {
       e.preventDefault();
       var name = this.$name.val();
-      this.callback(name);
+      if (name) {
+        this.callback(name);
+      } else {
+        this.renderError('Name required');
+      }
+    },
+
+    renderError: function(err) {
+      this.$error.text(err);
     },
 
     render: function() {
       this.$el.html(this.template());
       $('body').append(this.$el);
       this.$name = this.$('.patch-name');
+      this.$error = this.$('.error');
       this.$name.focus();
       return this;
     }
