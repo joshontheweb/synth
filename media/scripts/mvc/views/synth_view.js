@@ -6,7 +6,7 @@
       this.listenTo(this.model.keyboard, 'keyDown', this.handleKeyDown);
       this.listenTo(this.model.keyboard, 'keyUp', this.handleKeyUp);
     },
-    
+
     template: _.template($('.synth-template').html()),
 
     handleKeyDown: function(note, freq) {
@@ -14,7 +14,7 @@
       this.model.ampEnvelope.triggerAttack();
       this.model.filterEnvelope.triggerAttack();
     },
-    
+
     handleKeyUp: function(note, freq) {
       if (!this.model.keyboard.pressed) {
         this.model.ampEnvelope.triggerRelease();
@@ -81,7 +81,7 @@
       this.metronomeView = new bs.views.MetronomeView({model: this.model.metronome});
       this.$('.metronome').html(this.metronomeView.render().el);
     },
-    
+
     renderCVPatches: function() {
       this.cvPatchModuleView = new bs.views.CVPatchModuleView({model: this.model.cvPatchModule});
       this.$('.cv-patches').html(this.cvPatchModuleView.render().el);
@@ -95,9 +95,9 @@
       var moving;
       var movingKeyCode;
 
-      function onsuccesscallback( access ) { 
+      function onsuccesscallback( access ) {
           midi = access;
-          
+
           // hax to hide jazz plugin, what a pain
           $('object').css({'opacity': 0, position: 'absolute', left: -1000});
 
@@ -109,7 +109,7 @@
             console.log(e.data);
             var keyCode = e.data[1];
             var value = e.data[2];
-            
+
             if (moving && movingKeyCode == keyCode) {
               if (this.moveTimeout) {
                 clearInterval(this.moveTimeout);
@@ -122,8 +122,8 @@
               moving = true;
               movingKeyCode = keyCode;
             }
-            
-            
+
+
             // if a key is pressed send it to the keyboard
             if (keyCode >= 48 && keyCode <= 72) {
               view.model.keyboard.keyboard.midiIn(e);
@@ -166,13 +166,13 @@
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
             }
-            
+
             else if (keyCode == 27) { // K6
               var knob = synth.oscillatorModule.osc2.detuneKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
             }
-            
+
             else if (keyCode == 28) { // K7
               var knob = synth.oscillatorModule.osc3.detuneKnob;
               var value = mapKnobValue(knob, value);
@@ -185,13 +185,13 @@
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
             }
-            
+
             else if (keyCode == 13) { // K10
               var knob = synth.oscillatorModule.gain2Knob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
             }
-            
+
             else if (keyCode == 14) { // K11
               var knob = synth.oscillatorModule.gain3Knob;
               var value = mapKnobValue(knob, value);
@@ -203,7 +203,7 @@
               var knob = synth.delay.timeKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }   
+            }
 
             // filter cutoff
             else if (keyCode == 29) { // K8
@@ -218,29 +218,29 @@
               knob.set({'value': value});
             }
 
-            
+
             // Bank B
-            
+
             // delay time
             else if (keyCode == 30) { // K4
               var knob = synth.delay.timeKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
+            }
 
             // delay gain
             else if (keyCode == 31) { // K4
               var knob = synth.delay.gainKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
-            
+            }
+
             // filter cutoff
             else if (keyCode == 32) { // K4
               var knob = synth.filter.frequencyKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
+            }
 
             // filter resonance
             else if (keyCode == 33) { // K4
@@ -254,28 +254,28 @@
               var knob = synth.lfo.waveformKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
-            
+            }
+
             // lfo frequency
             else if (keyCode == 35) { // K4
               var knob = synth.lfo.frequencyKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
+            }
 
             // lfo gain
             else if (keyCode == 36) { // K4
               var knob = synth.lfo.gainKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
-            
+            }
+
             // tempo
             else if (keyCode == 16) { // K4
               var knob = synth.metronome.tempoKnob;
               var value = mapKnobValue(knob, value);
               knob.set({'value': value});
-            }    
+            }
           } // onmessage( event ), event.data & event.timestamp are populated
 
           var mapKnobValue = function(knob, value) {
@@ -283,13 +283,13 @@
 
             // minute adjust if shift key is held
             var valRange = 127;
-            
+
             var min = knob.get('min');
             var max = knob.get('max');
             var decimal = knob.get('decimalPlace');
 
             var range = Math.abs(max - min);
-      
+
             var value = (valDiff / valRange) * range;
             value += min;
             console.log('valdiff', valDiff, 'valRange', valRange, 'range', range, 'value', value, 'startVal', startVal);
@@ -302,11 +302,11 @@
             } else {
               return Math.round(value * decimal) / decimal;
             }
-      
+
           }
       }
     },
-    
+
     render: function() {
       this.$el.html(this.template(this.model.toJSON()));
 
@@ -320,12 +320,12 @@
       this.renderFilterEnvelope();
       this.renderDelay();
       this.renderLfo();
-      // this.renderLoopModule();
-      // this.renderMetronome();
+      this.renderLoopModule();
+      this.renderMetronome();
       this.renderCVPatches();
 
       // this.initMidi();
-      
+
       return this;
     }
   });

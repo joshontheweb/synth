@@ -6,15 +6,15 @@
 	<body>
         <a style="position: absolute; top: 0; right: 0; border: 0; background: none;" href="https://github.com/joshontheweb/synth"><img src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
         <div class="main"></div>
-		
+
 		<script>
           // var context = new webkitAudioContext();
           // var oscillator = context.createOscillator();
-          // var gainNode = context.createGainNode();
+          // var gainNode = context.createGain();
           // var lowPass = context.createBiquadFilter();
           // var oscilloscope = new WavyJones(context, 'oscilloscope');
           // gainNode.gain.value = 0;
-          // 
+          //
           // var pentatonicMap = [
           //   0,19,22,26,29,32,38,43,51,58,65,77,86,
           //   103,115,129,154,173,206,231,259,308,
@@ -23,15 +23,15 @@
           //   4143,4927,5530,6577,7382,8286,9854,11060,
           //   13153,14764,16572,19708,22121,26306
           // ];
-          // 
+          //
           // oscillator.connect(gainNode); // Connect to speakers
           // gainNode.connect(lowPass);
           // lowPass.connect(oscilloscope);
           // oscilloscope.connect(context.destination);
           // oscillator.start(0); // Start generating sound immediately
-          // 
+          //
           // oscilloscope.lineThickness = 2;
-          // 
+          //
           // var $gain = $('.gain');
           // var $frequency = $('.frequency');
           // var $lowPass = $('.low-pass');
@@ -39,8 +39,8 @@
           // var $frequencyReading = $('.frequency-reading');
           // var $gainReading = $('.gain-reading');
           // var $waveform = $('.waveform');
-          // 
-          // 
+          //
+          //
           // var keyboard = qwertyHancock({
           //    id: 'keyboard',
           //    width: 600,
@@ -52,48 +52,48 @@
           //    hoverColour: '#f3e939',
           //    keyboardLayout: 'en'
           // });
-          // 
+          //
           // keyboard.keyDown(function (note, frequency) {
           //     oscillator.frequency.value = frequency;
           //     gainNode.gain.value = 1;
           // });
-          // 
+          //
           // keyboard.keyUp(function (note, frequency) {
           //     gainNode.gain.value = 0;
           // });
-          // 
+          //
           // $frequency.on('change', function(e) {
           //   var closest;
           //   var goal = e.target.value;
-          // 
+          //
           //   pentatonicMap.map(function(freq) {
           //     if (closest == null || Math.abs(freq - goal) < Math.abs(closest - goal)) {
           //       closest = freq;
           //     }
           //   });
-          //   
+          //
           //   oscillator.frequency.value = closest;
-          //   
+          //
           //   $frequencyReading.text(closest);
           // });
-          // 
+          //
           // $gain.on('change', function(e) {
           //   gainNode.gain.value = e.target.value;
           //   $gainReading.text(e.target.value);
           // });
-          // 
+          //
           // $lowPass.on('change', function(e) {
           //   lowPass.frequency.value = e.target.value;
           //   $lowPassReading.text(e.target.value);
           // });
-          // 
+          //
           // $waveform.on('change', function(e) {
           //   oscillator.type = e.target.value;
           // });
 
-        
 
-          
+
+
 		</script>
 
         <!-- templates -->
@@ -105,16 +105,16 @@
                 <div class="patches"></div>
               </div>
             </div>
-            
-            <!--
+
+
             <div class="column">
               <div class="group cf">
                 <h3>Metronome</h3>
                 <div class="metronome"></div>
               </div>
             </div>
-            -->
-            
+
+
             <div class="column">
               <div class="group cf">
                 <h3>Delay</h3>
@@ -163,15 +163,15 @@
               </div>
             </div>
 
-            <!--
+
             <div class="column">
               <div class="group loop-module-group">
                 <h3>Loop Module</h3>
                 <div class="loop-module"></div>
               </div>
             </div>
-            -->
-            
+
+
             <div class="column">
               <div class="group">
                 <h3>CV Patches</h3>
@@ -179,16 +179,16 @@
                 </div>
               </div>
             </div>
-            
+
           </div>
-          
+
 
           <div class="bottom cf">
             <div id="keyboard"></div>
             <div id="oscilloscope"></div>
           </div>
         </script>
-        
+
         <script class="oscillator-module-template" type="text/html">
           <div class="block">
             <!--<h5>OSC1</h5>-->
@@ -203,7 +203,7 @@
             <div class="osc-3"></div>
           </div>
         </script>
-        
+
         <script class="mixer-template" type="text/html">
           <div class="row">
             <div class="block">
@@ -224,8 +224,8 @@
             <div class="gain-3"></div>
           </div>
         </script>
-        
-        
+
+
         <script class="oscillator-template" type="text/html">
           <div class="row">
             <div class="block">
@@ -240,7 +240,7 @@
             </div>
           </div>
         </script>
-        
+
         <script class="lfo-template" type="text/html">
           <div class="block">
             <h5>Waveform</h5>
@@ -263,16 +263,16 @@
           </div>
           -->
         </script>
-        
+
         <script class="gain-node-template" type="text/html">
           <div class="gain"></div>
           <span class="reading gain-reading"><%= gain %></span>
         </script>
-        
+
         <script class="keyboard-template" type="text/html">
           <div id="keyboard"></div>
         </script>
-        
+
         <script class="filter-template" type="text/html">
           <div class="block filter-frequency-block">
             <h5>Freq</h5>
@@ -285,20 +285,20 @@
             <span class="reading resonance-reading"><%= resonance %></span>
           </div>
         </script>
-        
+
         <script class="envelope-template" type="text/html">
           <h5>Attack</h5>
           <input class="attack" min=".01" max="3" step="0.01" value="<%= attack %>" type="range" />
           <span class="reading attack-reading"><%= attack %></span>
-          
+
           <h5>Decay</h5>
           <input class="decay" min=".01" max="3" step="0.01" value="<%= decay %>" type="range" />
           <span class="reading decay-reading"><%= decay %></span>
-          
+
           <h5>Sustain</h5>
           <input class="sustain" min="0" max="<%= maxValue %>" step="0.01" value="<%= sustain %>" type="range" />
           <span class="reading sustain-reading"><%= sustain %></span>
-          
+
           <h5>Release</h5>
           <input class="release" min=".01" max="3" step="0.01" value="<%= release %>" type="range" />
           <span class="reading release-reading"><%= release %></span>
@@ -316,7 +316,7 @@
             <span class="reading gain-reading"><%= gain %></span>
           </div>
         </script>
-        
+
         <script class="metronome-template" type="text/html">
           <div class="block">
             <h5>Tempo</h5>
@@ -330,7 +330,7 @@
             </div>
           </div>
         </script>
-        
+
         <script class="loop-module-template" type="text/html">
           <a href="#" class="microphone" title="toggle microphone on/off"></a>
           <div class="info">
@@ -340,7 +340,7 @@
           </div>
           <a href="#" class="record" title="hotkey: ~">Record Loop</a>
         </script>
-        
+
         <script class="buffer-template" type="text/html">
           <a href="#" class="delete">x</a>
           <a href="#" class="upload" title="Open Source This Loop"></a>
@@ -384,13 +384,13 @@
           <input type="text" class="patch-name" placeholder="name your patch" />
           <a href="#" class="save">Save</a>
         </script>
-        
+
         <script class="save-loop-popup-template" type="text/html">
           <h5>Name your loop to open source it</h5>
           <input type="text" class="loop-name" placeholder="name your loop" />
           <a href="#" class="save">Save</a>
         </script>
-        
+
         <!-- libs -->
 		<script src="/media/scripts/libs/audiolib.js"></script>
 		<script src="/media/scripts/libs/jquery.js"></script>
@@ -409,7 +409,7 @@
 
         <!-- routers -->
 		<script src="/media/scripts/mvc/routers/main.js"></script>
-        
+
         <!-- models -->
 		<script src="/media/scripts/mvc/models/synth.js"></script>
 		<script src="/media/scripts/mvc/models/oscillator.js"></script>
@@ -436,7 +436,7 @@
         <!-- collections -->
 		<script src="/media/scripts/mvc/collections/patches.js"></script>
 		<script src="/media/scripts/mvc/collections/cv_patches.js"></script>
-        
+
         <!-- views -->
 		<script src="/media/scripts/mvc/views/popup_view.js"></script>
 		<script src="/media/scripts/mvc/views/synth_view.js"></script>
@@ -460,7 +460,7 @@
 		<script src="/media/scripts/mvc/views/type_knob_view.js"></script>
 		<script src="/media/scripts/mvc/views/save_patch_popup_view.js"></script>
 		<script src="/media/scripts/mvc/views/save_loop_popup_view.js"></script>
-        
+
 
 
         <!-- init -->

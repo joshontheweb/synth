@@ -5,7 +5,7 @@
     initialize: function(attrs, options) {
       this.context = options.context || new webkitCreateAudioContext();
       this.oscillatorNode = this.context.createOscillator();
-      this.gainNode = this.context.createGainNode();
+      this.gainNode = this.context.createGain();
 
       this.oscillatorNode.connect(this.gainNode);
 
@@ -13,10 +13,10 @@
       this.on('change:frequency', this.frequencyChange);
       this.on('change:detune', this.detuneChange);
       this.on('change:gain', this.gainChange);
-      
+
       this.oscillatorNode.type = this.get('type');
       this.oscillatorNode.frequency.value = this.get('frequency');
-      this.oscillatorNode.detune = this.get('detune');
+      this.oscillatorNode.detune.value = this.get('detune');
       this.gainNode.gain.value = this.get('gain');
     },
 
@@ -44,7 +44,7 @@
       this.gainNode.gain.value = gain;
       console.log('lfo gain', gain);
     },
-    
+
     start: function(time) {
       this.oscillatorNode.start(time);
     },
@@ -57,5 +57,5 @@
       this.gainNode.disconnect(index);
     }
   });
-  
+
 })();

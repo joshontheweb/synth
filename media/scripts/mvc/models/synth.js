@@ -1,6 +1,6 @@
 (function() {
   'use strict';
-  
+
   bs.models.Synth = Backbone.Model.extend({
     initialize: function() {
       var synth = this;
@@ -14,8 +14,8 @@
       this.delay = new bs.models.Delay({}, {context: this.context});
       this.keyboard = new bs.models.Keyboard();
       this.compressor = new bs.models.Compressor({}, {context: this.context});
-      // this.metronome = new bs.models.Metronome({}, {context: this.context});
-      // this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
+      this.metronome = new bs.models.Metronome({}, {context: this.context});
+      this.loopModule = new bs.models.LoopModule({metronome: this.metronome}, {context: this.context});
       this.masterGain = new bs.models.Gain({gain: 0}, {context: this.context});
       this.lfo = new bs.models.LFO({type: 'triangle', frequency: 5}, {context: this.context});
 
@@ -30,7 +30,7 @@
         'aenv': {title: 'Amp Envelope', node: this.ampEnvelope},
         'fenv': {title: 'Filter Envelope', node: this.filterEnvelope}
       };
-      
+
       this.cvPatchDestinations = {
         'none': {title: '-- Destination --', node: null},
         'flt': {title: 'Filter', node: this.filter.postNode.frequency},
@@ -53,7 +53,7 @@
 
       this.cvPatchModule = new bs.models.CVPatchModule({}, {context: this.context, patchSources: this.cvPatchSources, patchDestinations: this.cvPatchDestinations});
 
-      
+
       // route node path
       this.oscillatorModule.connect(this.mixer);
       this.mixer.connect(this.filter.preNode);
@@ -63,10 +63,10 @@
       this.filter.connect(this.compressor.compressor);
       this.delay.connect(this.compressor.compressor);
       this.compressor.connect(this.masterGain.node);
-      // this.metronome.connect(this.masterGain.node);
+      this.metronome.connect(this.context.destination);
       this.masterGain.node.connect(this.context.destination);
-      // this.compressor.connect(this.loopModule.gain);
-      
+      this.compressor.connect(this.loopModule.gain);
+
       this.lfo.start(0);
       this.patches.fetch({add: true,
         success: function(collection, res) {
@@ -92,13 +92,13 @@
         delay: this.delay.toJSON(),
         keyboard: this.keyboard.toJSON(),
         compressor: this.compressor.toJSON(),
-        // metronome: this.metronome.toJSON(),
-        // loopModule: this.loopModule.toJSON(),
+        metronome: this.metronome.toJSON(),
+        loopModule: this.loopModule.toJSON(),
         masterGain: this.masterGain.toJSON(),
         lfo: this.lfo.toJSON(),
         cvPatchModule: this.cvPatchModule.toJSON()
       });
-      
+
       this.patches.create({name: name, parameters: JSON.parse(jsonStr)}, {
         wait: true,
         success: function(patch) {
@@ -116,5 +116,5 @@
       }
     }
   });
-  
+
 })();

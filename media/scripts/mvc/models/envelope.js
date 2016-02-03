@@ -4,12 +4,12 @@
   bs.models.Envelope = Backbone.Model.extend({
     initialize: function(attrs, options) {
       this.context = options.context;
-      this.gainNode = this.node = this.context.createGainNode();
+      this.gainNode = this.node = this.context.createGain();
 
       this.generateBuffer();
       this.createSourceNode();
       this.startSourceNode();
-      
+
       this.sourceNode.connect(this.gainNode);
       this.gainNode.gain.value = this.get('gain');
     },
@@ -50,7 +50,7 @@
 
       this.gainNode.gain.cancelScheduledValues(now);
       this.gainNode.gain.setTargetAtTime(this.get('maxValue'), now, this.get('attack'));
-        
+
       this.gainNode.gain.setTargetAtTime(this.get('sustain'), now + this.get('attack'), this.get('decay'));
     },
 

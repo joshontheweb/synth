@@ -4,10 +4,10 @@
   bs.models.Gain = Backbone.Model.extend({
     initialize: function(attrs, options) {
       this.context = options.context;
-      this.node = this.context.createGainNode();
+      this.node = this.context.createGain();
 
       this.on('change:gain', this.gainChange);
-      
+
       this.node.gain.value = this.get('gain');
     },
 

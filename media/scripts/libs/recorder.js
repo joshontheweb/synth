@@ -8,7 +8,7 @@
     var recordAtTime;
     var stopRecordingAtTime;
     this.context = context = source.context;
-    this.node = this.context.createJavaScriptNode(bufferLen, 2, 2);
+    this.node = this.context.createScriptProcessor(bufferLen, 2, 2);
     this.drawCallback = drawCallback;
     this.bufferModel = bufferModel;
     var worker = new Worker(config.workerPath || WORKER_PATH);
@@ -28,7 +28,7 @@
       if (context.currentTime >= recordAtTime) {
         // console.log('started recording at', context.currentTime, 'shoud have record at', recordAtTime)
         var chan0 = e.inputBuffer.getChannelData(0);
-        var chan1 = e.inputBuffer.getChannelData(1); 
+        var chan1 = e.inputBuffer.getChannelData(1);
         worker.postMessage({
           command: 'record',
           buffer: [

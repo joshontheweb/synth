@@ -9,7 +9,7 @@
       this.on('change:type', this.typeChange);
       this.on('change:frequency', this.frequencyChange);
       this.on('change:detune', this.detuneChange);
-      
+
       this.initOscillatorNode();
     },
 
@@ -22,7 +22,7 @@
     initOscillatorNode: function() {
       this.node.type = this.get('type');
       this.node.frequency.value = this.get('frequency');
-      this.node.detune = this.get('detune');
+      this.node.detune.value = this.get('detune');
     },
 
     frequencyChange: function(model, freq) {
@@ -49,5 +49,5 @@
       this.node.disconnect();
     }
   });
-  
+
 })();
